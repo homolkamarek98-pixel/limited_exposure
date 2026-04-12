@@ -3,9 +3,9 @@ import AuthButton from "@/components/AuthButton";
 
 export default function Nav({ active }: { active?: "gallery" | "photographers" | "about" }) {
   const links = [
-    { href: "/gallery", label: "The Gallery", key: "gallery" },
-    { href: "/photographers", label: "Photographers", key: "photographers" },
-    { href: "/about", label: "About", key: "about" },
+    { href: "/gallery", label: "Aktuální nabídka", key: "gallery" },
+    { href: "/photographers", label: "Autoři", key: "photographers" },
+    { href: "/about", label: "O projektu", key: "about" },
   ] as const;
 
   return (

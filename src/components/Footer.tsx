@@ -24,7 +24,7 @@ export default function Footer() {
             <div className="space-y-4">
               <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Kolekce</span>
               <div className="space-y-3">
-                <Link href="/gallery" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">The Gallery</Link>
+                <Link href="/gallery" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Aktuální nabídka</Link>
                 <Link href="/gallery?tier=RISING_TALENT" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Rising Talents</Link>
                 <Link href="/gallery?tier=SIGNATURE" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Signature Series</Link>
               </div>
@@ -32,7 +32,7 @@ export default function Footer() {
             <div className="space-y-4">
               <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">O nás</span>
               <div className="space-y-3">
-                <Link href="/photographers" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Fotografové</Link>
+                <Link href="/photographers" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Autoři</Link>
                 <Link href="/about" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Jak to funguje</Link>
                 <Link href="/about" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Certifikace</Link>
               </div>

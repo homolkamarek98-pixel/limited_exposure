@@ -46,7 +46,7 @@ export default async function GalleryPage({ searchParams }: { searchParams: Sear
           <div className="space-y-4">
             <span className="font-label text-xs uppercase tracking-widest text-secondary">Kurátorský výběr</span>
             <h1 className="serif-display text-5xl md:text-7xl font-black tracking-tighter leading-none">
-              The Gallery
+              Aktuální nabídka
             </h1>
           </div>
           <p className="font-body text-base text-on-surface-variant max-w-sm">

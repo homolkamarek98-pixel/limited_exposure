@@ -31,7 +31,7 @@ export default async function PhotographersPage() {
         <div className="border-b border-outline-variant/30 pb-12 mb-16 md:mb-20">
           <span className="font-label text-xs uppercase tracking-widest text-secondary block mb-4">Kurátorský roster</span>
           <h1 className="serif-display text-5xl md:text-7xl font-black tracking-tighter leading-none">
-            Photographers
+            Autoři
           </h1>
         </div>
 
