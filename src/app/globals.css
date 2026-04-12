@@ -1,76 +1,200 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────
-   Limited Exposure — Brand design tokens
-   Tailwind v4: konfigurováno přes @theme v CSS, ne tailwind.config.ts
+   Limited Exposure — Design System
+   "The Silent Curator" — monochrome surface hierarchy
+   Border radius: 0px everywhere. No exceptions.
    ───────────────────────────────────────────────────────── */
 
 @theme inline {
-  /* --- Barvy --- */
-  --color-le-black:    #0A0A0A;
-  --color-le-white:    #FFFFFF;
-  --color-le-cream:    #F5F0E8;
-  --color-le-graphite: #3D3D3D;
-  --color-le-gold:     #C8A96E;
+  /* ── Typography ─────────────────────────────────────── */
+  --font-headline: var(--font-noto-serif), 'Noto Serif', Georgia, serif;
+  --font-body:     var(--font-inter), Inter, system-ui, sans-serif;
+  --font-label:    var(--font-manrope), Manrope, system-ui, sans-serif;
 
-  /* Aliasy pro Tailwind utility třídy (bg-*, text-*, border-*) */
-  --color-background:  var(--background);
-  --color-foreground:  var(--foreground);
+  /* ── Monochrome surface palette ─────────────────────── */
+  /* Primary */
+  --color-primary:           #000000;
+  --color-on-primary:        #e2e2e2;
+  --color-primary-container: #3b3b3b;
 
-  /* --- Typografie --- */
-  --font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
-  --font-sans:    var(--font-inter), Inter, system-ui, sans-serif;
-  --font-mono:    var(--font-jetbrains), 'JetBrains Mono', 'Courier New', monospace;
+  /* Surfaces — stacked sheets of fine paper */
+  --color-background:                #f9f9f9;
+  --color-surface:                   #f9f9f9;
+  --color-surface-bright:            #f9f9f9;
+  --color-surface-dim:               #dadada;
+  --color-surface-container-lowest:  #ffffff;
+  --color-surface-container-low:     #f3f3f4;
+  --color-surface-container:         #eeeeee;
+  --color-surface-container-high:    #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+  --color-surface-variant:           #e2e2e2;
+
+  /* Text */
+  --color-on-surface:         #1a1c1c;
+  --color-on-surface-variant: #474747;
+
+  /* Secondary */
+  --color-secondary:           #5f5e5e;
+  --color-secondary-container: #d6d4d3;
+  --color-on-secondary:        #ffffff;
+
+  /* Tertiary */
+  --color-tertiary:   #3b3b3c;
+
+  /* Borders */
+  --color-outline:         #777777;
+  --color-outline-variant: #c6c6c6;
+
+  /* Functional */
+  --color-error:            #ba1a1a;
+  --color-inverse-surface:  #2f3131;
+  --color-inverse-on-surface: #f0f1f1;
+  --color-inverse-primary:  #c6c6c6;
+
+  /* ── Border radius — 0px everywhere ─────────────────── */
+  --radius:    0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  /* Exception: full pill only for avatars if needed */
+  --radius-full: 9999px;
 }
 
-/* CSS custom properties — přístupné přes var() v komponentách */
-:root {
-  --background: #FFFFFF;
-  --foreground: #0A0A0A;
-
-  /* Brand palette */
-  --le-black:    #0A0A0A;
-  --le-white:    #FFFFFF;
-  --le-cream:    #F5F0E8;
-  --le-graphite: #3D3D3D;
-  --le-gold:     #C8A96E;
-
-  /* Spacing a layout */
-  --max-width-content: 1280px;
-  --max-width-narrow:  800px;
-
-  /* Transitions */
-  --transition-base: 200ms ease;
-  --transition-slow: 400ms ease;
+/* ── Base reset ─────────────────────────────────────────── */
+*, *::before, *::after {
+  border-radius: 0 !important;
 }
 
-/* Dark mode — Signature Series sekce, admin panel */
-[data-theme="dark"],
-.le-dark {
-  --background: #0A0A0A;
-  --foreground: #FFFFFF;
+/* Pill exception (avatar, badge) */
+.rounded-full {
+  border-radius: 9999px !important;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  background-color: #f9f9f9;
+  color: #1a1c1c;
+  font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Utility: galerijní nadpisy */
-.le-heading {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0.02em;
+/* ── Typography helpers ─────────────────────────────────── */
+
+/* Display — Noto Serif, velká škála, tight tracking */
+.serif-display {
+  font-family: var(--font-headline);
+  letter-spacing: -0.02em;
 }
 
-/* Utility: certifikátové číslo */
-.le-serial {
-  font-family: var(--font-mono);
-  color: var(--le-gold);
-  letter-spacing: 0.1em;
+/* Label — uppercase, spaced, Inter/Manrope */
+.le-label {
+  font-family: var(--font-label);
+  font-size: 0.625rem;       /* 10px */
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #777777;
+}
+
+/* ── Photo display ──────────────────────────────────────── */
+
+/* Mat board efekt — obrázek v rámečku (Surface container low padding) */
+.le-mat {
+  background-color: #f3f3f4;
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .le-mat {
+    padding: 3rem;
+  }
+}
+
+/* Ghost border — jemný obrys tisku */
+.le-ghost-border {
+  outline: 1px solid rgba(198, 198, 198, 0.20);
+}
+
+/* Grayscale foto s reveal při hoveru */
+.le-photo {
+  filter: grayscale(100%);
+  transition: filter 700ms ease;
+}
+
+.le-photo:hover {
+  filter: grayscale(0%);
+}
+
+/* ── Certificate component ──────────────────────────────── */
+.le-certificate {
+  border: 1px solid #777777;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.le-certificate::before {
+  content: "CERTIFICATE";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  font-family: var(--font-headline);
+  font-size: 5rem;
+  font-weight: 900;
+  color: #000000;
+  opacity: 0.03;
+  pointer-events: none;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+}
+
+/* ── Glassmorphism — nav overlay, hero ─────────────────── */
+.le-glass {
+  background-color: rgba(249, 249, 249, 0.70);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ── Primary button — sharp, no radius ─────────────────── */
+.le-btn-primary {
+  background-color: #000000;
+  color: #e2e2e2;
+  padding: 1rem 2rem;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background-color 200ms ease;
+  cursor: pointer;
+}
+
+.le-btn-primary:hover {
+  background-color: #3b3b3b;
+}
+
+/* Ghost button */
+.le-btn-ghost {
+  border: 1px solid rgba(198, 198, 198, 0.40);
+  color: #000000;
+  padding: 1rem 2rem;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: transparent;
+  transition: border-color 200ms ease;
+  cursor: pointer;
+}
+
+.le-btn-ghost:hover {
+  border-color: #000000;
+}
+
+/* ── Gradient signature — 45° carbon finish ─────────────── */
+.le-gradient-primary {
+  background: linear-gradient(45deg, #000000 0%, #3b3b3b 100%);
 }

@@ -9,11 +9,15 @@ Formát záznamu: [datum] [AGENT] — [akce] — [důvod]
 - [2026-04-12] ORCHESTRATOR — .gitignore ověřen, .env.example připraven
 - [2026-04-12] ORCHESTRATOR — Fáze 0 dokončena, první commit a push
 
-- [2026-04-12] ORCHESTRATOR — Fáze 1: vytvořeny SVG loga (wordmark + monogram, dark + light), brand tokeny v globals.css (@theme + CSS custom properties), fonty Playfair Display + Inter + JetBrains Mono, design/brand_identity.md
+- [2026-04-12] ORCHESTRATOR — Fáze 1 init: vytvořeny SVG loga, tokeny, Playfair Display — CHYBNĚ
+- [2026-04-12] ORCHESTRATOR — Fáze 1 oprava: brand přepsán podle stitch předloh. Fonty: Noto Serif + Inter + Manrope (ne Playfair). Barvy: MD3 monochrome scale (žádné gold/cream). Border-radius 0px všude. Logo: čistý Noto Serif wordmark.
 
 ## Technická rozhodnutí
 - Next.js verze: nainstalováno 16.x (create-next-app@latest) — App Router API zachováno, Stack specifikoval v14+
 - Prisma generator: prisma-client-js (standardní), výstup do src/generated/prisma
 - Ceny: ukládány v haléřích (Int) — 5000 Kč = 500000 haléřů
-- Tailwind verze 4: konfigurace výhradně přes CSS @theme (žádný tailwind.config.ts)
-- Fonty: next/font/google s display: swap — zero layout shift
+- Tailwind v4: konfigurace výhradně přes CSS @theme (žádný tailwind.config.ts)
+- Fonty: Noto Serif (headline) + Inter (body) + Manrope (label) — next/font/google, display:swap
+- Paleta: MD3 monochrome scale — primary #000000, surface #f9f9f9, surface hierarchy greys, žádné gold/cream
+- Border-radius: 0px všude bez výjimky — CSS reset `border-radius: 0 !important`
+- Design předloha: stitch.zip — "The Silent Curator" / "The Curated Void" filozofie

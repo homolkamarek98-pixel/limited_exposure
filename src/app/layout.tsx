@@ -1,29 +1,30 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, JetBrains_Mono } from "next/font/google";
+import { Noto_Serif, Inter, Manrope } from "next/font/google";
 import "./globals.css";
 
-// Playfair Display — nadpisy, galerijní estetika
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+// Noto Serif — display, headlines, artist names, curated statements
+const notoSerif = Noto_Serif({
+  variable: "--font-noto-serif",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: ["400", "700", "900"],
+  style: ["normal", "italic"],
 });
 
-// Inter — tělo textu, UI prvky
+// Inter — body text, descriptions, metadata values
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-// JetBrains Mono — certifikátová čísla, kódy
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains",
+// Manrope — labels, UI, uppercase tracking, navigation
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
-  weight: ["300", "400"],
+  weight: ["300", "400", "500", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -48,9 +49,11 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      className={`${playfair.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${notoSerif.variable} ${inter.variable} ${manrope.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-[#f9f9f9] text-[#1a1c1c]">
+        {children}
+      </body>
     </html>
   );
 }

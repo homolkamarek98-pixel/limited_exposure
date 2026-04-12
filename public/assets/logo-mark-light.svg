@@ -1,16 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="LE — Limited Exposure">
-  <!-- Outer square frame -->
-  <rect x="0.5" y="0.5" width="47" height="47" stroke="#FFFFFF" stroke-width="1"/>
-  <!-- Inner square frame (double border effect) -->
-  <rect x="3.5" y="3.5" width="41" height="41" stroke="#FFFFFF" stroke-width="0.4"/>
-
-  <!-- LE monogram -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" role="img" aria-label="LE — Limited Exposure">
+  <!-- Outer frame — 0px radius, sharp corners -->
+  <rect x="0.5" y="0.5" width="39" height="39" stroke="#f9f9f9" stroke-width="1"/>
+  <!-- LE monogram — Noto Serif, font-black -->
   <text
-    x="24" y="31"
-    font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
-    font-size="17"
-    font-weight="400"
-    letter-spacing="3"
+    x="20" y="27"
+    font-family="'Noto Serif', Georgia, serif"
+    font-size="15"
+    font-weight="900"
+    letter-spacing="-0.02em"
     text-anchor="middle"
-    fill="#FFFFFF">LE</text>
+    fill="#f9f9f9">LE</text>
 </svg>
