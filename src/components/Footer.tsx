@@ -9,7 +9,7 @@ export default function Footer() {
           <div className="space-y-5 max-w-xs">
             <div className="text-lg font-black font-headline text-black tracking-tighter uppercase">Limited Exposure</div>
             <p className="font-body text-sm text-[#474747] leading-relaxed">
-              Kurátorské tržiště limitovaných fotografických edic. Každý tisk certifikován, číslován a podepsán fotografem.
+              Kurátorský výběr limitovaných fotografických edic. Každý tisk certifikován, číslován a podepsán fotografem.
             </p>
             <Link
               href="/gallery"

@@ -26,7 +26,6 @@ async function getData(id: string) {
               user: { select: { id: true, name: true } },
               photos: {
                 take: 4,
-                where: { id: { not: id } }, // jiné fotky téhož fotografa
                 include: { editions: { take: 1 } },
               },
             },
@@ -35,6 +34,14 @@ async function getData(id: string) {
       },
     },
   });
+
+  if (!edition) return null;
+
+  // Filtrujeme aktuální foto mimo "Další práce" — photo ID, ne edition ID
+  edition.photo.photographer.photos = edition.photo.photographer.photos.filter(
+    (p) => p.id !== edition.photo.id
+  );
+
   return edition;
 }
 

@@ -63,19 +63,18 @@ export default async function HomePage() {
                 Kurátorský výběr · Každý tisk číslován
               </span>
               <h1 className="serif-display text-5xl md:text-7xl font-black leading-[0.95] text-primary">
-                Fotografie, která<br />
-                přestane být<br />
-                dostupná.
+                Fotografie v limitovaných edicích.
               </h1>
               <p className="font-body text-base md:text-lg text-on-surface/80 max-w-md leading-relaxed">
-                Originální fotografické tisky v přísně limitovaných edicích. Každý výtisk opatřen certifikátem pravosti a vlastnoručním podpisem fotografa.
+                Originální fotografické tisky v limitovaných edicích.<br />
+                Každý tisk je číslovaný, podepsaný a opatřen certifikátem pravosti.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <Link
                   href="/gallery"
                   className="bg-primary text-on-primary px-10 md:px-12 py-4 md:py-5 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity inline-block text-center"
                 >
-                  Vybrat dílo pro svou kolekci
+                  Vybrat dílo
                 </Link>
                 <Link
                   href="/about"
@@ -93,10 +92,10 @@ export default async function HomePage() {
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
             <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-0 divide-x divide-on-primary/20">
               {[
-                { value: `${totalSales}+`, label: "Prodaných tisků" },
-                { value: photographerCount.toString(), label: "Kurátorsky vybraných fotografů" },
-                { value: editionCount.toString(), label: "Aktivních edic" },
-                { value: "100%", label: "Certifikovaných originálů" },
+                { value: `${totalSales}+`, label: "Prodané tisky" },
+                { value: photographerCount.toString(), label: "Vybraní fotografové" },
+                { value: editionCount.toString(), label: "Aktivní edice" },
+                { value: "100%", label: "Certifikované tisky" },
               ].map(({ value, label }) => (
                 <div key={label} className="flex-1 text-center px-6 min-w-[140px]">
                   <div className="serif-display text-3xl md:text-4xl font-black">{value}</div>
@@ -115,14 +114,15 @@ export default async function HomePage() {
                 <span className="font-label text-xs uppercase tracking-widest text-secondary">Nová díla v kolekci</span>
                 <h2 className="serif-display text-4xl md:text-5xl font-bold text-primary">Rising Talents</h2>
                 <p className="font-body text-base text-on-surface-variant max-w-md">
-                  Fotografové na vzestupu. Edice s omezeným počtem výtisků — jakmile jsou vyprodány, nejsou znovu otevřeny.
+                  Fotografové na vzestupu.<br />
+                  Edice mají pevně stanovený počet kusů. Po vyprodání se znovu neotevírají.
                 </p>
               </div>
               <Link
                 href="/gallery"
                 className="font-label text-xs uppercase tracking-widest border-b border-primary pb-1 hover:opacity-60 transition-opacity self-start md:self-auto whitespace-nowrap"
               >
-                Zobrazit celou nabídku →
+                Zobrazit kolekci →
               </Link>
             </div>
 
@@ -153,7 +153,7 @@ export default async function HomePage() {
                 href="/gallery"
                 className="inline-block border border-outline/30 text-primary px-12 py-4 font-label text-xs uppercase tracking-widest hover:border-primary hover:bg-surface-container transition-colors"
               >
-                Prohlédnout všechna dostupná díla →
+                Zobrazit celou kolekci →
               </Link>
             </div>
           </div>
@@ -168,7 +168,7 @@ export default async function HomePage() {
               </div>
               <div className="md:col-span-8">
                 <p className="font-body text-lg text-on-surface-variant leading-relaxed">
-                  Od výběru díla po doručení certifikovaného tisku na vaši zeď — celý proces je navržen tak, aby byl jednoduchý a bezpečný.
+                  Od výběru díla po doručení — proces je jednoduchý a přehledný.
                 </p>
               </div>
             </div>
@@ -177,21 +177,21 @@ export default async function HomePage() {
                 {
                   step: "01",
                   title: "Vyberte dílo",
-                  body: "Procházejte kurátorsky vybranou kolekci. Každé dílo je dostupné v omezeném počtu výtisků nebo po omezenou dobu.",
+                  body: "Procházejte kurátorský výběr fotografií.\nKaždé dílo je dostupné v omezené edici nebo po omezenou dobu.",
                   cta: "Do galerie",
                   href: "/gallery",
                 },
                 {
                   step: "02",
-                  title: "Zajistěte výtisk",
-                  body: "Bezpečná platba kartou. Vaše pořadové číslo je rezervováno okamžitě. Žádné čekání, žádná nejistota.",
+                  title: "Zajistěte tisk",
+                  body: "Platba probíhá bezpečně online.\nVaše pořadové číslo je rezervováno okamžitě.",
                   cta: null,
                   href: null,
                 },
                 {
                   step: "03",
-                  title: "Tisk a doručení",
-                  body: "Profesionální tisk na Hahnemühle Photo Rag Baryta. Archivní balení, pojištěná světová doprava. Certifikát v ceně.",
+                  title: "Doručení",
+                  body: "Tisk na papír Hahnemühle Photo Rag Baryta.\nArchivní balení a pojištěná doprava.\nCertifikát pravosti je součástí.",
                   cta: null,
                   href: null,
                 },
@@ -205,7 +205,7 @@ export default async function HomePage() {
                 >
                   <div className="serif-display text-4xl font-black text-outline/20">{step}</div>
                   <h3 className="font-body font-bold text-lg">{title}</h3>
-                  <p className="font-body text-sm text-on-surface-variant leading-relaxed">{body}</p>
+                  <p className="font-body text-sm text-on-surface-variant leading-relaxed whitespace-pre-line">{body}</p>
                   {cta && href && (
                     <Link href={href} className="font-label text-xs uppercase tracking-widest border-b border-primary pb-0.5 hover:opacity-60 transition-opacity inline-block">
                       {cta} →
@@ -246,34 +246,35 @@ export default async function HomePage() {
                 <div className="space-y-8">
                   <div className="space-y-4">
                     <span className="font-label text-xs uppercase tracking-[0.4em] text-on-primary/50">
-                      Signature Series — Prémiová edice
+                      Signature Series
                     </span>
                     <h2 className="serif-display text-5xl md:text-7xl font-bold leading-none">
                       {signature.photo.title}
                     </h2>
                     <p className="font-body text-lg text-on-primary/70 max-w-md leading-relaxed">
-                      {signature.photo.description}
+                      Kurátorský výběr děl {signature.photo.photographer?.user?.name ?? "fotografa"}.<br />
+                      Limitovaná edice s vlastnoručním podpisem fotografa.
                     </p>
                   </div>
 
-                  <div className="space-y-3 py-6 border-y border-on-primary/20">
-                    <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/50">
-                      Tato edice bude uzavřena za:
-                    </p>
-                    {signature.availableUntil && (
+                  {signature.availableUntil && (
+                    <div className="space-y-3 py-6 border-y border-on-primary/20">
+                      <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/50">
+                        Edice se uzavírá za:
+                      </p>
                       <CountdownTimer deadline={new Date(signature.availableUntil)} />
-                    )}
-                    <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/40">
-                      Po uplynutí lhůty nebude edice znovu otevřena.
-                    </p>
-                  </div>
+                      <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/40">
+                        Po uzavření nebude edice znovu dostupná.
+                      </p>
+                    </div>
+                  )}
 
                   <div className="space-y-4">
                     <Link
                       href={`/listing/${signature.id}`}
                       className="inline-block w-full md:w-auto text-center bg-on-primary text-primary px-12 md:px-16 py-5 md:py-6 font-label text-xs uppercase tracking-widest font-bold hover:bg-surface-dim transition-colors"
                     >
-                      Zajistit výtisk před uzavřením edice
+                      Koupit tisk
                     </Link>
                     <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/40 block">
                       Certifikát pravosti · Pojištěná doprava · Vlastnoruční podpis
@@ -290,42 +291,36 @@ export default async function HomePage() {
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
             <div className="text-center mb-16">
               <h2 className="serif-display text-3xl md:text-4xl font-bold mb-4">Proč nakupovat u nás</h2>
-              <p className="font-body text-on-surface-variant max-w-xl mx-auto">
-                Každý detail procesu je navržen tak, aby váš nákup byl bezpečný a vaše investice chráněná.
+              <p className="font-body text-on-surface-variant max-w-md mx-auto">
+                Každý detail procesu je navržen tak, aby váš nákup byl bezpečný.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-outline-variant/20">
               {[
                 {
-                  icon: "✦",
                   title: "Certifikát pravosti",
-                  body: "Každý tisk nese unikátní certifikát s pořadovým číslem, podpisem fotografa a QR kódem ověřitelným v archivu.",
+                  body: "Certifikát s pořadovým číslem a podpisem fotografa.",
                 },
                 {
-                  icon: "◈",
                   title: "Archivní kvalita",
-                  body: "Tisk na Hahnemühle Photo Rag Baryta s archivními inkousty. Garantovaná stálost 100+ let.",
+                  body: "Tisk na Hahnemühle Photo Rag Baryta s archivní stálostí.",
                 },
                 {
-                  icon: "◻",
-                  title: "Pojištěná doprava",
-                  body: "Každý tisk je zabalen do archivního papíru a doručen v pevné tubě. Pojistka na celou hodnotu díla.",
+                  title: "Doprava",
+                  body: "Bezpečné balení a pojištěná doprava.",
                 },
                 {
-                  icon: "⬡",
-                  title: "Absolutní vzácnost",
-                  body: "Uzavřené edice nejsou nikdy znovu otevřeny. Váš tisk zůstane jedním z přísně limitovaného počtu.",
+                  title: "Uzavřené edice",
+                  body: "Edice mají pevně daný počet kusů. Po vyprodání nejsou znovu dostupné.",
                 },
-              ].map(({ icon, title, body }, i) => (
+              ].map(({ title, body }, i) => (
                 <div
                   key={title}
                   className={[
-                    "p-8 space-y-4 bg-surface",
-                    i < 3 ? "border-b md:border-b-0 border-r-0 md:border-r border-outline-variant/20" : "",
-                    i >= 1 && i < 3 ? "lg:border-r" : "",
+                    "p-8 space-y-3 bg-surface",
+                    i < 3 ? "border-b lg:border-b-0 lg:border-r border-outline-variant/20" : "",
                   ].join(" ")}
                 >
-                  <span className="font-label text-2xl text-outline/40">{icon}</span>
                   <h3 className="font-body font-bold">{title}</h3>
                   <p className="font-body text-sm text-on-surface-variant leading-relaxed">{body}</p>
                 </div>
@@ -339,10 +334,10 @@ export default async function HomePage() {
           <div className="max-w-screen-md mx-auto px-6 md:px-12 text-center space-y-8">
             <div className="space-y-4">
               <span className="font-label text-xs uppercase tracking-widest text-secondary block">Privátní přístup</span>
-              <h3 className="serif-display text-3xl md:text-4xl font-bold">Buďte první, kdo ví.</h3>
+              <h3 className="serif-display text-3xl md:text-4xl font-bold">Získejte přednostní přístup</h3>
             </div>
             <p className="font-body text-on-surface-variant max-w-sm mx-auto leading-relaxed">
-              Odběratelé mailingového listu mají přístup k novým edicím 24 hodin před veřejností. Některé edice se vyprodají ještě před zveřejněním.
+              Odběratelé mají přístup k novým edicím 24 hodin před zveřejněním.
             </p>
             <form className="relative max-w-md mx-auto pt-4">
               <input
