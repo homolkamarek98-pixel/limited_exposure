@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AuthButton from "@/components/AuthButton";
+import CartButton from "@/components/CartButton";
 
 export default function Nav({ active }: { active?: "gallery" | "photographers" | "about" }) {
   const links = [
@@ -39,6 +40,7 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
 
         {/* Actions */}
         <div className="flex items-center space-x-6">
+          <CartButton />
           <AuthButton />
         </div>
       </div>

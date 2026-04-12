@@ -15,7 +15,7 @@ model User {
   id           String   @id @default(cuid())
   email        String   @unique
   name         String?
-  passwordHash String?  // bcrypt hash — null pro budoucí OAuth uživatele
+  passwordHash String?
   role         Role     @default(BUYER)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -31,12 +31,12 @@ enum Role {
 }
 
 model Photographer {
-  id          String  @id @default(cuid())
-  userId      String  @unique
-  user        User    @relation(fields: [userId], references: [id])
-  bio         String  @default("")
-  instagram   String  @default("")
-  totalSales  Int     @default(0)
+  id         String @id @default(cuid())
+  userId     String @unique
+  user       User   @relation(fields: [userId], references: [id])
+  bio        String @default("")
+  instagram  String @default("")
+  totalSales Int    @default(0)
 
   photos Photo[]
 }
@@ -64,13 +64,13 @@ model Edition {
   photoId        String
   photo          Photo       @relation(fields: [photoId], references: [id])
   type           EditionType
-  price          Int         // v haléřích — např. 500000 = 5 000 Kč
-  totalCount     Int?        // max kusů (pouze pro limited_count)
+  price          Int // v haléřích — např. 500000 = 5 000 Kč
+  totalCount     Int? // max kusů (pouze pro limited_count)
   soldCount      Int         @default(0)
-  availableUntil DateTime?   // deadline (pouze pro time_window)
+  availableUntil DateTime? // deadline (pouze pro time_window)
   tier           Tier
 
-  orders Order[]
+  orderItems OrderItem[]
 }
 
 enum EditionType {
@@ -84,29 +84,82 @@ enum Tier {
 }
 
 model Order {
-  id                String      @id @default(cuid())
-  buyerId           String
-  buyer             User        @relation(fields: [buyerId], references: [id])
+  id    String  @id @default(cuid())
+  buyerId String?
+  buyer   User?   @relation(fields: [buyerId], references: [id])
+
+  // Kontakt
+  email     String
+  firstName String
+  lastName  String
+  phone     String @default("")
+
+  // Doručení
+  addressLine1 String
+  addressLine2 String @default("")
+  city         String
+  postalCode   String
+  country      String  @default("CZ")
+  carrier      Carrier @default(ZASILKOVNA)
+
+  // Platba
+  totalAmount      Int // v haléřích
+  paymentMethod    PaymentMethod @default(BANK_TRANSFER)
+  paymentReference String? // variabilní symbol pro bankovní převod
+  stripePaymentId  String?       @unique
+
+  // Stav
+  status    OrderStatus @default(PENDING_PAYMENT)
+  notes     String      @default("")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  items        OrderItem[]
+  certificates Certificate[]
+}
+
+model OrderItem {
+  id                String   @id @default(cuid())
+  orderId           String
+  order             Order    @relation(fields: [orderId], references: [id])
   editionId         String
-  edition           Edition     @relation(fields: [editionId], references: [id])
+  edition           Edition  @relation(fields: [editionId], references: [id])
   certificateNumber Int
-  stripePaymentId   String      @unique
-  status            OrderStatus @default(PENDING)
-  createdAt         DateTime    @default(now())
+  price             Int // cena v haléřích v době objednávky
+  createdAt         DateTime @default(now())
 
   certificate Certificate?
 }
 
+enum Carrier {
+  ZASILKOVNA
+  CZECH_POST
+  DPD
+  PPL
+  TOP_TRANS
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  STRIPE
+}
+
 enum OrderStatus {
-  PENDING
+  PENDING_PAYMENT
   PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
   CANCELLED
+  REFUNDED
 }
 
 model Certificate {
-  id           String   @id @default(cuid())
-  orderId      String   @unique
-  order        Order    @relation(fields: [orderId], references: [id])
-  serialNumber String   // např. "LE-0042/50"
-  printedAt    DateTime @default(now())
+  id           String    @id @default(cuid())
+  orderId      String
+  order        Order     @relation(fields: [orderId], references: [id])
+  orderItemId  String    @unique
+  orderItem    OrderItem @relation(fields: [orderItemId], references: [id])
+  serialNumber String // např. "LE-0042/50"
+  printedAt    DateTime  @default(now())
 }

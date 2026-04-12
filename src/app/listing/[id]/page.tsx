@@ -4,7 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import EditionBadge from "@/components/EditionBadge";
 import PhotoCard from "@/components/PhotoCard";
-import AddToCollectionButton from "@/components/AddToCollectionButton";
+import AddToCartButton from "@/components/AddToCartButton";
 import { prisma } from "@/lib/prisma";
 
 function formatPrice(halere: number) {
@@ -152,8 +152,15 @@ export default async function ListingPage({ params }: Props) {
             </div>
 
             {/* CTA */}
-            <AddToCollectionButton
-              editionId={edition.id}
+            <AddToCartButton
+              item={{
+                editionId: edition.id,
+                photoTitle: photo.title,
+                photographerName: authorName,
+                imageUrl: photo.imageUrl,
+                price: edition.price,
+                tier: edition.tier,
+              }}
               soldOut={soldOut}
               expired={expired}
             />

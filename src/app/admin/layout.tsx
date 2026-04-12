@@ -5,6 +5,7 @@ import Link from "next/link";
 
 const navItems = [
   { href: "/admin", label: "Dashboard" },
+  { href: "/admin/orders", label: "Objednávky" },
   { href: "/admin/photographers", label: "Fotografové" },
   { href: "/admin/photos", label: "Fotografie" },
   { href: "/admin/editions", label: "Edice" },

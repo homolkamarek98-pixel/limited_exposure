@@ -149,3 +149,4 @@ vite.config.ts.timestamp-*
 *.swo
 
 /src/generated/prisma
+.env*.local
