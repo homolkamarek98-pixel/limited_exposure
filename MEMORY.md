@@ -9,7 +9,11 @@ Formát záznamu: [datum] [AGENT] — [akce] — [důvod]
 - [2026-04-12] ORCHESTRATOR — .gitignore ověřen, .env.example připraven
 - [2026-04-12] ORCHESTRATOR — Fáze 0 dokončena, první commit a push
 
+- [2026-04-12] ORCHESTRATOR — Fáze 1: vytvořeny SVG loga (wordmark + monogram, dark + light), brand tokeny v globals.css (@theme + CSS custom properties), fonty Playfair Display + Inter + JetBrains Mono, design/brand_identity.md
+
 ## Technická rozhodnutí
 - Next.js verze: nainstalováno 16.x (create-next-app@latest) — App Router API zachováno, Stack specifikoval v14+
 - Prisma generator: prisma-client-js (standardní), výstup do src/generated/prisma
 - Ceny: ukládány v haléřích (Int) — 5000 Kč = 500000 haléřů
+- Tailwind verze 4: konfigurace výhradně přes CSS @theme (žádný tailwind.config.ts)
+- Fonty: next/font/google s display: swap — zero layout shift

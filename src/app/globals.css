@@ -1,26 +1,76 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─────────────────────────────────────────────────────────
+   Limited Exposure — Brand design tokens
+   Tailwind v4: konfigurováno přes @theme v CSS, ne tailwind.config.ts
+   ───────────────────────────────────────────────────────── */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* --- Barvy --- */
+  --color-le-black:    #0A0A0A;
+  --color-le-white:    #FFFFFF;
+  --color-le-cream:    #F5F0E8;
+  --color-le-graphite: #3D3D3D;
+  --color-le-gold:     #C8A96E;
+
+  /* Aliasy pro Tailwind utility třídy (bg-*, text-*, border-*) */
+  --color-background:  var(--background);
+  --color-foreground:  var(--foreground);
+
+  /* --- Typografie --- */
+  --font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-sans:    var(--font-inter), Inter, system-ui, sans-serif;
+  --font-mono:    var(--font-jetbrains), 'JetBrains Mono', 'Courier New', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* CSS custom properties — přístupné přes var() v komponentách */
+:root {
+  --background: #FFFFFF;
+  --foreground: #0A0A0A;
+
+  /* Brand palette */
+  --le-black:    #0A0A0A;
+  --le-white:    #FFFFFF;
+  --le-cream:    #F5F0E8;
+  --le-graphite: #3D3D3D;
+  --le-gold:     #C8A96E;
+
+  /* Spacing a layout */
+  --max-width-content: 1280px;
+  --max-width-narrow:  800px;
+
+  /* Transitions */
+  --transition-base: 200ms ease;
+  --transition-slow: 400ms ease;
+}
+
+/* Dark mode — Signature Series sekce, admin panel */
+[data-theme="dark"],
+.le-dark {
+  --background: #0A0A0A;
+  --foreground: #FFFFFF;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility: galerijní nadpisy */
+.le-heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* Utility: certifikátové číslo */
+.le-serial {
+  font-family: var(--font-mono);
+  color: var(--le-gold);
+  letter-spacing: 0.1em;
 }

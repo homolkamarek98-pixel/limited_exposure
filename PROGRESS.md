@@ -8,11 +8,11 @@
 - [x] .gitignore ověřen (.env uvnitř)
 - [x] První commit a push
 
-## Fáze 1: Brand identity [ČEKÁ]
-- [ ] Logo SVG + PNG
-- [ ] Barevná paleta (implementace jako CSS custom properties / Tailwind tokens)
-- [ ] Typografie (Playfair Display + Inter + JetBrains Mono)
-- [ ] brand_identity.md
+## Fáze 1: Brand identity [DOKONČENA]
+- [x] Logo SVG — wordmark (dark + light) + monogram LE (dark + light) → public/assets/
+- [x] Barevná paleta — CSS custom properties + Tailwind @theme tokeny v globals.css
+- [x] Typografie — Playfair Display + Inter + JetBrains Mono via next/font/google v layout.tsx
+- [x] design/brand_identity.md — kompletní brand manuál
 
 ## Fáze 2: Backend [ČEKÁ]
 - [ ] .env.local + DATABASE_URL
