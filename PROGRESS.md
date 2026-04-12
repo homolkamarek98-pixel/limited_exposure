@@ -14,14 +14,17 @@
 - [x] Typografie — Playfair Display + Inter + JetBrains Mono via next/font/google v layout.tsx
 - [x] design/brand_identity.md — kompletní brand manuál
 
-## Fáze 2: Backend [ČEKÁ]
-- [ ] .env.local + DATABASE_URL
-- [ ] Prisma migrate dev
-- [ ] NextAuth.js (email + Google provider)
-- [ ] GET /api/listings
-- [ ] GET /api/listings/[id]
-- [ ] POST /api/listings
-- [ ] POST /api/upload (Cloudflare R2)
+## Fáze 2: Backend [PROBÍHÁ]
+- [ ] .env.local + DATABASE_URL (čeká na Neon credentials od uživatele)
+- [ ] Prisma migrate dev (čeká na DB)
+- [x] NextAuth.js — credentials provider (email + bcrypt), JWT strategie, bez Google OAuth
+- [x] GET /api/listings (filtr active, tier, type)
+- [x] GET /api/listings/[id] (detail + foto dalšího fotografa)
+- [x] POST /api/listings (auth: PHOTOGRAPHER|ADMIN)
+- [x] POST /api/upload (placeholder — čeká na R2 ve Fázi 3)
+- [x] Prisma schema: passwordHash přidán, datasource opraven pro Prisma 7
+- [x] prisma generate — čistý build, tsc 0 chyb
+- [x] .env.local.example — šablona pro uživatele
 
 ## Fáze 3: Frontend [ČEKÁ]
 - [ ] PhotoCard komponenta

@@ -1,4 +1,6 @@
-import { PrismaClient } from "@/generated/prisma/client";
+// Prisma 7: URL se konfiguruje přes prisma.config.ts (pro migrace)
+// a runtime klient čte DATABASE_URL z prostředí automaticky.
+import { PrismaClient } from "@/generated/prisma";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
