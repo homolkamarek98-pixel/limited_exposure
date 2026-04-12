@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Limited Exposure — datový model
+// ─────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      Role     @default(BUYER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  photographer Photographer?
+  orders       Order[]
+}
+
+enum Role {
+  BUYER
+  PHOTOGRAPHER
+  ADMIN
+}
+
+model Photographer {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id])
+  bio         String  @default("")
+  instagram   String  @default("")
+  totalSales  Int     @default(0)
+
+  photos Photo[]
+}
+
+model Photo {
+  id             String       @id @default(cuid())
+  title          String
+  photographerId String
+  photographer   Photographer @relation(fields: [photographerId], references: [id])
+  description    String       @default("")
+  imageUrl       String
+  format         Format
+
+  editions Edition[]
+}
+
+enum Format {
+  S
+  M
+  L
+}
+
+model Edition {
+  id             String      @id @default(cuid())
+  photoId        String
+  photo          Photo       @relation(fields: [photoId], references: [id])
+  type           EditionType
+  price          Int         // v haléřích — např. 500000 = 5 000 Kč
+  totalCount     Int?        // max kusů (pouze pro limited_count)
+  soldCount      Int         @default(0)
+  availableUntil DateTime?   // deadline (pouze pro time_window)
+  tier           Tier
+
+  orders Order[]
+}
+
+enum EditionType {
+  LIMITED_COUNT
+  TIME_WINDOW
+}
+
+enum Tier {
+  RISING_TALENT
+  SIGNATURE
+}
+
+model Order {
+  id                String      @id @default(cuid())
+  buyerId           String
+  buyer             User        @relation(fields: [buyerId], references: [id])
+  editionId         String
+  edition           Edition     @relation(fields: [editionId], references: [id])
+  certificateNumber Int
+  stripePaymentId   String      @unique
+  status            OrderStatus @default(PENDING)
+  createdAt         DateTime    @default(now())
+
+  certificate Certificate?
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+model Certificate {
+  id           String   @id @default(cuid())
+  orderId      String   @unique
+  order        Order    @relation(fields: [orderId], references: [id])
+  serialNumber String   // např. "LE-0042/50"
+  printedAt    DateTime @default(now())
+}
