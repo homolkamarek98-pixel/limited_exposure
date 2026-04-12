@@ -26,13 +26,18 @@
 - [x] prisma generate — čistý build, tsc 0 chyb
 - [x] .env.local.example — šablona pro uživatele
 
-## Fáze 3: Frontend [ČEKÁ]
-- [ ] PhotoCard komponenta
-- [ ] EditionBadge (počítadlo / countdown)
-- [ ] Homepage (featured works)
-- [ ] /listing/[id]
-- [ ] /photographer/[id]
-- [ ] Layout + navigace
+## Fáze 3: Frontend [DOKONČENA]
+- [x] Nav komponenta — sticky header, wordmark, nav links
+- [x] Footer komponenta
+- [x] PhotoCard — mat board, grayscale hover, EditionBadge, cena v CZK
+- [x] EditionBadge — limited_count (X/Y) + time_window + sold out
+- [x] CountdownTimer — client component, live odpočet (hod:min:sec)
+- [x] Homepage — hero, mise, Rising Talents grid, Signature spotlight, newsletter
+- [x] /listing/[id] — asymetrický 8/4 grid, sticky sidebar, narrative, portfolio sekce
+- [x] /photographer/[id] — hero 1/2+1/2, stats, works grid, CTA
+- [x] prisma/seed.ts — 3 fotografové, 3 Rising Talents, 2 Signature Series (Neon DB)
+- [x] @prisma/adapter-pg — Prisma 7 driver adapter pro přímé PostgreSQL připojení
+- [x] tsc 0 chyb, HTTP 200 na všech stránkách
 
 ## Fáze 4: Platby [ČEKÁ]
 - [ ] Stripe checkout + webhook
