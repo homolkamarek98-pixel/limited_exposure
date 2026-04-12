@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import EditionBadge from "@/components/EditionBadge";
 import PhotoCard from "@/components/PhotoCard";
+import AddToCollectionButton from "@/components/AddToCollectionButton";
 import { prisma } from "@/lib/prisma";
 
 function formatPrice(halere: number) {
@@ -48,6 +49,8 @@ export default async function ListingPage({ params }: Props) {
   const { photographer } = photo;
   const authorName = photographer.user.name ?? "Neznámý fotograf";
   const isSignature = edition.tier === "SIGNATURE";
+  const soldOut = edition.type === "LIMITED_COUNT" && edition.totalCount !== null && edition.soldCount >= edition.totalCount;
+  const expired = edition.type === "TIME_WINDOW" && edition.availableUntil !== null && edition.availableUntil < new Date();
 
   return (
     <>
@@ -142,9 +145,11 @@ export default async function ListingPage({ params }: Props) {
             </div>
 
             {/* CTA */}
-            <button className="w-full bg-primary text-on-primary py-5 px-12 font-label text-xs uppercase tracking-[0.2em] font-bold hover:bg-primary-container transition-all">
-              Přidat do kolekce
-            </button>
+            <AddToCollectionButton
+              editionId={edition.id}
+              soldOut={soldOut}
+              expired={expired}
+            />
 
             {/* Shipping note */}
             <div className="flex items-center gap-3 text-outline">

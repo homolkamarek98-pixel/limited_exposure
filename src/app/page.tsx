@@ -115,7 +115,6 @@ export default async function HomePage() {
                     totalCount={edition.totalCount}
                     soldCount={edition.soldCount}
                     availableUntil={edition.availableUntil}
-                    offset={i === 1 ? true : i === 2 ? false : undefined}
                   />
                 ))}
               </div>

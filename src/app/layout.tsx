@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Serif, Inter, Manrope } from "next/font/google";
+import Providers from "@/components/Providers";
 import "./globals.css";
 
 // Noto Serif — display, headlines, artist names, curated statements
@@ -52,7 +53,7 @@ export default function RootLayout({
       className={`${notoSerif.variable} ${inter.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#f9f9f9] text-[#1a1c1c]">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
