@@ -2,38 +2,60 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#f3f3f4] border-t border-[#e8e8e8] mt-24 w-full">
-      <div className="flex flex-col md:flex-row justify-between items-start gap-12 w-full px-6 md:px-12 py-16 md:py-20 max-w-screen-2xl mx-auto">
-        {/* Brand */}
-        <div className="space-y-6 max-w-xs">
-          <div className="text-lg font-black font-headline text-black">Limited Exposure</div>
-          <p className="font-body text-sm text-[#474747] leading-relaxed">
-            Digitální instituce zaměřená na zachování a propagaci umělecké fotografie.
-          </p>
-        </div>
+    <footer className="bg-[#f3f3f4] border-t border-[#e8e8e8] w-full">
+      <div className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-16 md:pt-20 pb-10">
+        <div className="flex flex-col md:flex-row justify-between gap-12 mb-16">
+          {/* Brand */}
+          <div className="space-y-5 max-w-xs">
+            <div className="text-lg font-black font-headline text-black tracking-tighter uppercase">Limited Exposure</div>
+            <p className="font-body text-sm text-[#474747] leading-relaxed">
+              Kurátorské tržiště limitovaných fotografických edic. Každý tisk certifikován, číslován a podepsán fotografem.
+            </p>
+            <Link
+              href="/gallery"
+              className="inline-block bg-black text-white px-6 py-3 font-label text-[10px] uppercase tracking-widest hover:opacity-80 transition-opacity"
+            >
+              Prohlédnout kolekci →
+            </Link>
+          </div>
 
-        {/* Links */}
-        <div className="grid grid-cols-2 gap-x-16 gap-y-8">
-          <div className="space-y-4">
-            <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Galerie</span>
-            <div className="space-y-3">
-              <Link href="/" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">The Gallery</Link>
-              <Link href="/photographers" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Fotografové</Link>
+          {/* Links */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-10">
+            <div className="space-y-4">
+              <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Kolekce</span>
+              <div className="space-y-3">
+                <Link href="/gallery" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">The Gallery</Link>
+                <Link href="/gallery?tier=RISING_TALENT" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Rising Talents</Link>
+                <Link href="/gallery?tier=SIGNATURE" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Signature Series</Link>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">O nás</span>
+              <div className="space-y-3">
+                <Link href="/photographers" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Fotografové</Link>
+                <Link href="/about" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Jak to funguje</Link>
+                <Link href="/about" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Certifikace</Link>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Legal</span>
+              <div className="space-y-3">
+                <Link href="#" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Podmínky použití</Link>
+                <Link href="#" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Ochrana soukromí</Link>
+                <Link href="#" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Reklamace</Link>
+              </div>
             </div>
           </div>
-          <div className="space-y-4">
-            <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Legal</span>
-            <div className="space-y-3">
-              <Link href="#" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Podmínky</Link>
-              <Link href="#" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Soukromí</Link>
-            </div>
-          </div>
         </div>
 
-        {/* Copyright */}
-        <div className="font-label text-[10px] uppercase tracking-widest text-[#777777] md:text-right mt-4 md:mt-0">
-          © {new Date().getFullYear()} Limited Exposure.<br />
-          Curated for the void.
+        {/* Bottom bar */}
+        <div className="border-t border-[#e0e0e0] pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <span className="font-label text-[10px] uppercase tracking-widest text-[#777777]">
+            © {new Date().getFullYear()} Limited Exposure. Všechna práva vyhrazena.
+          </span>
+          <span className="font-label text-[10px] uppercase tracking-widest text-[#aaaaaa]">
+            Originální tisky · Certifikovaná pravost · Pojištěná doprava
+          </span>
         </div>
       </div>
     </footer>
