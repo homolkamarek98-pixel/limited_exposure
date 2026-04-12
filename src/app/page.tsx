@@ -5,6 +5,8 @@ import PhotoCard from "@/components/PhotoCard";
 import CountdownTimer from "@/components/CountdownTimer";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 async function getData() {
   const [risingTalents, signatureList, stats] = await Promise.all([
     prisma.edition.findMany({

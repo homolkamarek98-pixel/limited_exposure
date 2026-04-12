@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import PhotoCard from "@/components/PhotoCard";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 type SearchParams = Promise<{ tier?: string }>;
 
 async function getData(tier?: string) {

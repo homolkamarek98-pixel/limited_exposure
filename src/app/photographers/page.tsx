@@ -3,6 +3,8 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 async function getData() {
   return prisma.photographer.findMany({
     include: {
