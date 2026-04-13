@@ -65,7 +65,7 @@ export default function PhotoCard({
         </div>
       </div>
 
-      {/* Progress bar */}
+      {/* Progress bar — LIMITED_COUNT */}
       {editionType === "LIMITED_COUNT" && totalCount !== null && totalCount > 0 && (
         <div>
           {(() => {
@@ -83,6 +83,52 @@ export default function PhotoCard({
                 <div className="h-0.5 bg-outline-variant/20 w-full overflow-hidden">
                   <div
                     className={["h-full", urgent ? "bg-red-500" : "bg-primary"].join(" ")}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </>
+            );
+          })()}
+        </div>
+      )}
+
+      {/* Progress bar — TIME_WINDOW */}
+      {editionType === "TIME_WINDOW" && availableUntil && (
+        <div>
+          {(() => {
+            const now = Date.now();
+            const deadline = new Date(availableUntil).getTime();
+            const msLeft = deadline - now;
+            if (msLeft <= 0) {
+              return (
+                <>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="font-label text-[9px] uppercase tracking-widest text-red-500">Edice uzavřena</span>
+                  </div>
+                  <div className="h-0.5 bg-outline-variant/20 w-full" />
+                </>
+              );
+            }
+            const hoursLeft = msLeft / (1000 * 3600);
+            const urgent = hoursLeft < 24;
+            // bar: depletes over 7 days reference window
+            const pct = Math.max(0, Math.min(100, Math.round((msLeft / (7 * 24 * 3600 * 1000)) * 100)));
+            const label = hoursLeft < 1
+              ? `Zbývá ${Math.floor(msLeft / 60000)} min`
+              : hoursLeft < 48
+              ? `Zbývá ${Math.round(hoursLeft)} h`
+              : `Zbývá ${Math.floor(hoursLeft / 24)} ${Math.floor(hoursLeft / 24) === 1 ? "den" : Math.floor(hoursLeft / 24) < 5 ? "dny" : "dní"}`;
+            return (
+              <>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className={["font-label text-[9px] uppercase tracking-widest", urgent ? "text-red-500" : "text-outline"].join(" ")}>
+                    {label}
+                  </span>
+                  <span className="font-label text-[9px] text-outline/60">časová edice</span>
+                </div>
+                <div className="h-0.5 bg-outline-variant/20 w-full overflow-hidden">
+                  <div
+                    className={["h-full transition-all", urgent ? "bg-red-500" : "bg-primary"].join(" ")}
                     style={{ width: `${pct}%` }}
                   />
                 </div>

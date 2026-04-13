@@ -102,13 +102,13 @@ export default function ListingSidebar({
         />
       </div>
 
-      {/* Progress bar — zbývá X z Y */}
+      {/* Progress bar — LIMITED_COUNT: zbývá X z Y */}
       {edition.type === "LIMITED_COUNT" && edition.totalCount !== null && (
         <div className="pb-6 border-b border-outline-variant/20 -mt-2">
           {(() => {
             const remaining = edition.totalCount - edition.soldCount;
             const pct = Math.min(100, Math.round((edition.soldCount / edition.totalCount) * 100));
-            const urgent = remaining <= Math.ceil(edition.totalCount * 0.2); // posledních 20 %
+            const urgent = remaining <= Math.ceil(edition.totalCount * 0.2);
             return (
               <>
                 <div className="flex justify-between items-center mb-2">
@@ -116,6 +116,49 @@ export default function ListingSidebar({
                     {soldOut ? "Vyprodáno" : urgent ? `Zbývá pouze ${remaining} ${remaining === 1 ? "kus" : remaining < 5 ? "kusy" : "kusů"}` : `Zbývá ${remaining} z ${edition.totalCount}`}
                   </span>
                   <span className="font-label text-[10px] text-outline">{pct} % prodáno</span>
+                </div>
+                <div className="h-1 bg-outline-variant/20 w-full overflow-hidden">
+                  <div
+                    className={["h-full transition-all duration-500", urgent ? "bg-red-500" : "bg-primary"].join(" ")}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </>
+            );
+          })()}
+        </div>
+      )}
+
+      {/* Progress bar — TIME_WINDOW: zbývá čas */}
+      {edition.type === "TIME_WINDOW" && availableUntilDate && (
+        <div className="pb-6 border-b border-outline-variant/20 -mt-2">
+          {(() => {
+            const msLeft = availableUntilDate.getTime() - Date.now();
+            if (msLeft <= 0 || expired) {
+              return (
+                <>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-label text-[10px] uppercase tracking-widest font-bold text-red-600">Edice uzavřena</span>
+                  </div>
+                  <div className="h-1 bg-outline-variant/20 w-full" />
+                </>
+              );
+            }
+            const hoursLeft = msLeft / (1000 * 3600);
+            const urgent = hoursLeft < 24;
+            const pct = Math.max(0, Math.min(100, Math.round((msLeft / (7 * 24 * 3600 * 1000)) * 100)));
+            const label = hoursLeft < 1
+              ? `Zbývá ${Math.floor(msLeft / 60000)} min`
+              : hoursLeft < 48
+              ? `Zbývá ${Math.round(hoursLeft)} hodin`
+              : `Zbývá ${Math.floor(hoursLeft / 24)} ${Math.floor(hoursLeft / 24) === 1 ? "den" : Math.floor(hoursLeft / 24) < 5 ? "dny" : "dní"}`;
+            return (
+              <>
+                <div className="flex justify-between items-center mb-2">
+                  <span className={["font-label text-[10px] uppercase tracking-widest font-bold", urgent ? "text-red-600" : "text-outline"].join(" ")}>
+                    {label}
+                  </span>
+                  <span className="font-label text-[10px] text-outline">časová edice</span>
                 </div>
                 <div className="h-1 bg-outline-variant/20 w-full overflow-hidden">
                   <div
