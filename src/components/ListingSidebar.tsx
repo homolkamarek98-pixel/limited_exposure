@@ -89,7 +89,7 @@ export default function ListingSidebar({
       </div>
 
       {/* Price + edition badge */}
-      <div className="flex items-baseline justify-between py-6 border-y border-outline-variant/20">
+      <div className="flex items-baseline justify-between py-6 border-t border-outline-variant/20">
         <span className="serif-display text-3xl font-bold">
           {formatPrice(currentPrice)}
         </span>
@@ -101,6 +101,33 @@ export default function ListingSidebar({
           variant="detail"
         />
       </div>
+
+      {/* Progress bar — zbývá X z Y */}
+      {edition.type === "LIMITED_COUNT" && edition.totalCount !== null && (
+        <div className="pb-6 border-b border-outline-variant/20 -mt-2">
+          {(() => {
+            const remaining = edition.totalCount - edition.soldCount;
+            const pct = Math.min(100, Math.round((edition.soldCount / edition.totalCount) * 100));
+            const urgent = remaining <= Math.ceil(edition.totalCount * 0.2); // posledních 20 %
+            return (
+              <>
+                <div className="flex justify-between items-center mb-2">
+                  <span className={["font-label text-[10px] uppercase tracking-widest font-bold", urgent ? "text-red-600" : "text-outline"].join(" ")}>
+                    {soldOut ? "Vyprodáno" : urgent ? `Zbývá pouze ${remaining} ${remaining === 1 ? "kus" : remaining < 5 ? "kusy" : "kusů"}` : `Zbývá ${remaining} z ${edition.totalCount}`}
+                  </span>
+                  <span className="font-label text-[10px] text-outline">{pct} % prodáno</span>
+                </div>
+                <div className="h-1 bg-outline-variant/20 w-full overflow-hidden">
+                  <div
+                    className={["h-full transition-all duration-500", urgent ? "bg-red-500" : "bg-primary"].join(" ")}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </>
+            );
+          })()}
+        </div>
+      )}
 
       {/* Format selector */}
       <div>

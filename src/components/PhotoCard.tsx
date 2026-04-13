@@ -46,7 +46,7 @@ export default function PhotoCard({
       </div>
 
       {/* Metadata */}
-      <div className="flex justify-between items-start gap-4">
+      <div className="flex justify-between items-start gap-4 mb-3">
         <div className="min-w-0">
           <h3 className="serif-display text-lg font-bold mb-1 truncate">{title}</h3>
           <p className="font-body text-sm text-secondary uppercase tracking-wider truncate">
@@ -64,6 +64,33 @@ export default function PhotoCard({
           />
         </div>
       </div>
+
+      {/* Progress bar */}
+      {editionType === "LIMITED_COUNT" && totalCount !== null && totalCount > 0 && (
+        <div>
+          {(() => {
+            const remaining = totalCount - soldCount;
+            const pct = Math.min(100, Math.round((soldCount / totalCount) * 100));
+            const urgent = remaining <= Math.ceil(totalCount * 0.2);
+            return (
+              <>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className={["font-label text-[9px] uppercase tracking-widest", urgent ? "text-red-500" : "text-outline"].join(" ")}>
+                    {remaining <= 0 ? "Vyprodáno" : urgent ? `Zbývá ${remaining} ${remaining === 1 ? "kus" : remaining < 5 ? "kusy" : "kusů"}` : `${remaining} z ${totalCount}`}
+                  </span>
+                  <span className="font-label text-[9px] text-outline/60">{pct} %</span>
+                </div>
+                <div className="h-0.5 bg-outline-variant/20 w-full overflow-hidden">
+                  <div
+                    className={["h-full", urgent ? "bg-red-500" : "bg-primary"].join(" ")}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </>
+            );
+          })()}
+        </div>
+      )}
     </Link>
   );
 }
