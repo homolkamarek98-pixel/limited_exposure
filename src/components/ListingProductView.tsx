@@ -24,13 +24,8 @@ const frameStyles: Record<Frame, React.CSSProperties> = {
   },
 };
 
-// Outer mat board barva (pod rámem)
-const containerBg: Record<Frame, string> = {
-  NONE: "bg-surface-container-highest",
-  OAK:  "bg-[#2a2015]",
-  BLACK: "bg-[#0a0a0a]",
-  WHITE: "bg-[#dbd9d5]",
-};
+// Pozadí za rámem — vždy barva stránky
+const containerBg = "bg-[#f9f9f9]";
 
 interface Props {
   imageUrl: string;
@@ -78,55 +73,55 @@ export default function ListingProductView({
         <PhotoLightbox src={imageUrl} alt={imageAlt}>
           <div
             className={[
-              "relative aspect-[4/5] overflow-hidden group transition-all duration-500",
-              containerBg[selectedFrame],
-              hasFrame ? "p-6 md:p-12" : "p-4 md:p-10",
+              "relative flex items-center justify-center overflow-hidden group transition-all duration-500",
+              containerBg,
+              hasFrame ? "p-8 md:p-16" : "p-4 md:p-8",
             ].join(" ")}
+            style={{ maxHeight: "72vh" }}
           >
             {/* Rám wrapper */}
             <div
-              className="w-full h-full transition-all duration-500"
+              className="transition-all duration-500 inline-flex"
               style={frameStyle}
             >
               {/* Vnitřní mat (bílý passepartout) pro rámy */}
-              {hasFrame && (
-                <div className="w-full h-full bg-white p-3 md:p-5">
+              {hasFrame ? (
+                <div className="bg-white p-3 md:p-4 inline-flex">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageUrl}
                     alt={imageAlt}
-                    className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105"
+                    className="block max-h-[55vh] w-auto object-contain grayscale transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                 </div>
-              )}
-              {!hasFrame && (
+              ) : (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                   src={imageUrl}
                   alt={imageAlt}
-                  className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105"
+                  className="block max-h-[60vh] w-auto object-contain grayscale transition-transform duration-700 group-hover:scale-[1.02]"
                 />
               )}
             </div>
 
-            {/* Frame label overlay */}
+            {/* Frame label */}
             {hasFrame && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/60 backdrop-blur-sm">
-                <span className="font-label text-[9px] uppercase tracking-widest text-white/70">
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/50 backdrop-blur-sm">
+                <span className="font-label text-[9px] uppercase tracking-widest text-white/70 whitespace-nowrap">
                   {selectedFrame === "OAK" ? "Přírodní dýhovaný dub" : selectedFrame === "BLACK" ? "Černý lakovaný hliník" : "Bílý lakovaný hliník"} · UV sklo
                 </span>
               </div>
             )}
 
             {/* Zoom hint */}
-            <div className="absolute bottom-8 right-8 flex items-center gap-2 le-glass px-4 py-2 border border-outline/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <div className="absolute bottom-3 right-3 flex items-center gap-2 bg-white/80 backdrop-blur-sm px-3 py-1.5 border border-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <circle cx="11" cy="11" r="8" />
                 <path d="M21 21l-4.35-4.35" />
                 <line x1="11" y1="8" x2="11" y2="14" />
                 <line x1="8" y1="11" x2="14" y2="11" />
               </svg>
-              <span className="font-label text-[10px] uppercase tracking-widest font-bold">Prohlédnout detail</span>
+              <span className="font-label text-[9px] uppercase tracking-widest font-bold">Detail</span>
             </div>
           </div>
         </PhotoLightbox>
