@@ -7,12 +7,28 @@ import EditionBadge from "@/components/EditionBadge";
 import { useCart } from "@/lib/cart";
 
 type Format = "S" | "M" | "L";
+type Frame = "NONE" | "OAK" | "BLACK" | "WHITE";
 
 const formatLabels: Record<Format, string> = {
   S: "Small — 30 × 40 cm",
   M: "Medium — 50 × 70 cm",
   L: "Large — 70 × 100 cm",
 };
+
+// Ceny rámů v haléřích dle formátu
+const framePrices: Record<Frame, Record<Format, number>> = {
+  NONE:  { S: 0,      M: 0,      L: 0 },
+  OAK:   { S: 190000, M: 290000, L: 490000 },
+  BLACK: { S: 149000, M: 199000, L: 349000 },
+  WHITE: { S: 149000, M: 199000, L: 349000 },
+};
+
+const frameOptions: { key: Frame; label: string; swatch: string; desc: string }[] = [
+  { key: "NONE",  label: "Bez rámu",    swatch: "",        desc: "Pouze tisk" },
+  { key: "OAK",   label: "Dubový rám",  swatch: "#b5813a", desc: "Přírodní dub + UV sklo" },
+  { key: "BLACK", label: "Černý rám",   swatch: "#1a1a1a", desc: "Černý lakovaný hliník + UV sklo" },
+  { key: "WHITE", label: "Bílý rám",    swatch: "#f0efec", desc: "Bílý lakovaný hliník + UV sklo" },
+];
 
 function formatPrice(halers: number) {
   return new Intl.NumberFormat("cs-CZ", {
@@ -59,17 +75,19 @@ export default function ListingSidebar({
   takenNumbers,
 }: Props) {
   const [selectedFormat, setSelectedFormat] = useState<Format>(photo.format);
+  const [selectedFrame, setSelectedFrame] = useState<Frame>("NONE");
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const { addItem } = useCart();
 
   // Použij admin-nastavenou cenu, fallback na procentní koeficient
-  const prices: Record<Format, number> = {
+  const basePrices: Record<Format, number> = {
     S: edition.priceS ?? Math.round(edition.price * 0.85),
     M: edition.price,
     L: edition.priceL ?? Math.round(edition.price * 1.25),
   };
 
-  const currentPrice = prices[selectedFormat];
+  const frameAddon = framePrices[selectedFrame][selectedFormat];
+  const currentPrice = basePrices[selectedFormat] + frameAddon;
 
   // availableUntil je ISO string ze serveru
   const availableUntilDate = edition.availableUntil ? new Date(edition.availableUntil) : null;
@@ -185,7 +203,7 @@ export default function ListingSidebar({
         <div className="flex flex-col gap-2">
           {(["S", "M", "L"] as Format[]).map((f) => {
             const active = selectedFormat === f;
-            const p = prices[f];
+            const p = basePrices[f];
             const diff = p - edition.price;
             const diffLabel =
               diff === 0
@@ -216,6 +234,60 @@ export default function ListingSidebar({
             );
           })}
         </div>
+      </div>
+
+      {/* Frame selector */}
+      <div>
+        <span className="font-label text-[10px] uppercase tracking-widest font-bold mb-3 block">
+          Rám a zasklení
+        </span>
+        <div className="flex flex-col gap-2 mb-3">
+          {frameOptions.map(({ key, label, swatch, desc }) => {
+            const active = selectedFrame === key;
+            const addon = framePrices[key][selectedFormat];
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setSelectedFrame(key)}
+                className={[
+                  "flex items-center gap-3 px-4 py-3.5 border-2 text-left transition-all duration-150 w-full",
+                  active
+                    ? "border-black bg-black text-white"
+                    : "border-[#e0e0e0] bg-white text-black hover:border-black",
+                ].join(" ")}
+              >
+                {/* Swatch */}
+                {key === "NONE" ? (
+                  <span className={["w-4 h-4 shrink-0 border flex items-center justify-center", active ? "border-white/30" : "border-[#ccc]"].join(" ")}>
+                    <svg width="8" height="8" viewBox="0 0 10 10" stroke="currentColor" strokeWidth="1.5">
+                      <line x1="0" y1="0" x2="10" y2="10" />
+                    </svg>
+                  </span>
+                ) : (
+                  <span
+                    className="w-4 h-4 shrink-0 border border-black/10"
+                    style={{ backgroundColor: swatch }}
+                  />
+                )}
+                <span className="flex-1 min-w-0">
+                  <span className="font-label text-xs uppercase tracking-wider font-bold block leading-none mb-0.5">{label}</span>
+                  <span className={["font-label text-[9px] uppercase tracking-wider", active ? "text-white/50" : "text-[#999]"].join(" ")}>{desc}</span>
+                </span>
+                <span className={["font-label text-xs shrink-0 ml-2", active ? "text-white/70" : "text-[#777]"].join(" ")}>
+                  {addon === 0 ? "V ceně" : `+${formatPrice(addon)}`}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        {selectedFrame !== "NONE" && (
+          <div className="bg-[#f9f9f9] border border-[#e8e8e8] px-4 py-3 space-y-1">
+            <p className="font-label text-[9px] uppercase tracking-widest text-[#555] leading-relaxed">
+              Sklo s vysokým UV filtrem · Chrání pigmenty před vyblednutím · Cerna zůstává černá · Barvy zůstávají živé
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Number picker — pouze pro LIMITED_COUNT edice */}
@@ -271,7 +343,7 @@ export default function ListingSidebar({
       <AddToCartButton
         item={{
           editionId: `${edition.id}__${selectedFormat}`,
-          photoTitle: `${photo.title} (${selectedFormat})`,
+          photoTitle: `${photo.title} (${selectedFormat})${selectedFrame !== "NONE" ? ` + ${frameOptions.find(f => f.key === selectedFrame)?.label}` : ""}`,
           photographerName: photographer.name,
           imageUrl: photo.imageUrl,
           price: currentPrice,
