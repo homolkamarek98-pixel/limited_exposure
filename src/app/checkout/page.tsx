@@ -18,12 +18,31 @@ const schema = z.object({
   lastName: z.string().min(2, "Povinné"),
   email: z.email("Neplatný email"),
   phone: z.string().optional(),
+
+  // Firma
+  isCompany: z.boolean().optional(),
+  companyName: z.string().optional(),
+  ico: z.string().optional(),
+  dic: z.string().optional(),
+
+  // Fakturační adresa
+  billingAddressLine1: z.string().min(3, "Povinné"),
+  billingAddressLine2: z.string().optional(),
+  billingCity: z.string().min(2, "Povinné"),
+  billingPostalCode: z.string().min(3, "Povinné"),
+  billingCountry: z.string().min(2, "Povinné"),
+
+  // Doprava
+  carrier: z.enum(["ZASILKOVNA", "CZECH_POST", "DPD", "PPL", "TOP_TRANS"]),
+
+  // Oddělená dodací adresa
+  differentDelivery: z.boolean().optional(),
   addressLine1: z.string().optional(),
   addressLine2: z.string().optional(),
   city: z.string().optional(),
   postalCode: z.string().optional(),
-  country: z.string().min(2, "Povinné"),
-  carrier: z.enum(["ZASILKOVNA", "CZECH_POST", "DPD", "PPL", "TOP_TRANS"]),
+  country: z.string().optional(),
+
   notes: z.string().optional(),
 });
 
@@ -59,11 +78,13 @@ export default function CheckoutPage() {
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { country: "CZ", carrier: "ZASILKOVNA" },
+    defaultValues: { billingCountry: "CZ", country: "CZ", carrier: "ZASILKOVNA", isCompany: false, differentDelivery: false },
   });
 
   const selectedCarrier = watch("carrier");
   const isZasilkovna = selectedCarrier === "ZASILKOVNA";
+  const isCompany = watch("isCompany");
+  const differentDelivery = watch("differentDelivery");
   const carrierPrice = carriers.find(c => c.value === selectedCarrier)?.price ?? 0;
   const grandTotal = totalAmount() + carrierPrice;
 
@@ -87,14 +108,12 @@ export default function CheckoutPage() {
   }
 
   async function onSubmit(data: FormData) {
-    // Validace — Zásilkovna potřebuje výdejní místo
     if (isZasilkovna && !pickupPoint) {
       setError("Vyberte prosím výdejní místo Zásilkovny.");
       return;
     }
-    // Ostatní dopravci potřebují adresu
-    if (!isZasilkovna && (!data.addressLine1 || !data.city || !data.postalCode)) {
-      setError("Vyplňte prosím doručovací adresu.");
+    if (!isZasilkovna && data.differentDelivery && (!data.addressLine1 || !data.city || !data.postalCode)) {
+      setError("Vyplňte prosím dodací adresu.");
       return;
     }
 
@@ -103,21 +122,54 @@ export default function CheckoutPage() {
 
     try {
       const formData = new FormData();
-      Object.entries(data).forEach(([k, v]) => {
-        if (v != null) formData.set(k, String(v));
-      });
-      formData.set("items", JSON.stringify(items));
-      formData.set("totalAmount", String(grandTotal));
 
-      // Zásilkovna data
-      if (pickupPoint) {
+      // Základní údaje
+      formData.set("firstName", data.firstName);
+      formData.set("lastName", data.lastName);
+      formData.set("email", data.email);
+      if (data.phone) formData.set("phone", data.phone);
+      if (data.notes) formData.set("notes", data.notes);
+
+      // Firma
+      if (data.isCompany) {
+        if (data.companyName) formData.set("companyName", data.companyName);
+        if (data.ico) formData.set("ico", data.ico);
+        if (data.dic) formData.set("dic", data.dic);
+      }
+
+      // Fakturační adresa
+      formData.set("billingAddressLine1", data.billingAddressLine1);
+      formData.set("billingAddressLine2", data.billingAddressLine2 ?? "");
+      formData.set("billingCity", data.billingCity);
+      formData.set("billingPostalCode", data.billingPostalCode);
+      formData.set("billingCountry", data.billingCountry);
+
+      // Dodací adresa
+      if (isZasilkovna && pickupPoint) {
         formData.set("pickupPointId", pickupPoint.id);
         formData.set("pickupPointName", pickupPoint.name);
-        // Pro adresu použijeme pickup point data
         formData.set("addressLine1", pickupPoint.nameStreet);
         formData.set("city", pickupPoint.city);
         formData.set("postalCode", pickupPoint.zip);
+        formData.set("country", "CZ");
+      } else if (data.differentDelivery) {
+        formData.set("addressLine1", data.addressLine1 ?? "");
+        formData.set("addressLine2", data.addressLine2 ?? "");
+        formData.set("city", data.city ?? "");
+        formData.set("postalCode", data.postalCode ?? "");
+        formData.set("country", data.country ?? "CZ");
+      } else {
+        // Dodací = fakturační
+        formData.set("addressLine1", data.billingAddressLine1);
+        formData.set("addressLine2", data.billingAddressLine2 ?? "");
+        formData.set("city", data.billingCity);
+        formData.set("postalCode", data.billingPostalCode);
+        formData.set("country", data.billingCountry);
       }
+
+      formData.set("carrier", data.carrier);
+      formData.set("items", JSON.stringify(items));
+      formData.set("totalAmount", String(grandTotal));
 
       const result = await createOrder(formData);
       if (result.error) {
@@ -136,6 +188,7 @@ export default function CheckoutPage() {
 
   const inputCls = "w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors";
   const labelCls = "font-label text-[10px] uppercase tracking-widest block mb-2";
+  const sectionHead = "font-label text-[10px] uppercase tracking-widest font-bold mb-8 pb-3 border-b border-[#e8e8e8]";
 
   return (
     <>
@@ -151,39 +204,102 @@ export default function CheckoutPage() {
           {/* Left — form */}
           <div className="lg:col-span-7 space-y-12">
 
-            {/* Contact */}
+            {/* Kontaktní a fakturační údaje */}
             <section>
-              <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-8 pb-3 border-b border-[#e8e8e8]">
-                Kontaktní údaje
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
+              <h2 className={sectionHead}>Kontaktní a fakturační údaje</h2>
+
+              {/* Jméno + příjmení */}
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className={labelCls}>Jméno *</label>
-                  <input {...register("firstName")} className={inputCls} />
+                  <input {...register("firstName")} autoComplete="given-name" className={inputCls} />
                   {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName.message}</p>}
                 </div>
                 <div>
                   <label className={labelCls}>Příjmení *</label>
-                  <input {...register("lastName")} className={inputCls} />
+                  <input {...register("lastName")} autoComplete="family-name" className={inputCls} />
                   {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName.message}</p>}
                 </div>
+              </div>
+
+              {/* Email + telefon */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                   <label className={labelCls}>Email *</label>
-                  <input {...register("email")} type="email" className={inputCls} />
+                  <input {...register("email")} type="email" autoComplete="email" className={inputCls} />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                 </div>
                 <div>
                   <label className={labelCls}>Telefon</label>
-                  <input {...register("phone")} type="tel" className={inputCls} />
+                  <input {...register("phone")} type="tel" autoComplete="tel" className={inputCls} />
+                </div>
+              </div>
+
+              {/* Na firmu */}
+              <label className="flex items-center gap-3 cursor-pointer mb-6">
+                <input type="checkbox" {...register("isCompany")} className="w-4 h-4 accent-black" />
+                <span className="font-label text-[10px] uppercase tracking-widest">Nakupuji na firmu (IČO / DIČ)</span>
+              </label>
+
+              {isCompany && (
+                <div className="space-y-4 mb-6 pl-7 border-l-2 border-[#e8e8e8]">
+                  <div>
+                    <label className={labelCls}>Název firmy *</label>
+                    <input {...register("companyName")} autoComplete="organization" className={inputCls} />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className={labelCls}>IČO</label>
+                      <input {...register("ico")} className={inputCls} placeholder="12345678" />
+                    </div>
+                    <div>
+                      <label className={labelCls}>DIČ</label>
+                      <input {...register("dic")} className={inputCls} placeholder="CZ12345678" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Fakturační adresa */}
+              <div className="space-y-4">
+                <div>
+                  <label className={labelCls}>Ulice a číslo *</label>
+                  <input {...register("billingAddressLine1")} autoComplete="billing address-line1" className={inputCls} />
+                  {errors.billingAddressLine1 && <p className="text-red-500 text-xs mt-1">{errors.billingAddressLine1.message}</p>}
+                </div>
+                <div>
+                  <label className={labelCls}>Doplněk adresy</label>
+                  <input {...register("billingAddressLine2")} autoComplete="billing address-line2" placeholder="Byt, patro, firma…" className={inputCls + " placeholder:text-[#bbb]"} />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelCls}>Město *</label>
+                    <input {...register("billingCity")} autoComplete="billing address-level2" className={inputCls} />
+                    {errors.billingCity && <p className="text-red-500 text-xs mt-1">{errors.billingCity.message}</p>}
+                  </div>
+                  <div>
+                    <label className={labelCls}>PSČ *</label>
+                    <input {...register("billingPostalCode")} autoComplete="billing postal-code" className={inputCls} />
+                    {errors.billingPostalCode && <p className="text-red-500 text-xs mt-1">{errors.billingPostalCode.message}</p>}
+                  </div>
+                </div>
+                <div>
+                  <label className={labelCls}>Stát *</label>
+                  <select {...register("billingCountry")} autoComplete="billing country" className={inputCls}>
+                    <option value="CZ">Česká republika</option>
+                    <option value="SK">Slovensko</option>
+                    <option value="DE">Německo</option>
+                    <option value="AT">Rakousko</option>
+                    <option value="PL">Polsko</option>
+                    <option value="OTHER">Jiný stát</option>
+                  </select>
                 </div>
               </div>
             </section>
 
-            {/* Carrier */}
+            {/* Způsob dopravy */}
             <section>
-              <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-8 pb-3 border-b border-[#e8e8e8]">
-                Způsob dopravy
-              </h2>
+              <h2 className={sectionHead}>Způsob dopravy</h2>
               <div className="space-y-3">
                 {carriers.map((c) => (
                   <label
@@ -211,12 +327,10 @@ export default function CheckoutPage() {
               </div>
             </section>
 
-            {/* Zásilkovna widget — zobrazí se jen pro ZASILKOVNA */}
+            {/* Dodací adresa / Zásilkovna widget */}
             {isZasilkovna ? (
               <section>
-                <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
-                  Výdejní místo Zásilkovny
-                </h2>
+                <h2 className={sectionHead}>Výdejní místo Zásilkovny</h2>
                 <PacketaWidget
                   apiKey={PACKETA_API_KEY}
                   onSelect={setPickupPoint}
@@ -229,46 +343,56 @@ export default function CheckoutPage() {
                 )}
               </section>
             ) : (
-              /* Adresa pro ostatní dopravce */
               <section>
-                <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-8 pb-3 border-b border-[#e8e8e8]">
-                  Doručovací adresa
-                </h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className={labelCls}>Ulice a číslo *</label>
-                    <input {...register("addressLine1")} className={inputCls} />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Doplněk adresy</label>
-                    <input {...register("addressLine2")} placeholder="Byt, patro, firma…" className={inputCls + " placeholder:text-[#bbb]"} />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
+                <h2 className={sectionHead}>Dodací adresa</h2>
+                <label className="flex items-center gap-3 cursor-pointer mb-6">
+                  <input type="checkbox" {...register("differentDelivery")} className="w-4 h-4 accent-black" />
+                  <span className="font-label text-[10px] uppercase tracking-widest">Doručit na jinou adresu</span>
+                </label>
+
+                {differentDelivery && (
+                  <div className="space-y-4 pl-7 border-l-2 border-[#e8e8e8]">
                     <div>
-                      <label className={labelCls}>Město *</label>
-                      <input {...register("city")} className={inputCls} />
+                      <label className={labelCls}>Ulice a číslo *</label>
+                      <input {...register("addressLine1")} autoComplete="shipping address-line1" className={inputCls} />
                     </div>
                     <div>
-                      <label className={labelCls}>PSČ *</label>
-                      <input {...register("postalCode")} className={inputCls} />
+                      <label className={labelCls}>Doplněk adresy</label>
+                      <input {...register("addressLine2")} autoComplete="shipping address-line2" placeholder="Byt, patro, firma…" className={inputCls + " placeholder:text-[#bbb]"} />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelCls}>Město *</label>
+                        <input {...register("city")} autoComplete="shipping address-level2" className={inputCls} />
+                      </div>
+                      <div>
+                        <label className={labelCls}>PSČ *</label>
+                        <input {...register("postalCode")} autoComplete="shipping postal-code" className={inputCls} />
+                      </div>
+                    </div>
+                    <div>
+                      <label className={labelCls}>Stát *</label>
+                      <select {...register("country")} autoComplete="shipping country" className={inputCls}>
+                        <option value="CZ">Česká republika</option>
+                        <option value="SK">Slovensko</option>
+                        <option value="DE">Německo</option>
+                        <option value="AT">Rakousko</option>
+                        <option value="PL">Polsko</option>
+                        <option value="OTHER">Jiný stát</option>
+                      </select>
                     </div>
                   </div>
-                  <div>
-                    <label className={labelCls}>Stát *</label>
-                    <select {...register("country")} className={inputCls}>
-                      <option value="CZ">Česká republika</option>
-                      <option value="SK">Slovensko</option>
-                      <option value="DE">Německo</option>
-                      <option value="AT">Rakousko</option>
-                      <option value="PL">Polsko</option>
-                      <option value="OTHER">Jiný stát</option>
-                    </select>
-                  </div>
-                </div>
+                )}
+
+                {!differentDelivery && (
+                  <p className="font-label text-[10px] text-[#aaa] uppercase tracking-widest">
+                    Zásilka bude doručena na fakturační adresu
+                  </p>
+                )}
               </section>
             )}
 
-            {/* Notes */}
+            {/* Poznámka */}
             <section>
               <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-4">Poznámka k objednávce</h2>
               <textarea {...register("notes")} rows={3} className={inputCls + " resize-none"} placeholder="Nepovinné…" />

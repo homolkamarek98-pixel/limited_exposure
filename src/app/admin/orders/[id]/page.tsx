@@ -258,22 +258,48 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           <div className="bg-white border border-gray-200 rounded-lg p-5">
             <h2 className="font-semibold text-sm mb-4">Zákazník</h2>
             <p className="text-sm font-medium">{order.firstName} {order.lastName}</p>
+            {order.companyName && (
+              <p className="text-sm text-gray-700 mt-1">{order.companyName}</p>
+            )}
             <p className="text-sm text-gray-500">{order.email}</p>
             {order.phone && <p className="text-sm text-gray-500">{order.phone}</p>}
+            {(order.ico || order.dic) && (
+              <div className="mt-2 pt-2 border-t border-gray-100 text-xs text-gray-500 space-y-0.5">
+                {order.ico && <p>IČO: {order.ico}</p>}
+                {order.dic && <p>DIČ: {order.dic}</p>}
+              </div>
+            )}
             {order.buyer && (
               <p className="text-xs text-gray-400 mt-2">Registrovaný účet</p>
             )}
           </div>
 
+          {/* Fakturační adresa */}
+          {order.billingAddressLine1 && (
+            <div className="bg-white border border-gray-200 rounded-lg p-5">
+              <h2 className="font-semibold text-sm mb-4">Fakturační adresa</h2>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {order.billingAddressLine1}<br />
+                {order.billingAddressLine2 && <>{order.billingAddressLine2}<br /></>}
+                {order.billingPostalCode} {order.billingCity}<br />
+                {order.billingCountry}
+              </p>
+            </div>
+          )}
+
           {/* Delivery */}
           <div className="bg-white border border-gray-200 rounded-lg p-5">
-            <h2 className="font-semibold text-sm mb-4">Doručení</h2>
-            <p className="text-sm text-gray-700 leading-relaxed">
-              {order.addressLine1}<br />
-              {order.addressLine2 && <>{order.addressLine2}<br /></>}
-              {order.postalCode} {order.city}<br />
-              {order.country}
-            </p>
+            <h2 className="font-semibold text-sm mb-4">Dodací adresa</h2>
+            {order.addressLine1 ? (
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {order.addressLine1}<br />
+                {order.addressLine2 && <>{order.addressLine2}<br /></>}
+                {order.postalCode} {order.city}<br />
+                {order.country}
+              </p>
+            ) : (
+              <p className="text-xs text-gray-400">Stejná jako fakturační</p>
+            )}
             <div className="mt-3 pt-3 border-t border-gray-100">
               <p className="text-xs text-gray-500">Dopravce</p>
               <p className="text-sm font-medium">{carrierLabels[order.carrier] ?? order.carrier}</p>

@@ -31,47 +31,84 @@ declare global {
   }
 }
 
-export default function PacketaWidget({ apiKey, onSelect, selected }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (document.getElementById("packeta-widget-script")) {
-      setLoaded(true);
+function loadPacketaScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (window.Packeta) {
+      resolve();
+      return;
+    }
+    const existing = document.getElementById("packeta-library-script");
+    if (existing) {
+      // Skript už je v DOM — čekáme na window.Packeta
+      const check = setInterval(() => {
+        if (window.Packeta) { clearInterval(check); resolve(); }
+      }, 100);
+      setTimeout(() => { clearInterval(check); reject(new Error("timeout")); }, 10000);
       return;
     }
     const script = document.createElement("script");
-    script.id = "packeta-widget-script";
-    script.src = "https://widget.packeta.com/www/js/lib/widget.js";
-    script.async = true;
-    script.onload = () => setLoaded(true);
+    script.id = "packeta-library-script";
+    script.src = "https://widget.packeta.com/v6/www/js/library.js";
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Script load failed"));
     document.head.appendChild(script);
+  });
+}
+
+export default function PacketaWidget({ apiKey, onSelect, selected }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+
+  // Skript načteme co nejdříve — hned při mountu
+  useEffect(() => {
+    loadPacketaScript().catch(() => {});
   }, []);
 
-  function openWidget() {
-    if (!loaded || !window.Packeta || !containerRef.current) return;
-    setOpen(true);
+  // Volej pick() až po re-renderu kdy je container viditelný
+  useEffect(() => {
+    if (!open || !containerRef.current) return;
+    if (!window.Packeta) return;
     window.Packeta.Widget.pick(
       apiKey,
       (point) => {
         setOpen(false);
+        setStatus("idle");
         if (point) onSelect(point);
       },
       { language: "cs" },
       containerRef.current
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  async function handleClick() {
+    if (open) return;
+    setStatus("loading");
+    try {
+      await loadPacketaScript();
+      setStatus("idle");
+      setOpen(true);
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
     <div>
       <button
         type="button"
-        onClick={openWidget}
-        disabled={!loaded}
+        onClick={handleClick}
+        disabled={open}
         className="w-full border-2 border-black bg-white font-label text-[10px] uppercase tracking-widest py-4 hover:bg-black hover:text-white transition-colors disabled:opacity-40"
       >
-        {loaded ? "Vybrat výdejní místo →" : "Načítám widget…"}
+        {status === "loading" ? (
+          "Načítám…"
+        ) : status === "error" ? (
+          "Chyba načtení — klikněte znovu"
+        ) : (
+          "Vybrat výdejní místo →"
+        )}
       </button>
 
       {selected && (
@@ -82,7 +119,7 @@ export default function PacketaWidget({ apiKey, onSelect, selected }: Props) {
           </div>
           <button
             type="button"
-            onClick={openWidget}
+            onClick={handleClick}
             className="font-label text-[10px] uppercase tracking-widest text-[#999] hover:text-black transition-colors shrink-0 ml-4"
           >
             Změnit
@@ -90,7 +127,6 @@ export default function PacketaWidget({ apiKey, onSelect, selected }: Props) {
         </div>
       )}
 
-      {/* Widget se renderuje sem */}
       <div
         ref={containerRef}
         className={open ? "fixed inset-0 z-[100] bg-white" : "hidden"}

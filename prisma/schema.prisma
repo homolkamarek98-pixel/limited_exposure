@@ -96,11 +96,23 @@ model Order {
   lastName  String
   phone     String @default("")
 
-  // Doručení
-  addressLine1 String
-  addressLine2 String @default("")
-  city         String
-  postalCode   String
+  // Firma (volitelné — pro B2B zákazníky)
+  companyName String?
+  ico         String?
+  dic         String?
+
+  // Fakturační adresa
+  billingAddressLine1 String  @default("")
+  billingAddressLine2 String  @default("")
+  billingCity         String  @default("")
+  billingPostalCode   String  @default("")
+  billingCountry      String  @default("CZ")
+
+  // Dodací adresa (null = stejná jako fakturační, nebo výdejní místo Zásilkovny)
+  addressLine1 String  @default("")
+  addressLine2 String  @default("")
+  city         String  @default("")
+  postalCode   String  @default("")
   country      String  @default("CZ")
   carrier      Carrier @default(ZASILKOVNA)
 

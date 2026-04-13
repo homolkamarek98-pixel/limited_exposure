@@ -51,6 +51,10 @@ export async function createOrder(
 
   try {
     const order = await prisma.$transaction(async (tx) => {
+      const companyName = formData.get("companyName") ? String(formData.get("companyName")) : null;
+      const ico = formData.get("ico") ? String(formData.get("ico")) : null;
+      const dic = formData.get("dic") ? String(formData.get("dic")) : null;
+
       const newOrder = await tx.order.create({
         data: {
           buyerId: session?.user?.id ?? null,
@@ -58,6 +62,17 @@ export async function createOrder(
           firstName: String(formData.get("firstName") ?? ""),
           lastName: String(formData.get("lastName") ?? ""),
           phone: String(formData.get("phone") ?? ""),
+          // Firma
+          companyName,
+          ico,
+          dic,
+          // Fakturační adresa
+          billingAddressLine1: String(formData.get("billingAddressLine1") ?? ""),
+          billingAddressLine2: String(formData.get("billingAddressLine2") ?? ""),
+          billingCity: String(formData.get("billingCity") ?? ""),
+          billingPostalCode: String(formData.get("billingPostalCode") ?? ""),
+          billingCountry: String(formData.get("billingCountry") ?? "CZ"),
+          // Dodací adresa
           addressLine1: String(formData.get("addressLine1") ?? ""),
           addressLine2: String(formData.get("addressLine2") ?? ""),
           city: String(formData.get("city") ?? ""),
@@ -67,6 +82,8 @@ export async function createOrder(
           totalAmount,
           paymentMethod: "BANK_TRANSFER",
           paymentReference,
+          pickupPointId: formData.get("pickupPointId") ? String(formData.get("pickupPointId")) : null,
+          pickupPointName: formData.get("pickupPointName") ? String(formData.get("pickupPointName")) : null,
           notes: String(formData.get("notes") ?? ""),
         },
       });
