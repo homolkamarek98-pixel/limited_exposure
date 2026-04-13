@@ -8,24 +8,31 @@ import PhotoLightbox from "@/components/PhotoLightbox";
 import { prisma } from "@/lib/prisma";
 
 async function getData(id: string) {
-  const edition = await prisma.edition.findUnique({
-    where: { id },
-    include: {
-      photo: {
-        include: {
-          photographer: {
-            include: {
-              user: { select: { id: true, name: true } },
-              photos: {
-                take: 4,
-                include: { editions: { take: 1 } },
+  const [edition, takenNumbers] = await Promise.all([
+    prisma.edition.findUnique({
+      where: { id },
+      include: {
+        photo: {
+          include: {
+            photographer: {
+              include: {
+                user: { select: { id: true, name: true } },
+                photos: {
+                  take: 4,
+                  include: { editions: { take: 1 } },
+                },
               },
             },
           },
         },
       },
-    },
-  });
+    }),
+    // Obsazená čísla: orderItems pro tuto edici s certificateNumber
+    prisma.orderItem.findMany({
+      where: { editionId: id },
+      select: { certificateNumber: true },
+    }),
+  ]);
 
   if (!edition) return null;
 
@@ -34,16 +41,19 @@ async function getData(id: string) {
     (p) => p.id !== edition.photo.id
   );
 
-  return edition;
+  const takenSet = takenNumbers.map((o) => o.certificateNumber);
+
+  return { edition, takenNumbers: takenSet };
 }
 
 type Props = { params: Promise<{ id: string }> };
 
 export default async function ListingPage({ params }: Props) {
   const { id } = await params;
-  const edition = await getData(id);
-  if (!edition) notFound();
+  const data = await getData(id);
+  if (!data) notFound();
 
+  const { edition, takenNumbers } = data;
   const { photo } = edition;
   const { photographer } = photo;
   const authorName = photographer.user.name ?? "Neznámý fotograf";
@@ -123,6 +133,7 @@ export default async function ListingPage({ params }: Props) {
               isSignature={isSignature}
               soldOut={soldOut}
               expired={expired}
+              takenNumbers={takenNumbers}
             />
           </aside>
         </div>

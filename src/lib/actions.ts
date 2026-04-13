@@ -90,19 +90,32 @@ export async function createOrder(
 
       const orderItems = [];
       for (const item of items) {
-        const edition = await tx.edition.findUnique({ where: { id: item.editionId } });
-        if (!edition) throw new Error(`Edice ${item.editionId} neexistuje`);
+        // editionId v košíku může mít formát "uuid__S" — bereme jen UUID před "__"
+        const rawEditionId = item.editionId.split("__")[0];
+        const edition = await tx.edition.findUnique({ where: { id: rawEditionId } });
+        if (!edition) throw new Error(`Edice ${rawEditionId} neexistuje`);
 
-        const certificateNumber = edition.soldCount + 1;
+        // Určení čísla: buď požadované (pokud volné), nebo nejnižší dostupné
+        let certificateNumber: number;
+        if (item.requestedNumber && edition.type === "LIMITED_COUNT" && edition.totalCount) {
+          // Ověříme, že číslo není obsazené
+          const taken = await tx.orderItem.findFirst({
+            where: { editionId: rawEditionId, certificateNumber: item.requestedNumber },
+          });
+          certificateNumber = taken ? edition.soldCount + 1 : item.requestedNumber;
+        } else {
+          certificateNumber = edition.soldCount + 1;
+        }
+
         await tx.edition.update({
-          where: { id: item.editionId },
+          where: { id: rawEditionId },
           data: { soldCount: { increment: 1 } },
         });
 
         const orderItem = await tx.orderItem.create({
           data: {
             orderId: newOrder.id,
-            editionId: item.editionId,
+            editionId: rawEditionId,
             price: item.price,
             certificateNumber,
           },

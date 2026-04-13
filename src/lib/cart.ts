@@ -10,6 +10,7 @@ export type CartItem = {
   imageUrl: string;
   price: number; // v haléřích
   tier: "RISING_TALENT" | "SIGNATURE";
+  requestedNumber?: number; // volitelné preferované číslo v edici
 };
 
 type CartStore = {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import AddToCartButton from "@/components/AddToCartButton";
 import EditionBadge from "@/components/EditionBadge";
+import { useCart } from "@/lib/cart";
 
 type Format = "S" | "M" | "L";
 
@@ -45,6 +46,7 @@ interface Props {
   isSignature: boolean;
   soldOut: boolean;
   expired: boolean;
+  takenNumbers: number[];
 }
 
 export default function ListingSidebar({
@@ -54,8 +56,11 @@ export default function ListingSidebar({
   isSignature,
   soldOut,
   expired,
+  takenNumbers,
 }: Props) {
   const [selectedFormat, setSelectedFormat] = useState<Format>(photo.format);
+  const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+  const { addItem } = useCart();
 
   // Použij admin-nastavenou cenu, fallback na procentní koeficient
   const prices: Record<Format, number> = {
@@ -213,6 +218,55 @@ export default function ListingSidebar({
         </div>
       </div>
 
+      {/* Number picker — pouze pro LIMITED_COUNT edice */}
+      {edition.type === "LIMITED_COUNT" && edition.totalCount !== null && edition.totalCount > 0 && !soldOut && (
+        <div>
+          <div className="flex justify-between items-baseline mb-3">
+            <span className="font-label text-[10px] uppercase tracking-widest font-bold">
+              Vyberte číslo tisku
+            </span>
+            {selectedNumber !== null && (
+              <span className="font-label text-[10px] text-outline">
+                Číslo {String(selectedNumber).padStart(3, "0")}/{edition.totalCount} vybráno
+              </span>
+            )}
+          </div>
+          <div
+            className="grid gap-1.5 overflow-y-auto max-h-48 pr-1"
+            style={{ gridTemplateColumns: `repeat(${edition.totalCount <= 30 ? 6 : 8}, minmax(0, 1fr))` }}
+          >
+            {Array.from({ length: edition.totalCount }, (_, i) => i + 1).map((n) => {
+              const taken = takenNumbers.includes(n);
+              const selected = selectedNumber === n;
+              return (
+                <button
+                  key={n}
+                  type="button"
+                  disabled={taken}
+                  onClick={() => setSelectedNumber(selected ? null : n)}
+                  title={taken ? `Číslo ${n} je obsazeno` : `Vybrat číslo ${n}`}
+                  className={[
+                    "aspect-square flex items-center justify-center text-[10px] font-label font-bold border transition-all",
+                    taken
+                      ? "border-[#e8e8e8] text-[#ccc] cursor-not-allowed bg-[#f9f9f9]"
+                      : selected
+                      ? "border-black bg-black text-white"
+                      : "border-[#e0e0e0] text-[#474747] hover:border-black hover:bg-black hover:text-white",
+                  ].join(" ")}
+                >
+                  {n}
+                </button>
+              );
+            })}
+          </div>
+          {selectedNumber === null && (
+            <p className="font-label text-[9px] uppercase tracking-widest text-outline mt-2">
+              Nekliknete-li, přiřadíme nejnižší dostupné číslo.
+            </p>
+          )}
+        </div>
+      )}
+
       {/* CTA */}
       <AddToCartButton
         item={{
@@ -222,6 +276,7 @@ export default function ListingSidebar({
           imageUrl: photo.imageUrl,
           price: currentPrice,
           tier: edition.tier,
+          requestedNumber: selectedNumber ?? undefined,
         }}
         soldOut={soldOut}
         expired={expired}

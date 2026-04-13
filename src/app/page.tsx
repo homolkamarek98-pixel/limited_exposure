@@ -179,8 +179,8 @@ export default async function HomePage() {
                 },
                 {
                   step: "02",
-                  title: "Zajistěte tisk",
-                  body: "Platba probíhá bezpečně online.\nVaše pořadové číslo je rezervováno okamžitě.",
+                  title: "Rezervujte si své číslo",
+                  body: "Vaše číslo tisku je rezervováno okamžitě po potvrzené platbě.",
                   cta: null,
                   href: null,
                 },
