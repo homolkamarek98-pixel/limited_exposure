@@ -3,8 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PhotoCard from "@/components/PhotoCard";
-import ListingSidebar from "@/components/ListingSidebar";
-import PhotoLightbox from "@/components/PhotoLightbox";
+import ListingProductView from "@/components/ListingProductView";
 import { prisma } from "@/lib/prisma";
 
 async function getData(id: string) {
@@ -72,71 +71,28 @@ export default async function ListingPage({ params }: Props) {
       <Nav active="gallery" />
       <main className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-12 md:pt-24 pb-32">
 
-        {/* ── Product View — asymetrický grid 8/4 ─────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 items-start">
-
-          {/* Fotografie (2/3) */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
-            <PhotoLightbox src={photo.imageUrl} alt={photo.title}>
-              <div className="relative aspect-[4/5] bg-surface-container-highest p-4 md:p-10 overflow-hidden group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={photo.imageUrl}
-                  alt={photo.title}
-                  className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute bottom-8 right-8 flex items-center gap-2 le-glass px-4 py-2 border border-outline/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="M21 21l-4.35-4.35" />
-                    <line x1="11" y1="8" x2="11" y2="14" />
-                    <line x1="8" y1="11" x2="14" y2="11" />
-                  </svg>
-                  <span className="font-label text-[10px] uppercase tracking-widest font-bold">Prohlédnout detail</span>
-                </div>
-              </div>
-            </PhotoLightbox>
-
-            {/* Format indicator */}
-            <div className="outline outline-1 outline-outline-variant/20 p-1">
-              <div className="aspect-[16/3] bg-surface-container-low flex items-center justify-center">
-                <span className="font-label text-[10px] uppercase tracking-widest text-outline">
-                  Tisk na Hahnemühle Photo Rag Baryta • {photo.format === "S" ? "30 × 40" : photo.format === "M" ? "50 × 70" : "70 × 100"} cm
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar — client component (interactive format selector + cart) */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-32 flex flex-col gap-10">
-            <ListingSidebar
-              edition={{
-                id: edition.id,
-                price: edition.price,
-                priceS: edition.priceS,
-                priceL: edition.priceL,
-                type: edition.type,
-                totalCount: edition.totalCount,
-                soldCount: edition.soldCount,
-                availableUntil: edition.availableUntil?.toISOString() ?? null,
-                tier: edition.tier,
-              }}
-              photo={{
-                title: photo.title,
-                imageUrl: photo.imageUrl,
-                format: photo.format as "S" | "M" | "L",
-              }}
-              photographer={{
-                id: photographer.id,
-                name: authorName,
-              }}
-              isSignature={isSignature}
-              soldOut={soldOut}
-              expired={expired}
-              takenNumbers={takenNumbers}
-            />
-          </aside>
-        </div>
+        {/* ── Product View — frame preview + sidebar ──── */}
+        <ListingProductView
+          imageUrl={photo.imageUrl}
+          imageAlt={photo.title}
+          photoFormat={photo.format as "S" | "M" | "L"}
+          edition={{
+            id: edition.id,
+            price: edition.price,
+            priceS: edition.priceS,
+            priceL: edition.priceL,
+            type: edition.type,
+            totalCount: edition.totalCount,
+            soldCount: edition.soldCount,
+            availableUntil: edition.availableUntil?.toISOString() ?? null,
+            tier: edition.tier,
+          }}
+          photographer={{ id: photographer.id, name: authorName }}
+          isSignature={isSignature}
+          soldOut={soldOut}
+          expired={expired}
+          takenNumbers={takenNumbers}
+        />
 
         {/* ── Narrative section ────────────────────────── */}
         <div className="mt-24 md:mt-48 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16">

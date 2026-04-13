@@ -6,8 +6,8 @@ import AddToCartButton from "@/components/AddToCartButton";
 import EditionBadge from "@/components/EditionBadge";
 import { useCart } from "@/lib/cart";
 
-type Format = "S" | "M" | "L";
-type Frame = "NONE" | "OAK" | "BLACK" | "WHITE";
+export type Format = "S" | "M" | "L";
+export type Frame = "NONE" | "OAK" | "BLACK" | "WHITE";
 
 const formatLabels: Record<Format, string> = {
   S: "Small — 30 × 40 cm",
@@ -63,6 +63,8 @@ interface Props {
   soldOut: boolean;
   expired: boolean;
   takenNumbers: number[];
+  selectedFrame: Frame;
+  onFrameChange: (frame: Frame) => void;
 }
 
 export default function ListingSidebar({
@@ -73,9 +75,10 @@ export default function ListingSidebar({
   soldOut,
   expired,
   takenNumbers,
+  selectedFrame,
+  onFrameChange,
 }: Props) {
   const [selectedFormat, setSelectedFormat] = useState<Format>(photo.format);
-  const [selectedFrame, setSelectedFrame] = useState<Frame>("NONE");
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const { addItem } = useCart();
 
@@ -249,7 +252,7 @@ export default function ListingSidebar({
               <button
                 key={key}
                 type="button"
-                onClick={() => setSelectedFrame(key)}
+                onClick={() => onFrameChange(key)}
                 className={[
                   "flex items-center gap-3 px-4 py-3.5 border-2 text-left transition-all duration-150 w-full",
                   active
