@@ -159,9 +159,9 @@ export default async function AboutPage() {
                       ["Inkousty", "Archivní pigmentové"],
                       ["Správa barev", "Fotografem, ne automatem"],
                     ].map(([k, v]) => (
-                      <div key={k} className="flex justify-between items-baseline">
-                        <span className="font-label text-[10px] uppercase tracking-widest text-outline">{k}</span>
-                        <span className="font-body text-sm font-medium">{v}</span>
+                      <div key={k} className="grid grid-cols-[5fr_6fr] gap-x-3 items-start">
+                        <span className="font-label text-[10px] uppercase tracking-widest text-outline leading-snug pt-px">{k}</span>
+                        <span className="font-body text-sm font-medium text-right leading-snug">{v}</span>
                       </div>
                     ))}
                   </div>
