@@ -1,8 +1,10 @@
 import { PrismaClient } from "../src/generated/prisma";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
 const connectionString = process.env.DATABASE_URL!;
-const adapter = new PrismaPg({ connectionString });
+const pool = new Pool({ connectionString, ssl: { rejectUnauthorized: false } });
+const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 // Picsum photos — konzistentní placeholder fotografie (grayscale přes CSS)
@@ -18,6 +20,19 @@ const PHOTOS = [
 
 async function main() {
   console.log("🌱 Seeding Limited Exposure databázi...");
+
+  // ── De-dup edice (oprava duplicit z dřívějšího seedu bez guardu) ──
+  const allEditions = await prisma.edition.findMany({ orderBy: { id: "asc" } });
+  const seen = new Set<string>();
+  for (const e of allEditions) {
+    if (seen.has(e.photoId)) {
+      await prisma.edition.delete({ where: { id: e.id } });
+      console.log(`  🗑  Smazána duplicitní edice ${e.id} (photoId: ${e.photoId})`);
+    } else {
+      seen.add(e.photoId);
+    }
+  }
+
 
   // ── Uživatelé ──────────────────────────────────────────
   const user1 = await prisma.user.upsert({
@@ -70,9 +85,9 @@ async function main() {
 
   // ── Rising Talents ─────────────────────────────────────
   const risingTalents = [
-    { id: "rt-1", title: "Tichá ozvěna", description: "Zachyceno v dekommisionovaném průmyslovém objektu. Prázdnota jako dialog.", imageUrl: PHOTOS[0], format: "M" as const, photographerId: p3.id, price: 890000, totalCount: 50, soldCount: 12 },
-    { id: "rt-2", title: "Mlžné vrcholy", description: "Ranní mlha pohlcuje hřebeny. Fotografie jako stav mysli.", imageUrl: PHOTOS[1], format: "L" as const, photographerId: p3.id, price: 1290000, totalCount: 30, soldCount: 7 },
-    { id: "rt-3", title: "Symetrie víru", description: "Schodiště fotografováno přímo shora. Geometrie jako architektonická modlitba.", imageUrl: PHOTOS[2], format: "M" as const, photographerId: p3.id, price: 750000, totalCount: 50, soldCount: 23 },
+    { id: "rt-1", title: "Tichá ozvěna", description: "Průmyslový interiér, přirozené světlo. Formát M, edice 50 kusů.", imageUrl: PHOTOS[0], format: "M" as const, photographerId: p3.id, price: 890000, totalCount: 50, soldCount: 12 },
+    { id: "rt-2", title: "Mlžné vrcholy", description: "Horská krajina v ranní mlze. Formát L, edice 30 kusů.", imageUrl: PHOTOS[1], format: "L" as const, photographerId: p3.id, price: 1290000, totalCount: 30, soldCount: 7 },
+    { id: "rt-3", title: "Symetrie víru", description: "Architektonické schodiště, pohled shora. Formát M, edice 50 kusů.", imageUrl: PHOTOS[2], format: "M" as const, photographerId: p3.id, price: 750000, totalCount: 50, soldCount: 23 },
   ];
 
   for (const w of risingTalents) {
@@ -91,8 +106,8 @@ async function main() {
 
   // ── Signature Series ───────────────────────────────────
   const signatureSeries = [
-    { id: "ss-1", title: "Prázdnota hmoty", description: "Stěžejní kolekce Juliana Vance. Zkoumání ticha mezi atomy. Každý výtisk opatřen vlastnoručním podpisem fotografa.", imageUrl: PHOTOS[3], format: "L" as const, photographerId: p2.id, price: 18500000, availableUntil: new Date(Date.now() + 48 * 3_600_000) },
-    { id: "ss-2", title: "Tichý výstup", description: "Fotografováno čtyři dny v brutalistickém observatoři. Vance čekal na světlo které eliminuje všechny spekulární odlesky.", imageUrl: PHOTOS[6], format: "L" as const, photographerId: p2.id, price: 32000000, availableUntil: new Date(Date.now() + 72 * 3_600_000) },
+    { id: "ss-1", title: "Prázdnota hmoty", description: "Julian Vance. Formát L. Vlastnoruční podpis fotografa. Časově limitovaná edice.", imageUrl: PHOTOS[3], format: "L" as const, photographerId: p2.id, price: 18500000, availableUntil: new Date(Date.now() + 48 * 3_600_000) },
+    { id: "ss-2", title: "Tichý výstup", description: "Julian Vance. Formát L. Brutalistická architektura, dostupné světlo. Časově limitovaná edice.", imageUrl: PHOTOS[6], format: "L" as const, photographerId: p2.id, price: 32000000, availableUntil: new Date(Date.now() + 72 * 3_600_000) },
   ];
 
   for (const w of signatureSeries) {

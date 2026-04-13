@@ -66,11 +66,10 @@ export default async function HomePage() {
                 Kurátorský výběr · Každý tisk číslován
               </span>
               <h1 className="serif-display text-5xl md:text-7xl font-black leading-[0.95] text-primary">
-                Fotografie v limitovaných edicích.
+                Limitované fotografie od současných autorů.
               </h1>
               <p className="font-body text-base md:text-lg text-on-surface/80 max-w-md leading-relaxed">
-                Originální fotografické tisky v limitovaných edicích.<br />
-                Každý tisk je číslovaný, podepsaný a opatřen certifikátem pravosti.
+                Každá edice má pevně daný počet kusů. Po vyprodání končí.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <Link
@@ -118,7 +117,7 @@ export default async function HomePage() {
                 <h2 className="serif-display text-4xl md:text-5xl font-bold text-primary">Rising Talents</h2>
                 <p className="font-body text-base text-on-surface-variant max-w-md">
                   Fotografové na vzestupu.<br />
-                  Edice mají pevně stanovený počet kusů. Po vyprodání se znovu neotevírají.
+                  Edice mají pevně daný počet kusů. Po vyprodání končí.
                 </p>
               </div>
               <Link
@@ -180,7 +179,7 @@ export default async function HomePage() {
                 {
                   step: "01",
                   title: "Vyberte dílo",
-                  body: "Procházejte kurátorský výběr fotografií.\nKaždé dílo je dostupné v omezené edici nebo po omezenou dobu.",
+                  body: "Procházejte kurátorský výběr fotografií.\nKaždé dílo je dostupné v omezené edici.",
                   cta: "Do galerie",
                   href: "/gallery",
                 },
@@ -255,8 +254,8 @@ export default async function HomePage() {
                       {signature.photo.title}
                     </h2>
                     <p className="font-body text-lg text-on-primary/70 max-w-md leading-relaxed">
-                      Kurátorský výběr děl {signature.photo.photographer?.user?.name ?? "fotografa"}.<br />
-                      Limitovaná edice s vlastnoručním podpisem fotografa.
+                      Limitovaná edice {signature.photo.photographer?.user?.name ?? "fotografa"}.<br />
+                      Po vyprodání nebo uplynutí doby edice končí.
                     </p>
                   </div>
 
