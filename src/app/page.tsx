@@ -22,18 +22,19 @@ async function getData() {
       take: 1,
     }),
     Promise.all([
-      prisma.photographer.aggregate({ _sum: { totalSales: true } }),
+      prisma.photographer.findMany({ select: { totalSales: true } }),
       prisma.edition.count(),
       prisma.photographer.count(),
     ]),
   ]);
 
-  const [salesAgg, editionCount, photographerCount] = stats;
+  const [photographers, editionCount, photographerCount] = stats;
+  const totalSales = photographers.reduce((sum, p) => sum + p.totalSales, 0);
 
   return {
     risingTalents,
     signature: signatureList[0] ?? null,
-    totalSales: salesAgg._sum.totalSales ?? 0,
+    totalSales,
     editionCount,
     photographerCount,
   };

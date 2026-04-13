@@ -6,14 +6,14 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 async function getData() {
-  const [salesAgg, photographerCount, editionCount, photoCount] = await Promise.all([
-    prisma.photographer.aggregate({ _sum: { totalSales: true } }),
+  const [photographers, photographerCount, editionCount, photoCount] = await Promise.all([
+    prisma.photographer.findMany({ select: { totalSales: true } }),
     prisma.photographer.count(),
     prisma.edition.count(),
     prisma.photo.count(),
   ]);
   return {
-    totalSales: salesAgg._sum.totalSales ?? 0,
+    totalSales: photographers.reduce((sum, p) => sum + p.totalSales, 0),
     photographerCount,
     editionCount,
     photoCount,
