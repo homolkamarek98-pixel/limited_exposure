@@ -157,6 +157,56 @@ export async function updateOrderStatus(id: string, formData: FormData) {
   redirect(`/admin/orders/${id}?saved=1`);
 }
 
+export async function createPacketaShipment(id: string) {
+  await requireAdmin();
+
+  const { createPacket, getLabelUrl, getTrackingUrl } = await import("@/lib/packeta");
+
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: { items: { include: { edition: true } } },
+  });
+  if (!order) return { error: "Objednávka nenalezena" };
+  if (order.packetaId) return { error: "Zásilka v Zásilkovně již existuje" };
+
+  const totalValueKc = Math.round(order.totalAmount / 100);
+
+  const result = await createPacket({
+    orderNumber: order.id.slice(-8).toUpperCase(),
+    firstName: order.firstName,
+    lastName: order.lastName,
+    email: order.email,
+    phone: order.phone || undefined,
+    addressId: order.pickupPointId || undefined,
+    street: !order.pickupPointId ? order.addressLine1 : undefined,
+    city: !order.pickupPointId ? order.city : undefined,
+    zip: !order.pickupPointId ? order.postalCode : undefined,
+    country: !order.pickupPointId ? order.country : undefined,
+    value: totalValueKc,
+    weight: 0.5,
+    cod: 0,
+  });
+
+  if (!result.ok) {
+    return { error: result.error };
+  }
+
+  const trackingUrl = getTrackingUrl(result.barcode);
+  const labelUrl = getLabelUrl(result.barcode);
+
+  await prisma.order.update({
+    where: { id },
+    data: {
+      packetaId: result.barcode,
+      trackingNumber: result.barcode,
+      status: "PROCESSING",
+    },
+  });
+
+  revalidatePath(`/admin/orders/${id}`);
+  return { ok: true, barcode: result.barcode, trackingUrl, labelUrl };
+}
+
 export async function sendShippingEmail(id: string, formData: FormData) {
   await requireAdmin();
 

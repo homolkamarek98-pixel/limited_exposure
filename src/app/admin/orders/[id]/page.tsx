@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { updateOrderStatus, sendShippingEmail } from "@/lib/actions";
+import CreatePacketaButton from "@/components/CreatePacketaButton";
+import { getLabelUrl, getTrackingUrl } from "@/lib/packeta";
 
 export const dynamic = "force-dynamic";
 
@@ -158,6 +160,54 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
               )}
             </dl>
           </div>
+
+          {/* Zásilkovna — vytvořit zásilku */}
+          {order.carrier === "ZASILKOVNA" && (
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="font-semibold text-sm">Zásilkovna</h2>
+                {order.pickupPointName && (
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                    {order.pickupPointName}
+                  </span>
+                )}
+              </div>
+
+              {order.packetaId ? (
+                /* Zásilka již existuje */
+                <div className="space-y-3">
+                  <div className="bg-green-50 border border-green-200 rounded p-3">
+                    <p className="text-xs font-semibold text-green-800 mb-1">✓ Zásilka v systému</p>
+                    <p className="text-xs text-green-700 font-mono">Barcode: {order.packetaId}</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <a
+                      href={getLabelUrl(order.packetaId)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block bg-black text-white px-4 py-2 text-xs font-medium rounded hover:opacity-80"
+                    >
+                      Tisk štítku (A6) →
+                    </a>
+                    <a
+                      href={getTrackingUrl(order.packetaId)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block border border-gray-300 px-4 py-2 text-xs font-medium rounded hover:border-black transition-colors"
+                    >
+                      Sledovat zásilku →
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                /* Zásilka ještě neexistuje */
+                <CreatePacketaButton
+                  orderId={id}
+                  hasPickupPoint={!!order.pickupPointId}
+                />
+              )}
+            </div>
+          )}
 
           {/* Shipping email form */}
           {(order.status === "PAID" || order.status === "PROCESSING") && (

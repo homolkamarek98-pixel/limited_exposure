@@ -5,20 +5,23 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import PacketaWidget from "@/components/PacketaWidget";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod/v4";
 import { createOrder } from "@/lib/actions";
+
+const PACKETA_API_KEY = process.env.NEXT_PUBLIC_PACKETA_API_KEY ?? "";
 
 const schema = z.object({
   firstName: z.string().min(2, "Povinné"),
   lastName: z.string().min(2, "Povinné"),
   email: z.email("Neplatný email"),
   phone: z.string().optional(),
-  addressLine1: z.string().min(5, "Povinné"),
+  addressLine1: z.string().optional(),
   addressLine2: z.string().optional(),
-  city: z.string().min(2, "Povinné"),
-  postalCode: z.string().min(3, "Povinné"),
+  city: z.string().optional(),
+  postalCode: z.string().optional(),
   country: z.string().min(2, "Povinné"),
   carrier: z.enum(["ZASILKOVNA", "CZECH_POST", "DPD", "PPL", "TOP_TRANS"]),
   notes: z.string().optional(),
@@ -38,12 +41,21 @@ const carriers = [
   { value: "TOP_TRANS", label: "Top Trans", price: 0, note: "Kurýr pro formát L — cena na dotaz" },
 ] as const;
 
+interface PickupPoint {
+  id: string;
+  name: string;
+  nameStreet: string;
+  city: string;
+  zip: string;
+}
+
 export default function CheckoutPage() {
   const { items, totalAmount, clearCart } = useCart();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pickupPoint, setPickupPoint] = useState<PickupPoint | null>(null);
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -51,6 +63,7 @@ export default function CheckoutPage() {
   });
 
   const selectedCarrier = watch("carrier");
+  const isZasilkovna = selectedCarrier === "ZASILKOVNA";
   const carrierPrice = carriers.find(c => c.value === selectedCarrier)?.price ?? 0;
   const grandTotal = totalAmount() + carrierPrice;
 
@@ -74,6 +87,17 @@ export default function CheckoutPage() {
   }
 
   async function onSubmit(data: FormData) {
+    // Validace — Zásilkovna potřebuje výdejní místo
+    if (isZasilkovna && !pickupPoint) {
+      setError("Vyberte prosím výdejní místo Zásilkovny.");
+      return;
+    }
+    // Ostatní dopravci potřebují adresu
+    if (!isZasilkovna && (!data.addressLine1 || !data.city || !data.postalCode)) {
+      setError("Vyplňte prosím doručovací adresu.");
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
@@ -84,6 +108,16 @@ export default function CheckoutPage() {
       });
       formData.set("items", JSON.stringify(items));
       formData.set("totalAmount", String(grandTotal));
+
+      // Zásilkovna data
+      if (pickupPoint) {
+        formData.set("pickupPointId", pickupPoint.id);
+        formData.set("pickupPointName", pickupPoint.name);
+        // Pro adresu použijeme pickup point data
+        formData.set("addressLine1", pickupPoint.nameStreet);
+        formData.set("city", pickupPoint.city);
+        formData.set("postalCode", pickupPoint.zip);
+      }
 
       const result = await createOrder(formData);
       if (result.error) {
@@ -99,6 +133,9 @@ export default function CheckoutPage() {
       setSubmitting(false);
     }
   }
+
+  const inputCls = "w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors";
+  const labelCls = "font-label text-[10px] uppercase tracking-widest block mb-2";
 
   return (
     <>
@@ -121,64 +158,23 @@ export default function CheckoutPage() {
               </h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="font-label text-[10px] uppercase tracking-widest block mb-2">Jméno *</label>
-                  <input {...register("firstName")} className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors" />
+                  <label className={labelCls}>Jméno *</label>
+                  <input {...register("firstName")} className={inputCls} />
                   {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName.message}</p>}
                 </div>
                 <div>
-                  <label className="font-label text-[10px] uppercase tracking-widest block mb-2">Příjmení *</label>
-                  <input {...register("lastName")} className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors" />
+                  <label className={labelCls}>Příjmení *</label>
+                  <input {...register("lastName")} className={inputCls} />
                   {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName.message}</p>}
                 </div>
                 <div>
-                  <label className="font-label text-[10px] uppercase tracking-widest block mb-2">Email *</label>
-                  <input {...register("email")} type="email" className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors" />
+                  <label className={labelCls}>Email *</label>
+                  <input {...register("email")} type="email" className={inputCls} />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                 </div>
                 <div>
-                  <label className="font-label text-[10px] uppercase tracking-widest block mb-2">Telefon</label>
-                  <input {...register("phone")} type="tel" className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors" />
-                </div>
-              </div>
-            </section>
-
-            {/* Address */}
-            <section>
-              <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-8 pb-3 border-b border-[#e8e8e8]">
-                Doručovací adresa
-              </h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="font-label text-[10px] uppercase tracking-widest block mb-2">Ulice a číslo *</label>
-                  <input {...register("addressLine1")} className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors" />
-                  {errors.addressLine1 && <p className="text-red-500 text-xs mt-1">{errors.addressLine1.message}</p>}
-                </div>
-                <div>
-                  <label className="font-label text-[10px] uppercase tracking-widest block mb-2">Doplněk adresy</label>
-                  <input {...register("addressLine2")} placeholder="Byt, patro, firma…" className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors placeholder:text-[#bbb]" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="font-label text-[10px] uppercase tracking-widest block mb-2">Město *</label>
-                    <input {...register("city")} className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors" />
-                    {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city.message}</p>}
-                  </div>
-                  <div>
-                    <label className="font-label text-[10px] uppercase tracking-widest block mb-2">PSČ *</label>
-                    <input {...register("postalCode")} className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors" />
-                    {errors.postalCode && <p className="text-red-500 text-xs mt-1">{errors.postalCode.message}</p>}
-                  </div>
-                </div>
-                <div>
-                  <label className="font-label text-[10px] uppercase tracking-widest block mb-2">Stát *</label>
-                  <select {...register("country")} className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors">
-                    <option value="CZ">Česká republika</option>
-                    <option value="SK">Slovensko</option>
-                    <option value="DE">Německo</option>
-                    <option value="AT">Rakousko</option>
-                    <option value="PL">Polsko</option>
-                    <option value="OTHER">Jiný stát</option>
-                  </select>
+                  <label className={labelCls}>Telefon</label>
+                  <input {...register("phone")} type="tel" className={inputCls} />
                 </div>
               </div>
             </section>
@@ -193,19 +189,12 @@ export default function CheckoutPage() {
                   <label
                     key={c.value}
                     className={[
-                      "flex items-center justify-between p-4 border cursor-pointer transition-colors",
-                      selectedCarrier === c.value
-                        ? "border-black bg-[#fafafa]"
-                        : "border-[#e0e0e0] hover:border-black",
+                      "flex items-center justify-between p-4 border-2 cursor-pointer transition-colors",
+                      selectedCarrier === c.value ? "border-black bg-[#fafafa]" : "border-[#e0e0e0] hover:border-black",
                     ].join(" ")}
                   >
                     <div className="flex items-center gap-4">
-                      <input
-                        {...register("carrier")}
-                        type="radio"
-                        value={c.value}
-                        className="sr-only"
-                      />
+                      <input {...register("carrier")} type="radio" value={c.value} className="sr-only" />
                       <div className={["w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0", selectedCarrier === c.value ? "border-black" : "border-[#ccc]"].join(" ")}>
                         {selectedCarrier === c.value && <div className="w-2 h-2 rounded-full bg-black" />}
                       </div>
@@ -222,15 +211,67 @@ export default function CheckoutPage() {
               </div>
             </section>
 
+            {/* Zásilkovna widget — zobrazí se jen pro ZASILKOVNA */}
+            {isZasilkovna ? (
+              <section>
+                <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
+                  Výdejní místo Zásilkovny
+                </h2>
+                <PacketaWidget
+                  apiKey={PACKETA_API_KEY}
+                  onSelect={setPickupPoint}
+                  selected={pickupPoint}
+                />
+                {!pickupPoint && (
+                  <p className="font-label text-[10px] text-[#aaa] uppercase tracking-widest mt-3">
+                    Vyberte výdejní místo kliknutím na tlačítko výše
+                  </p>
+                )}
+              </section>
+            ) : (
+              /* Adresa pro ostatní dopravce */
+              <section>
+                <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-8 pb-3 border-b border-[#e8e8e8]">
+                  Doručovací adresa
+                </h2>
+                <div className="space-y-4">
+                  <div>
+                    <label className={labelCls}>Ulice a číslo *</label>
+                    <input {...register("addressLine1")} className={inputCls} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Doplněk adresy</label>
+                    <input {...register("addressLine2")} placeholder="Byt, patro, firma…" className={inputCls + " placeholder:text-[#bbb]"} />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className={labelCls}>Město *</label>
+                      <input {...register("city")} className={inputCls} />
+                    </div>
+                    <div>
+                      <label className={labelCls}>PSČ *</label>
+                      <input {...register("postalCode")} className={inputCls} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelCls}>Stát *</label>
+                    <select {...register("country")} className={inputCls}>
+                      <option value="CZ">Česká republika</option>
+                      <option value="SK">Slovensko</option>
+                      <option value="DE">Německo</option>
+                      <option value="AT">Rakousko</option>
+                      <option value="PL">Polsko</option>
+                      <option value="OTHER">Jiný stát</option>
+                    </select>
+                  </div>
+                </div>
+              </section>
+            )}
+
             {/* Notes */}
             <section>
               <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-4">Poznámka k objednávce</h2>
-              <textarea
-                {...register("notes")}
-                rows={3}
-                className="w-full border border-[#e0e0e0] bg-white px-4 py-3 font-body text-sm focus:outline-none focus:border-black transition-colors resize-none"
-                placeholder="Nepovinné…"
-              />
+              <textarea {...register("notes")} rows={3} className={inputCls + " resize-none"} placeholder="Nepovinné…" />
             </section>
 
           </div>
@@ -263,9 +304,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="font-label text-xs uppercase tracking-widest text-[#777]">Doprava</span>
-                  <span className="font-label text-xs">
-                    {carrierPrice === 0 ? "Na dotaz" : formatPrice(carrierPrice)}
-                  </span>
+                  <span className="font-label text-xs">{carrierPrice === 0 ? "Na dotaz" : formatPrice(carrierPrice)}</span>
                 </div>
                 <div className="flex justify-between pt-3 border-t border-[#e8e8e8]">
                   <span className="font-label text-xs uppercase tracking-widest font-bold">Celkem</span>
@@ -280,9 +319,7 @@ export default function CheckoutPage() {
                 </p>
               </div>
 
-              {error && (
-                <p className="text-red-600 text-sm mb-4 font-body">{error}</p>
-              )}
+              {error && <p className="text-red-600 text-sm mb-4 font-body">{error}</p>}
 
               <button
                 type="submit"

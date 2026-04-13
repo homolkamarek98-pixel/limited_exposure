@@ -110,6 +110,12 @@ model Order {
   paymentReference String? // variabilní symbol pro bankovní převod
   stripePaymentId  String?       @unique
 
+  // Zásilkovna
+  pickupPointId   String? // ID výdejního místa Zásilkovny
+  pickupPointName String? // Název výdejního místa (pro zobrazení)
+  packetaId       String? // Barcode zásilky vrácený Zásilkovnou po vytvoření
+  trackingNumber  String? // Číslo pro sledování zásilky
+
   // Stav
   status    OrderStatus @default(PENDING_PAYMENT)
   notes     String      @default("")
