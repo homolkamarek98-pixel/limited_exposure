@@ -79,21 +79,48 @@ export default async function NewEditionPage({ searchParams }: { searchParams: S
           </div>
         </div>
 
-        {/* Price */}
-        <div className="space-y-2">
+        {/* Prices */}
+        <div className="space-y-3">
           <label className="font-label text-[10px] uppercase tracking-widest font-bold block text-on-surface-variant">
-            Cena (Kč)
+            Ceny podle formátu (Kč)
           </label>
-          <input
-            type="number"
-            name="price"
-            min="0"
-            step="100"
-            placeholder="9000"
-            required
-            className="w-full bg-surface-container-low border border-outline-variant/30 px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"
-          />
-          <p className="font-label text-[10px] uppercase tracking-widest text-outline">Zadejte v celých Kč — 9 000 = 9 000 Kč</p>
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Small (30×40)</label>
+              <input
+                type="number"
+                name="priceS"
+                min="0"
+                step="100"
+                placeholder="auto"
+                className="w-full bg-surface-container-low border border-outline-variant/30 px-3 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+            <div>
+              <label className="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Medium (50×70) *</label>
+              <input
+                type="number"
+                name="price"
+                min="0"
+                step="100"
+                placeholder="9000"
+                required
+                className="w-full bg-surface-container-low border border-outline-variant/30 px-3 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+            <div>
+              <label className="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Large (70×100)</label>
+              <input
+                type="number"
+                name="priceL"
+                min="0"
+                step="100"
+                placeholder="auto"
+                className="w-full bg-surface-container-low border border-outline-variant/30 px-3 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+          </div>
+          <p className="font-label text-[10px] text-outline">Medium je povinné. S a L jsou volitelné — prázdné = auto (S −15 %, L +25 %)</p>
         </div>
 
         {/* LIMITED_COUNT fields */}

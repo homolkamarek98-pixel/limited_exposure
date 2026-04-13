@@ -100,10 +100,12 @@ export default async function ListingPage({ params }: Props) {
               edition={{
                 id: edition.id,
                 price: edition.price,
+                priceS: edition.priceS,
+                priceL: edition.priceL,
                 type: edition.type,
                 totalCount: edition.totalCount,
                 soldCount: edition.soldCount,
-                availableUntil: edition.availableUntil,
+                availableUntil: edition.availableUntil?.toISOString() ?? null,
                 tier: edition.tier,
               }}
               photo={{

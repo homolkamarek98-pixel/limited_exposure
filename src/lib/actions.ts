@@ -258,6 +258,13 @@ export async function deletePhoto(id: string) {
 
 // ── Editions ─────────────────────────────────────────────────
 
+function parsePriceField(formData: FormData, name: string): number | null {
+  const raw = String(formData.get(name) ?? "").trim();
+  if (!raw) return null;
+  const val = Math.round(parseFloat(raw) * 100);
+  return isNaN(val) ? null : val;
+}
+
 export async function createEdition(formData: FormData) {
   await requireAdmin();
 
@@ -270,6 +277,8 @@ export async function createEdition(formData: FormData) {
       type,
       tier: (formData.get("tier") as "RISING_TALENT" | "SIGNATURE") ?? "RISING_TALENT",
       price: Math.round(parseFloat(String(formData.get("price") ?? "0")) * 100),
+      priceS: parsePriceField(formData, "priceS"),
+      priceL: parsePriceField(formData, "priceL"),
       totalCount: type === "LIMITED_COUNT" ? (parseInt(String(formData.get("totalCount") ?? "0"), 10) || null) : null,
       soldCount: parseInt(String(formData.get("soldCount") ?? "0"), 10) || 0,
       availableUntil: type === "TIME_WINDOW" && availableUntilRaw
@@ -295,6 +304,8 @@ export async function updateEdition(id: string, formData: FormData) {
       type,
       tier: (formData.get("tier") as "RISING_TALENT" | "SIGNATURE") ?? "RISING_TALENT",
       price: Math.round(parseFloat(String(formData.get("price") ?? "0")) * 100),
+      priceS: parsePriceField(formData, "priceS"),
+      priceL: parsePriceField(formData, "priceL"),
       totalCount: type === "LIMITED_COUNT" ? (parseInt(String(formData.get("totalCount") ?? "0"), 10) || null) : null,
       soldCount: parseInt(String(formData.get("soldCount") ?? "0"), 10) || 0,
       availableUntil: type === "TIME_WINDOW" && availableUntilRaw

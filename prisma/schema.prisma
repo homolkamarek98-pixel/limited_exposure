@@ -64,7 +64,9 @@ model Edition {
   photoId        String
   photo          Photo       @relation(fields: [photoId], references: [id])
   type           EditionType
-  price          Int // v haléřích — např. 500000 = 5 000 Kč
+  price          Int // Medium — základ v haléřích (50×70 cm)
+  priceS         Int? // Small override — 30×40 cm (null = 85 % z price)
+  priceL         Int? // Large override — 70×100 cm (null = 125 % z price)
   totalCount     Int? // max kusů (pouze pro limited_count)
   soldCount      Int         @default(0)
   availableUntil DateTime? // deadline (pouze pro time_window)

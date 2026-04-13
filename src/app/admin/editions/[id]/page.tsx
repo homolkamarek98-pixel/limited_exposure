@@ -88,18 +88,48 @@ export default async function EditEditionPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Price */}
-        <div className="space-y-2">
-          <label className="font-label text-[10px] uppercase tracking-widest font-bold block text-on-surface-variant">Cena (Kč)</label>
-          <input
-            type="number"
-            name="price"
-            min="0"
-            step="100"
-            defaultValue={edition.price / 100}
-            required
-            className="w-full bg-surface-container-low border border-outline-variant/30 px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"
-          />
+        {/* Prices */}
+        <div className="space-y-4">
+          <label className="font-label text-[10px] uppercase tracking-widest font-bold block text-on-surface-variant">Ceny podle formátu (Kč)</label>
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Small (30×40)</label>
+              <input
+                type="number"
+                name="priceS"
+                min="0"
+                step="100"
+                defaultValue={edition.priceS != null ? edition.priceS / 100 : ""}
+                placeholder={`${Math.round(edition.price * 0.85 / 100)} (auto)`}
+                className="w-full bg-surface-container-low border border-outline-variant/30 px-3 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+            <div>
+              <label className="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Medium (50×70) *</label>
+              <input
+                type="number"
+                name="price"
+                min="0"
+                step="100"
+                defaultValue={edition.price / 100}
+                required
+                className="w-full bg-surface-container-low border border-outline-variant/30 px-3 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+            <div>
+              <label className="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Large (70×100)</label>
+              <input
+                type="number"
+                name="priceL"
+                min="0"
+                step="100"
+                defaultValue={edition.priceL != null ? edition.priceL / 100 : ""}
+                placeholder={`${Math.round(edition.price * 1.25 / 100)} (auto)`}
+                className="w-full bg-surface-container-low border border-outline-variant/30 px-3 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+          </div>
+          <p className="font-label text-[10px] text-outline">S a L jsou volitelné — prázdné pole = automatický výpočet (S −15 %, L +25 %)</p>
         </div>
 
         {/* Count fields */}
