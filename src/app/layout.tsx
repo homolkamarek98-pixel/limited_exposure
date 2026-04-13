@@ -30,11 +30,11 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "Limited Exposure — Sběratelská fotografie",
+    default: "Limited Exposure — Limitované fotografie od současných autorů",
     template: "%s — Limited Exposure",
   },
   description:
-    "Kurátorské tržiště limitovaných fotografických edic. Každý tisk je opatřen certifikátem pravosti.",
+    "Limitované fotografické edice s certifikátem pravosti. Každé dílo má pevně daný počet kusů — po vyprodání nekoupíte znovu.",
   openGraph: {
     siteName: "Limited Exposure",
     locale: "cs_CZ",
