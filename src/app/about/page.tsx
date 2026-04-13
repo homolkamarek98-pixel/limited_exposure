@@ -1,17 +1,10 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-async function getData() {
-  const photographerCount = await prisma.photographer.count();
-  return { photographerCount };
-}
-
 export default async function AboutPage() {
-  const { photographerCount } = await getData();
 
   return (
     <>
@@ -47,17 +40,17 @@ export default async function AboutPage() {
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-outline-variant/20 border-b border-outline-variant/20">
               {[
-                { value: "100%", label: "Tisků opatřených certifikátem pravosti" },
-                { value: `${photographerCount}`, label: "Kurátorsky vybraných fotografů" },
-                { value: "3×", label: "Výběrové kroky pro každé dílo v kolekci" },
-                { value: "100+", label: "Let archivní stálosti každého tisku" },
-              ].map(({ value, label }) => (
-                <div key={label} className="px-8 py-12 md:py-16 space-y-2">
-                  <div className="serif-display text-5xl md:text-6xl font-black tracking-tighter">
-                    {value}
+                { title: "Kurátorský výběr", body: "Každé dílo prochází výběrovým procesem před zařazením do kolekce." },
+                { title: "Limitované edice", body: "Pevně daný počet kusů. Po vyprodání edice nekoupíte znovu." },
+                { title: "Pojištěná doprava", body: "Archivní balení, pojištěná zásilka až ke dveřím." },
+                { title: "Certifikát pravosti", body: "Každý tisk je číslován, podepsán a opatřen certifikátem." },
+              ].map(({ title, body }) => (
+                <div key={title} className="px-8 py-12 md:py-16 space-y-3">
+                  <div className="font-headline text-lg font-black tracking-tight">
+                    {title}
                   </div>
-                  <div className="font-label text-[10px] uppercase tracking-widest text-outline leading-snug max-w-[140px]">
-                    {label}
+                  <div className="font-label text-[10px] uppercase tracking-widest text-outline leading-snug max-w-[180px]">
+                    {body}
                   </div>
                 </div>
               ))}

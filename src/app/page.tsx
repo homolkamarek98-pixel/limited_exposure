@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 async function getData() {
-  const [risingTalents, signatureList, stats] = await Promise.all([
+  const [risingTalents, signatureList] = await Promise.all([
     prisma.edition.findMany({
       where: { tier: "RISING_TALENT" },
       include: { photo: { include: { photographer: { include: { user: { select: { id: true, name: true } } } } } } },
@@ -21,27 +21,16 @@ async function getData() {
       orderBy: { photo: { photographer: { totalSales: "desc" } } },
       take: 1,
     }),
-    Promise.all([
-      prisma.photographer.findMany({ select: { totalSales: true } }),
-      prisma.edition.count(),
-      prisma.photographer.count(),
-    ]),
   ]);
-
-  const [photographers, editionCount, photographerCount] = stats;
-  const totalSales = photographers.reduce((sum, p) => sum + p.totalSales, 0);
 
   return {
     risingTalents,
     signature: signatureList[0] ?? null,
-    totalSales,
-    editionCount,
-    photographerCount,
   };
 }
 
 export default async function HomePage() {
-  const { risingTalents, signature, totalSales, editionCount, photographerCount } = await getData();
+  const { risingTalents, signature } = await getData();
 
   return (
     <>
@@ -90,18 +79,17 @@ export default async function HomePage() {
         </section>
 
         {/* ── Social proof bar ───────────────────────────── */}
-        <section className="bg-primary text-on-primary py-6">
+        <section className="bg-primary text-on-primary py-5">
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-0 divide-x divide-on-primary/20">
+            <div className="flex flex-wrap justify-center md:justify-between items-center gap-0 divide-x divide-on-primary/20">
               {[
-                { value: `${totalSales}+`, label: "Prodané tisky" },
-                { value: photographerCount.toString(), label: "Vybraní fotografové" },
-                { value: editionCount.toString(), label: "Aktivní edice" },
-                { value: "100%", label: "Certifikované tisky" },
-              ].map(({ value, label }) => (
-                <div key={label} className="flex-1 text-center px-6 min-w-[140px]">
-                  <div className="serif-display text-3xl md:text-4xl font-black">{value}</div>
-                  <div className="font-label text-[10px] uppercase tracking-widest text-on-primary/60 mt-1">{label}</div>
+                "Kurátorský výběr",
+                "Limitované edice",
+                "Pojištěná doprava",
+                "Certifikát pravosti",
+              ].map((label) => (
+                <div key={label} className="flex-1 text-center px-6 py-4 min-w-[140px]">
+                  <span className="font-label text-[10px] md:text-xs uppercase tracking-widest text-on-primary/80">{label}</span>
                 </div>
               ))}
             </div>
