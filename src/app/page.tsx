@@ -81,14 +81,20 @@ export default async function HomePage() {
         {/* ── Social proof bar ───────────────────────────── */}
         <section className="bg-primary text-on-primary py-5">
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            <div className="flex flex-wrap justify-center md:justify-between items-center gap-0 divide-x divide-on-primary/20">
-              {[
-                "Kurátorský výběr",
-                "Limitované edice",
-                "Pojištěná doprava",
-                "Certifikát pravosti",
-              ].map((label) => (
-                <div key={label} className="flex-1 text-center px-6 py-4 min-w-[140px]">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-x-0">
+              {(["Kurátorský výběr", "Limitované edice", "Pojištěná doprava", "Certifikát pravosti"] as const).map((label, i) => (
+                <div
+                  key={label}
+                  className={[
+                    "text-center px-4 py-4",
+                    /* mobile: right column gets left border, bottom row gets top border */
+                    i === 1 || i === 3 ? "border-l border-on-primary/20" : "",
+                    i >= 2 ? "border-t border-on-primary/20" : "",
+                    /* desktop overrides: 4-column row, only vertical dividers */
+                    i >= 1 ? "md:border-l md:border-on-primary/20" : "",
+                    i >= 2 ? "md:border-t-0" : "",
+                  ].filter(Boolean).join(" ")}
+                >
                   <span className="font-label text-[10px] md:text-xs uppercase tracking-widest text-on-primary/80">{label}</span>
                 </div>
               ))}
