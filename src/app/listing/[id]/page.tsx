@@ -2,18 +2,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import EditionBadge from "@/components/EditionBadge";
 import PhotoCard from "@/components/PhotoCard";
-import AddToCartButton from "@/components/AddToCartButton";
+import ListingSidebar from "@/components/ListingSidebar";
 import { prisma } from "@/lib/prisma";
-
-function formatPrice(halere: number) {
-  return new Intl.NumberFormat("cs-CZ", {
-    style: "currency",
-    currency: "CZK",
-    maximumFractionDigits: 0,
-  }).format(halere / 100);
-}
 
 async function getData(id: string) {
   const edition = await prisma.edition.findUnique({
@@ -37,7 +28,7 @@ async function getData(id: string) {
 
   if (!edition) return null;
 
-  // Filtrujeme aktuální foto mimo "Další práce" — photo ID, ne edition ID
+  // Filtrujeme aktuální foto mimo "Další práce"
   edition.photo.photographer.photos = edition.photo.photographer.photos.filter(
     (p) => p.id !== edition.photo.id
   );
@@ -56,8 +47,14 @@ export default async function ListingPage({ params }: Props) {
   const { photographer } = photo;
   const authorName = photographer.user.name ?? "Neznámý fotograf";
   const isSignature = edition.tier === "SIGNATURE";
-  const soldOut = edition.type === "LIMITED_COUNT" && edition.totalCount !== null && edition.soldCount >= edition.totalCount;
-  const expired = edition.type === "TIME_WINDOW" && edition.availableUntil !== null && edition.availableUntil < new Date();
+  const soldOut =
+    edition.type === "LIMITED_COUNT" &&
+    edition.totalCount !== null &&
+    edition.soldCount >= edition.totalCount;
+  const expired =
+    edition.type === "TIME_WINDOW" &&
+    edition.availableUntil !== null &&
+    edition.availableUntil < new Date();
 
   return (
     <>
@@ -76,14 +73,18 @@ export default async function ListingPage({ params }: Props) {
                 alt={photo.title}
                 className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105"
               />
-              {/* Inspect badge */}
               <div className="absolute bottom-8 right-8 flex items-center gap-2 le-glass px-4 py-2 border border-outline/20">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="M21 21l-4.35-4.35" />
+                  <line x1="11" y1="8" x2="11" y2="14" />
+                  <line x1="8" y1="11" x2="14" y2="11" />
+                </svg>
                 <span className="font-label text-[10px] uppercase tracking-widest font-bold">Prohlédnout detail</span>
               </div>
             </div>
 
-            {/* Ghost border frame indicator */}
+            {/* Format indicator */}
             <div className="outline outline-1 outline-outline-variant/20 p-1">
               <div className="aspect-[16/3] bg-surface-container-low flex items-center justify-center">
                 <span className="font-label text-[10px] uppercase tracking-widest text-outline">
@@ -93,83 +94,31 @@ export default async function ListingPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Sidebar metadata (1/3) */}
+          {/* Sidebar — client component (interactive format selector + cart) */}
           <aside className="lg:col-span-4 lg:sticky lg:top-32 flex flex-col gap-10">
-            {/* Breadcrumb */}
-            <div>
-              <span className="font-label text-[10px] uppercase tracking-[0.2em] text-outline mb-4 flex items-center gap-2">
-                <span>{isSignature ? "Signature Series" : "Rising Talents"}</span>
-                <span className="h-px w-8 bg-outline-variant inline-block" />
-              </span>
-              <h1 className="serif-display text-4xl md:text-5xl font-black tracking-tighter leading-tight mb-2">
-                {photo.title}
-              </h1>
-              <Link
-                href={`/photographer/${photographer.id}`}
-                className="font-body text-lg font-medium text-tertiary hover:text-primary transition-colors"
-              >
-                od {authorName}
-              </Link>
-            </div>
-
-            {/* Price + edition */}
-            <div className="flex items-baseline justify-between py-6 border-y border-outline-variant/20">
-              <span className="serif-display text-3xl font-bold">{formatPrice(edition.price)}</span>
-              <EditionBadge
-                type={edition.type}
-                totalCount={edition.totalCount}
-                soldCount={edition.soldCount}
-                availableUntil={edition.availableUntil}
-                variant="detail"
-              />
-            </div>
-
-            {/* Format options */}
-            <div>
-              <span className="font-label text-[10px] uppercase tracking-widest font-bold mb-4 block">
-                Formát tisku
-              </span>
-              <div className="flex flex-col gap-2">
-                {(["S", "M", "L"] as const).map((f) => (
-                  <label
-                    key={f}
-                    className={[
-                      "flex items-center justify-between p-4 border cursor-pointer transition-colors",
-                      photo.format === f
-                        ? "border-primary bg-surface-container-lowest"
-                        : "border-outline-variant/30 hover:border-primary",
-                    ].join(" ")}
-                  >
-                    <span className="font-label text-xs uppercase tracking-tight">
-                      {f === "S" ? "Small — 30 × 40 cm" : f === "M" ? "Medium — 50 × 70 cm" : "Large — 70 × 100 cm"}
-                    </span>
-                    <span className="font-label text-xs text-outline">
-                      {f === photo.format ? "Výchozí" : f === "L" ? "+25 %" : ""}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* CTA */}
-            <AddToCartButton
-              item={{
-                editionId: edition.id,
-                photoTitle: photo.title,
-                photographerName: authorName,
-                imageUrl: photo.imageUrl,
+            <ListingSidebar
+              edition={{
+                id: edition.id,
                 price: edition.price,
+                type: edition.type,
+                totalCount: edition.totalCount,
+                soldCount: edition.soldCount,
+                availableUntil: edition.availableUntil,
                 tier: edition.tier,
               }}
+              photo={{
+                title: photo.title,
+                imageUrl: photo.imageUrl,
+                format: photo.format as "S" | "M" | "L",
+              }}
+              photographer={{
+                id: photographer.id,
+                name: authorName,
+              }}
+              isSignature={isSignature}
               soldOut={soldOut}
               expired={expired}
             />
-
-            {/* Shipping note */}
-            <div className="flex items-center gap-3 text-outline">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-              <span className="font-label text-[10px] uppercase tracking-widest">Pojištěná světová doprava v ceně</span>
-            </div>
           </aside>
         </div>
 
