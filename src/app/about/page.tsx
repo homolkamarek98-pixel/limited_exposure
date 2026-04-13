@@ -6,22 +6,12 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 async function getData() {
-  const [photographers, photographerCount, editionCount, photoCount] = await Promise.all([
-    prisma.photographer.findMany({ select: { totalSales: true } }),
-    prisma.photographer.count(),
-    prisma.edition.count(),
-    prisma.photo.count(),
-  ]);
-  return {
-    totalSales: photographers.reduce((sum, p) => sum + p.totalSales, 0),
-    photographerCount,
-    editionCount,
-    photoCount,
-  };
+  const photographerCount = await prisma.photographer.count();
+  return { photographerCount };
 }
 
 export default async function AboutPage() {
-  const { totalSales, photographerCount, editionCount, photoCount } = await getData();
+  const { photographerCount } = await getData();
 
   return (
     <>
@@ -57,14 +47,14 @@ export default async function AboutPage() {
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-outline-variant/20 border-b border-outline-variant/20">
               {[
-                { value: `${totalSales}`, label: "Tisků v soukromých kolekcích", suffix: "" },
-                { value: `${photographerCount}`, label: "Kurátorsky vybraných fotografů", suffix: "" },
-                { value: `${photoCount}`, label: "Děl v archivu", suffix: "" },
-                { value: "100+", label: "Let archivní stálosti každého tisku", suffix: "" },
-              ].map(({ value, label, suffix }) => (
+                { value: "100%", label: "Tisků opatřených certifikátem pravosti" },
+                { value: `${photographerCount}`, label: "Kurátorsky vybraných fotografů" },
+                { value: "3×", label: "Výběrové kroky pro každé dílo v kolekci" },
+                { value: "100+", label: "Let archivní stálosti každého tisku" },
+              ].map(({ value, label }) => (
                 <div key={label} className="px-8 py-12 md:py-16 space-y-2">
                   <div className="serif-display text-5xl md:text-6xl font-black tracking-tighter">
-                    {value}{suffix}
+                    {value}
                   </div>
                   <div className="font-label text-[10px] uppercase tracking-widest text-outline leading-snug max-w-[140px]">
                     {label}
@@ -315,7 +305,7 @@ export default async function AboutPage() {
               Vaše první dílo čeká.
             </h2>
             <p className="font-body text-lg text-on-surface-variant max-w-lg mx-auto leading-relaxed">
-              {editionCount} dostupných edic. Každá s pevným limitem. Některé se uzavřou dříve, než čekáte.
+              Kurátorský výběr limitovaných edic. Každá s pevným limitem. Některé se uzavřou dříve, než čekáte.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

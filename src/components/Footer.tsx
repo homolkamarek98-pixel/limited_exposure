@@ -40,9 +40,9 @@ export default function Footer() {
             <div className="space-y-4">
               <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Legal</span>
               <div className="space-y-3">
-                <Link href="#" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Podmínky použití</Link>
-                <Link href="#" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Ochrana soukromí</Link>
-                <Link href="#" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Reklamace</Link>
+                <Link href="/terms" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Obchodní podmínky</Link>
+                <Link href="/privacy" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Ochrana soukromí (GDPR)</Link>
+                <Link href="/terms#reklamace" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Reklamace</Link>
               </div>
             </div>
           </div>

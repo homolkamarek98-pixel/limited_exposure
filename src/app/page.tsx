@@ -332,6 +332,59 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* ── Unboxing moment ─────────────────────────────── */}
+        <section className="py-24 md:py-32 bg-primary text-on-primary overflow-hidden">
+          <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-6">
+                <span className="font-label text-[10px] uppercase tracking-widest text-on-primary/40 block">
+                  Fyzický zážitek
+                </span>
+                <h2 className="serif-display text-4xl md:text-5xl font-black tracking-tighter leading-tight">
+                  Tisk, který cítíte<br />ještě před pověšením.
+                </h2>
+                <p className="font-body text-base text-on-primary/60 max-w-md leading-relaxed">
+                  Archivní papír 315 g/m², ochranná trubice, bavlněné rukavice a certifikát s vlastnoručním podpisem. Tak vypadá balení díla z Limited Exposure.
+                </p>
+                <div className="flex flex-col gap-3 pt-2">
+                  {[
+                    "Archivní balení v ochranné trubici",
+                    "Bavlněné rukavice pro manipulaci s tiskem",
+                    "Certifikát v ochranném plexisklovém pouzdře",
+                    "Instrukce pro dlouhodobé uchovávání",
+                  ].map((item) => (
+                    <div key={item} className="flex items-center gap-3">
+                      <div className="w-1 h-1 bg-on-primary/40 rounded-full shrink-0" />
+                      <span className="font-label text-[10px] uppercase tracking-widest text-on-primary/60">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Video placeholder — nahradit skutečným videem */}
+              <div className="relative aspect-video bg-white/5 border border-on-primary/10 flex items-center justify-center group cursor-pointer">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
+                {/* Play button */}
+                <div className="relative z-10 flex flex-col items-center gap-4">
+                  <div className="w-16 h-16 border-2 border-on-primary/30 rounded-full flex items-center justify-center group-hover:border-on-primary/60 transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="ml-1 text-on-primary/60 group-hover:text-on-primary transition-colors">
+                      <polygon points="5,3 19,12 5,21" />
+                    </svg>
+                  </div>
+                  <span className="font-label text-[10px] uppercase tracking-widest text-on-primary/30 group-hover:text-on-primary/50 transition-colors">
+                    Video — brzy k dispozici
+                  </span>
+                </div>
+                {/* Decorative corners */}
+                <div className="absolute top-4 left-4 w-8 h-8 border-l border-t border-on-primary/20" />
+                <div className="absolute top-4 right-4 w-8 h-8 border-r border-t border-on-primary/20" />
+                <div className="absolute bottom-4 left-4 w-8 h-8 border-l border-b border-on-primary/20" />
+                <div className="absolute bottom-4 right-4 w-8 h-8 border-r border-b border-on-primary/20" />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ── Newsletter ──────────────────────────────────── */}
         <section className="py-32 md:py-40 bg-surface">
           <div className="max-w-screen-md mx-auto px-6 md:px-12 text-center space-y-8">
