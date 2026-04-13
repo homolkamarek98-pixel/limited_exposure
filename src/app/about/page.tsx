@@ -23,13 +23,22 @@ export default async function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 border-t border-on-primary/20 pt-12">
               <div className="md:col-span-5">
                 <p className="font-body text-xl md:text-2xl leading-relaxed text-on-primary/80">
-                  Limited Exposure je kurátorská platforma pro sběratelskou fotografii. Vznikla z přesvědčení, že originální fotografický tisk patří na zeď — ne do složky na disku.
+                  Nejsme obchod. Jsme standard.
+                </p>
+                <p className="font-body text-base leading-relaxed text-on-primary/60 mt-4">
+                  Fotografie je v Česku nedoceněná — ne proto, že lidem chybí vkus, ale proto, že trh nenabídl správný rámec. My ho vytváříme: vracíme fotografii hmotnou podstatu, limitaci a sběratelskou úctu.
                 </p>
               </div>
               <div className="md:col-span-5 md:col-start-8">
                 <p className="font-body text-base leading-relaxed text-on-primary/60">
                   Každé dílo na platformě prošlo výběrovým procesem. Každá edice má pevně daný počet kusů nebo dobu dostupnosti. Jakmile se uzavře, neotevře se znovu. Tato vzácnost není marketingový trik — je to základ, na kterém stojí hodnota každého tisku.
                 </p>
+                <Link
+                  href="/for-photographers"
+                  className="inline-block mt-6 font-label text-[10px] uppercase tracking-widest text-on-primary/40 hover:text-on-primary/80 transition-colors border-b border-on-primary/20 pb-px"
+                >
+                  Pro fotografy — zjistěte více →
+                </Link>
               </div>
             </div>
           </div>

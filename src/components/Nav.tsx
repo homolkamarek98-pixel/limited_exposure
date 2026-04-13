@@ -5,13 +5,14 @@ import { useState } from "react";
 import AuthButton from "@/components/AuthButton";
 import CartButton from "@/components/CartButton";
 
-export default function Nav({ active }: { active?: "gallery" | "photographers" | "about" }) {
+export default function Nav({ active }: { active?: "gallery" | "photographers" | "about" | "for-photographers" }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
     { href: "/gallery", label: "Aktuální nabídka", key: "gallery" },
     { href: "/photographers", label: "Autoři", key: "photographers" },
     { href: "/about", label: "O projektu", key: "about" },
+    { href: "/for-photographers", label: "Pro autory", key: "for-photographers" },
   ] as const;
 
   return (

@@ -20,7 +20,7 @@ export default function Footer() {
           </div>
 
           {/* Links */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-12 gap-y-10">
             <div className="space-y-4">
               <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Kolekce</span>
               <div className="space-y-3">
@@ -30,18 +30,26 @@ export default function Footer() {
               </div>
             </div>
             <div className="space-y-4">
-              <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">O nás</span>
+              <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Artist Hub</span>
               <div className="space-y-3">
-                <Link href="/photographers" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Autoři</Link>
-                <Link href="/about" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Jak to funguje</Link>
+                <Link href="/for-photographers" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Pro fotografy</Link>
+                <Link href="/for-photographers#prihlaska" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Přihláška</Link>
+                <Link href="/photographers" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Autoři v kolekci</Link>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">O projektu</span>
+              <div className="space-y-3">
+                <Link href="/about" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">O nás</Link>
                 <Link href="/about" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Certifikace</Link>
+                <Link href="mailto:hello@limitedexposure.cz" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Kontakt</Link>
               </div>
             </div>
             <div className="space-y-4">
               <span className="font-label text-[10px] uppercase tracking-widest text-[#777777] font-bold">Legal</span>
               <div className="space-y-3">
                 <Link href="/terms" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Obchodní podmínky</Link>
-                <Link href="/privacy" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Ochrana soukromí (GDPR)</Link>
+                <Link href="/privacy" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Ochrana soukromí</Link>
                 <Link href="/terms#reklamace" className="block font-label text-xs uppercase tracking-wider text-[#474747] hover:text-black transition-colors">Reklamace</Link>
               </div>
             </div>
