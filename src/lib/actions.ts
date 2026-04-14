@@ -298,6 +298,8 @@ export async function createPhoto(formData: FormData) {
     data: {
       title: String(formData.get("title") ?? ""),
       description: String(formData.get("description") ?? ""),
+      curatorNote: String(formData.get("curatorNote") ?? ""),
+      behindTheLens: String(formData.get("behindTheLens") ?? ""),
       imageUrl: String(formData.get("imageUrl") ?? ""),
       format: (formData.get("format") as "S" | "M" | "L") ?? "M",
       photographerId: String(formData.get("photographerId") ?? ""),
@@ -316,6 +318,8 @@ export async function updatePhoto(id: string, formData: FormData) {
     data: {
       title: String(formData.get("title") ?? ""),
       description: String(formData.get("description") ?? ""),
+      curatorNote: String(formData.get("curatorNote") ?? ""),
+      behindTheLens: String(formData.get("behindTheLens") ?? ""),
       imageUrl: String(formData.get("imageUrl") ?? ""),
       format: (formData.get("format") as "S" | "M" | "L") ?? "M",
       photographerId: String(formData.get("photographerId") ?? ""),

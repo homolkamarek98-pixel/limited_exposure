@@ -205,7 +205,7 @@ export default async function HomePage() {
                       href={`/listing/${signature.id}`}
                       className="inline-block bg-[#faf8f4] text-[#1c1811] px-10 py-4 font-label text-[10px] uppercase tracking-[0.2em] hover:bg-white transition-colors"
                     >
-                      Koupit tisk
+                      Získat do sbírky
                     </Link>
                     <p className="font-label text-[9px] uppercase tracking-[0.15em] text-[#faf8f4]/30 block">
                       Certifikát pravosti · Pojištěná doprava · Vlastnoruční podpis

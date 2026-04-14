@@ -42,7 +42,7 @@ export default function AddToCartButton({ item, soldOut, expired }: Props) {
       onClick={handleClick}
       className="w-full bg-black text-white py-5 px-12 font-label text-xs uppercase tracking-[0.2em] font-bold hover:opacity-80 transition-opacity"
     >
-      Přidat do košíku
+      Získat do sbírky
     </button>
   );
 }

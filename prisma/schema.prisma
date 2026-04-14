@@ -47,6 +47,8 @@ model Photo {
   photographerId String
   photographer   Photographer @relation(fields: [photographerId], references: [id])
   description    String       @default("")
+  curatorNote    String       @default("") // Proč si komise vybrala právě tuhle fotku
+  behindTheLens  String       @default("") // Co fotograf cítil, když to fotil
   imageUrl       String
   format         Format
 

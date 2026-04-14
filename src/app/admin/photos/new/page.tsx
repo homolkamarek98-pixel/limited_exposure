@@ -39,6 +39,8 @@ export default async function NewPhotoPage() {
 
         <Field label="Název díla" name="title" required />
         <Field label="Popis" name="description" textarea />
+        <Field label="Vyjádření kurátora" name="curatorNote" textarea placeholder="Proč si komise vybrala právě tuhle fotku. 2 věty." />
+        <Field label="Za objektivem" name="behindTheLens" textarea placeholder="Co fotograf cítil nebo zažíval v momentu, kdy zmáčkl spoušť. 1 věta." />
         <Field label="URL fotografie" name="imageUrl" placeholder="https://…" required />
 
         <div className="space-y-2">

@@ -101,10 +101,38 @@ export default async function ListingPage({ params }: Props) {
               Příběh díla
             </h2>
           </div>
-          <div className="lg:col-span-7">
-            <p className="serif-display text-2xl md:text-3xl leading-relaxed text-on-surface mb-12">
-              {photo.description || "Fotografie jako stav ticha. Každý detail je záměrný, každý stín je výsledkem trpělivého čekání."}
-            </p>
+          <div className="lg:col-span-7 space-y-16">
+            {/* Popis */}
+            {photo.description && (
+              <p className="serif-display text-2xl md:text-3xl leading-relaxed text-on-surface">
+                {photo.description}
+              </p>
+            )}
+
+            {/* Vyjádření kurátora */}
+            {photo.curatorNote && (
+              <div className="border-l-2 border-primary pl-6 space-y-3">
+                <span className="font-label text-[10px] uppercase tracking-widest font-bold text-outline block">
+                  Vyjádření kurátora
+                </span>
+                <p className="font-body text-base text-on-surface leading-relaxed italic">
+                  &ldquo;{photo.curatorNote}&rdquo;
+                </p>
+              </div>
+            )}
+
+            {/* Za objektivem */}
+            {photo.behindTheLens && (
+              <div className="space-y-3">
+                <span className="font-label text-[10px] uppercase tracking-widest font-bold text-outline block">
+                  Za objektivem — {authorName}
+                </span>
+                <p className="serif-display text-xl md:text-2xl leading-relaxed text-on-surface">
+                  {photo.behindTheLens}
+                </p>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-8 md:gap-12 pt-12 border-t border-outline-variant/30">
               <div>
                 <span className="font-label text-[10px] uppercase tracking-widest font-bold text-outline block mb-4">

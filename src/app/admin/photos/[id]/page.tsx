@@ -61,6 +61,20 @@ export default async function EditPhotoPage({ params, searchParams }: Props) {
 
         <Field label="Název díla" name="title" defaultValue={photo.title} />
         <Field label="Popis" name="description" defaultValue={photo.description} textarea />
+        <Field
+          label="Vyjádření kurátora"
+          name="curatorNote"
+          defaultValue={photo.curatorNote}
+          textarea
+          hint="2 věty. Proč si komise vybrala právě tuhle fotku. Učí diváka jak se na snímek dívat."
+        />
+        <Field
+          label="Za objektivem"
+          name="behindTheLens"
+          defaultValue={photo.behindTheLens}
+          textarea
+          hint="1 věta. Co fotograf cítil nebo zažíval v momentu, kdy zmáčkl spoušť."
+        />
         <Field label="URL fotografie" name="imageUrl" defaultValue={photo.imageUrl} />
 
         <div className="space-y-2">
@@ -134,10 +148,11 @@ export default async function EditPhotoPage({ params, searchParams }: Props) {
   );
 }
 
-function Field({ label, name, defaultValue = "", textarea = false }: { label: string; name: string; defaultValue?: string; textarea?: boolean }) {
+function Field({ label, name, defaultValue = "", textarea = false, hint }: { label: string; name: string; defaultValue?: string; textarea?: boolean; hint?: string }) {
   return (
     <div className="space-y-2">
       <label className="font-label text-[10px] uppercase tracking-widest font-bold block text-on-surface-variant">{label}</label>
+      {hint && <p className="font-body text-xs text-outline leading-relaxed">{hint}</p>}
       {textarea ? (
         <textarea name={name} defaultValue={defaultValue} rows={3} className="w-full bg-surface-container-low border border-outline-variant/30 px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors resize-none" />
       ) : (
