@@ -25,7 +25,7 @@ const frameStyles: Record<Frame, React.CSSProperties> = {
 };
 
 // Pozadí za rámem — vždy barva stránky
-const containerBg = "bg-[#f9f9f9]";
+const containerBg = "bg-[#faf8f4]";
 
 interface Props {
   imageUrl: string;

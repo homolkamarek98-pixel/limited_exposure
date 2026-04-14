@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#f3f3f4] border-t border-[#e8e8e8] w-full">
+    <footer className="bg-[#f5f2ec] border-t border-[#e8e4dc] w-full">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-16 md:pt-20 pb-10">
         <div className="flex flex-col md:flex-row justify-between gap-12 mb-16">
           {/* Brand */}
@@ -57,7 +57,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-[#e0e0e0] pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="border-t border-[#e8e4dc] pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <span className="font-label text-[10px] uppercase tracking-widest text-[#777777]">
             © {new Date().getFullYear()} Limited Exposure. Všechna práva vyhrazena.
           </span>

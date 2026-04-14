@@ -39,23 +39,23 @@
   --color-on-tertiary-fixed:         #ffffff;
   --color-on-tertiary-fixed-variant: #e3e2e2;
 
-  --color-background:                #f9f9f9;
-  --color-on-background:             #1a1c1c;
+  --color-background:                #faf8f4;
+  --color-on-background:             #1c1811;
 
-  --color-surface:                   #f9f9f9;
-  --color-surface-bright:            #f9f9f9;
-  --color-surface-dim:               #dadada;
-  --color-surface-variant:           #e2e2e2;
+  --color-surface:                   #faf8f4;
+  --color-surface-bright:            #faf8f4;
+  --color-surface-dim:               #e8e4dc;
+  --color-surface-variant:           #ede9e2;
   --color-surface-tint:              #5f5e5e;
 
   --color-surface-container-lowest:  #ffffff;
-  --color-surface-container-low:     #f3f3f4;
-  --color-surface-container:         #eeeeee;
-  --color-surface-container-high:    #e8e8e8;
-  --color-surface-container-highest: #e2e2e2;
+  --color-surface-container-low:     #f5f2ec;
+  --color-surface-container:         #eeebe4;
+  --color-surface-container-high:    #e8e4dc;
+  --color-surface-container-highest: #e0dcd4;
 
-  --color-on-surface:                #1a1c1c;
-  --color-on-surface-variant:        #474747;
+  --color-on-surface:                #1c1811;
+  --color-on-surface-variant:        #4a4539;
 
   --color-outline:                   #777777;
   --color-outline-variant:           #c6c6c6;
@@ -86,8 +86,8 @@
 
 /* ── Base ─────────────────────────────────────────────── */
 body {
-  background-color: #f9f9f9;
-  color: #1a1c1c;
+  background-color: #faf8f4;
+  color: #1c1811;
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -95,8 +95,8 @@ body {
 
 /* ── Selection ────────────────────────────────────────── */
 ::selection {
-  background-color: #000000;
-  color: #f9f9f9;
+  background-color: #1c1811;
+  color: #faf8f4;
 }
 
 /* ── Typography helpers ───────────────────────────────── */
