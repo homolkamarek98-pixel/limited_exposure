@@ -23,7 +23,7 @@ function generatePaymentReference(): string {
 
 function generateSerialNumber(count: number, total: number | null): string {
   const padded = String(count).padStart(3, "0");
-  return total ? `LE-${padded}/${total}` : `LE-${padded}`;
+  return total ? `OT-${padded}/${total}` : `OT-${padded}`;
 }
 
 export async function createOrder(

@@ -16,15 +16,15 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
   ] as const;
 
   return (
-    <header className="bg-[#faf8f4] border-b border-[#e8e4dc] sticky top-0 z-50">
-      <div className="flex justify-between items-center w-full px-6 md:px-12 py-4 md:py-5 max-w-screen-2xl mx-auto">
+    <header className="bg-[#faf6f0]/90 backdrop-blur-md border-b border-[#e7dfd2] sticky top-0 z-50">
+      <div className="flex justify-between items-center w-full px-6 md:px-12 py-5 md:py-6 max-w-screen-2xl mx-auto">
         {/* Wordmark */}
         <Link
           href="/"
-          className="text-base md:text-lg font-black font-headline text-black tracking-tighter uppercase"
+          className="text-base md:text-lg font-bold text-[#1a1714] tracking-[0.32em] uppercase"
           onClick={() => setMenuOpen(false)}
         >
-          Limited Exposure
+          Otisk
         </Link>
 
         {/* Desktop nav */}
@@ -34,10 +34,10 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
               key={key}
               href={href}
               className={[
-                "font-label text-[10px] uppercase tracking-[0.18em] transition-colors duration-300",
+                "text-[11px] uppercase tracking-[0.18em] transition-colors duration-300",
                 active === key
-                  ? "text-black"
-                  : "text-[#8a8070] hover:text-black",
+                  ? "text-[#1a1714] border-b border-[#1a1714] pb-0.5"
+                  : "text-[#8a8170] hover:text-[#1a1714]",
               ].join(" ")}
             >
               {label}
@@ -55,24 +55,24 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Menu"
           >
-            <span className={["block w-6 h-px bg-black transition-all duration-200", menuOpen ? "rotate-45 translate-y-[6px]" : ""].join(" ")} />
-            <span className={["block w-6 h-px bg-black transition-all duration-200", menuOpen ? "opacity-0" : ""].join(" ")} />
-            <span className={["block w-6 h-px bg-black transition-all duration-200", menuOpen ? "-rotate-45 -translate-y-[6px]" : ""].join(" ")} />
+            <span className={["block w-6 h-px bg-[#1a1714] transition-all duration-200", menuOpen ? "rotate-45 translate-y-[6px]" : ""].join(" ")} />
+            <span className={["block w-6 h-px bg-[#1a1714] transition-all duration-200", menuOpen ? "opacity-0" : ""].join(" ")} />
+            <span className={["block w-6 h-px bg-[#1a1714] transition-all duration-200", menuOpen ? "-rotate-45 -translate-y-[6px]" : ""].join(" ")} />
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div className={["md:hidden overflow-hidden transition-all duration-300", menuOpen ? "max-h-64 border-t border-[#e8e4dc]" : "max-h-0"].join(" ")}>
-        <nav className="flex flex-col px-6 py-4 bg-[#faf8f4]">
+      <div className={["md:hidden overflow-hidden transition-all duration-300", menuOpen ? "max-h-64 border-t border-[#e7dfd2]" : "max-h-0"].join(" ")}>
+        <nav className="flex flex-col px-6 py-4 bg-[#faf6f0]">
           {links.map(({ href, label, key }) => (
             <Link
               key={key}
               href={href}
               onClick={() => setMenuOpen(false)}
               className={[
-                "font-label text-[10px] uppercase tracking-[0.18em] py-4 border-b border-[#e8e4dc] last:border-0 transition-colors",
-                active === key ? "text-black" : "text-[#8a8070]",
+                "text-[11px] uppercase tracking-[0.18em] py-4 border-b border-[#e7dfd2] last:border-0 transition-colors",
+                active === key ? "text-[#1a1714]" : "text-[#8a8170]",
               ].join(" ")}
             >
               {label}

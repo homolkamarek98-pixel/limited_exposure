@@ -20,7 +20,7 @@ export default function AddToCollectionButton({ editionId, soldOut, expired }: P
 
   if (unavailable) {
     return (
-      <div className="w-full bg-surface-container py-5 px-12 font-label text-xs uppercase tracking-[0.2em] font-bold text-outline text-center border border-outline-variant/30">
+      <div className="w-full bg-[#f3ede3] py-5 px-12 text-[10px] uppercase tracking-[0.2em] text-[#8a8170] text-center border border-[#e7dfd2]">
         {soldOut ? "Edice vyprodána" : "Edice vypršela"}
       </div>
     );
@@ -28,7 +28,7 @@ export default function AddToCollectionButton({ editionId, soldOut, expired }: P
 
   if (state === "sent") {
     return (
-      <div className="w-full bg-surface-container-low py-5 px-12 font-label text-xs uppercase tracking-[0.2em] font-bold text-secondary text-center border border-outline-variant/30">
+      <div className="w-full py-5 px-12 text-[10px] uppercase tracking-[0.2em] text-[#57503f] text-center border border-[#e7dfd2]">
         Upozornění zaregistrováno ✓
       </div>
     );
@@ -37,7 +37,7 @@ export default function AddToCollectionButton({ editionId, soldOut, expired }: P
   if (state === "notify") {
     return (
       <div className="w-full space-y-3">
-        <p className="font-label text-[10px] uppercase tracking-widest text-outline">
+        <p className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170]">
           Platební brána se spouští brzy. Zanechte email pro první přístup.
         </p>
         <div className="flex gap-0">
@@ -46,18 +46,18 @@ export default function AddToCollectionButton({ editionId, soldOut, expired }: P
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="VÁŠ@EMAIL.CZ"
-            className="flex-1 bg-surface-container-low border border-outline-variant/30 border-r-0 py-4 px-4 font-label text-xs tracking-widest focus:outline-none focus:border-primary transition-colors placeholder:text-outline/50"
+            className="flex-1 bg-[#f3ede3] border border-[#e7dfd2] border-r-0 py-4 px-4 text-xs tracking-[0.18em] focus:outline-none focus:border-[#1a1714] transition-colors placeholder:text-[#c4bba9]"
           />
           <button
             onClick={() => setState("sent")}
-            className="bg-primary text-on-primary px-6 font-label text-xs uppercase tracking-widest font-bold hover:opacity-90 transition-opacity"
+            className="bg-[#1a1714] text-[#faf6f0] px-6 text-[10px] uppercase tracking-[0.18em] hover:bg-[#57503f] transition-colors"
           >
             OK
           </button>
         </div>
         <button
           onClick={() => setState("idle")}
-          className="font-label text-[10px] uppercase tracking-widest text-outline hover:text-primary transition-colors"
+          className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hover:text-[#1a1714] transition-colors"
         >
           Zrušit
         </button>
@@ -76,7 +76,7 @@ export default function AddToCollectionButton({ editionId, soldOut, expired }: P
   return (
     <button
       onClick={handleClick}
-      className="w-full bg-primary text-on-primary py-5 px-12 font-label text-xs uppercase tracking-[0.2em] font-bold hover:bg-primary-container transition-all"
+      className="w-full bg-[#1a1714] text-[#faf6f0] py-5 px-12 text-[10px] uppercase tracking-[0.2em] hover:bg-[#57503f] transition-colors"
     >
       Přidat do kolekce
     </button>

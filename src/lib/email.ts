@@ -4,7 +4,7 @@ import OrderConfirmation, { OrderConfirmationProps } from "@/emails/OrderConfirm
 import PaymentConfirmed, { PaymentConfirmedProps } from "@/emails/PaymentConfirmed";
 import OrderShipped, { OrderShippedProps } from "@/emails/OrderShipped";
 
-const FROM = "Limited Exposure <objednavky@limitedexposure.cz>";
+const FROM = "Otisk <objednavky@otisk.gallery>";
 
 function getResend() {
   if (!process.env.RESEND_API_KEY) {

@@ -1,11 +1,11 @@
-# Memory log — Limited Exposure
+# Memory log — Otisk
 Formát záznamu: [datum] [AGENT] — [akce] — [důvod]
 
 ## Log
 - [2026-04-12] ORCHESTRATOR — vytvořena struktura projektu, git init, GitHub repo
 - [2026-04-12] ORCHESTRATOR — inicializován Next.js 16 (create-next-app@latest) + TypeScript + Tailwind
 - [2026-04-12] ORCHESTRATOR — vytvořeny CLAUDE.md, RULES.md, ARCHITECTURE.md, DESIGN.md, PROGRESS.md
-- [2026-04-12] ORCHESTRATOR — Prisma schéma opraveno z generického e-shop na Limited Exposure doménový model (User, Photographer, Photo, Edition, Order, Certificate)
+- [2026-04-12] ORCHESTRATOR — Prisma schéma opraveno z generického e-shop na Otisk doménový model (User, Photographer, Photo, Edition, Order, Certificate)
 - [2026-04-12] ORCHESTRATOR — .gitignore ověřen, .env.example připraven
 - [2026-04-12] ORCHESTRATOR — Fáze 0 dokončena, první commit a push
 

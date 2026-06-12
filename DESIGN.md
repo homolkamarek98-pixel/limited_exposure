@@ -1,63 +1,54 @@
-# Design systém — Limited Exposure
+# Design systém — OTISK (v3 „Papír")
 
 ## Vizuální filozofie
-Minimalistická galerijní estetika. Značka je elegantní černobílý rám který ustupuje fotografii.
-Fotografie je hrdinou. UI je neviditelné.
+Úplná jednoduchá moderna. Jedna krémová plocha jako kvalitní výtvarný papír,
+jeden grotesk font, hairline linky. Fotografie je plnobarevná a je jedinou
+barvou na stránce. Žádné stíny, žádné zaoblení, žádné tmavé sekce.
 
 ## Barevná paleta
-| název    | hex       | použití                               |
-|----------|-----------|---------------------------------------|
-| Černá    | #0A0A0A   | primární text, pozadí (dark mode)     |
-| Bílá     | #FFFFFF   | pozadí (light mode), text na tmavém   |
-| Krémová  | #F5F0E8   | certifikáty, sekundární plochy        |
-| Grafitová| #3D3D3D   | sekundární text                       |
-| Zlatá    | #C8A96E   | certifikáty, prémiové prvky           |
+| token      | hex     | použití                                  |
+|------------|---------|------------------------------------------|
+| paper      | #FAF6F0 | pozadí všeho                             |
+| paper-dim  | #F3EDE3 | vstupy, image placeholdery, jemné plochy |
+| ink        | #1A1714 | primární text, primární CTA              |
+| ink-soft   | #57503F | sekundární text, hover CTA               |
+| muted      | #8A8170 | labely, terciární text                   |
+| faint      | #C4BBA9 | placeholdery, nejjemnější text           |
+| line       | #E7DFD2 | hairline bordery, oddělovače             |
+| urgent     | #B2401C | jediný akcent: končící edice, chyby      |
 
 ## Typografie
-| role     | font              | použití                        |
-|----------|-------------------|---------------------------------|
-| Nadpisy  | Playfair Display  | serif, elegantní, galerijní     |
-| Tělo     | Inter             | sans-serif, čitelné, moderní    |
-| Mono     | JetBrains Mono    | certifikátová čísla, kódy       |
+| role     | font              | použití                                   |
+|----------|-------------------|-------------------------------------------|
+| Vše      | Schibsted Grotesk | headliny, tělo, labely (jediný font)      |
+| Mono     | Spline Sans Mono  | čísla edic (X/Y), ceny, sériová čísla, countdown — class `otisk-mono` |
 
-## Klíčové komponenty
+Pravidla:
+- Velké nadpisy: `font-medium tracking-[-0.03em] leading-[0.92–1.05]` — nikdy font-black
+- Labely: `text-[10px] uppercase tracking-[0.18em–0.3em] text-[#8a8170]`
+- Diakritika: subsety latin + latin-ext
 
-### PhotoCard
-- Obrázek (aspect-ratio 3:4, černobílý s hover barvením)
-- Název fotografie (Playfair Display)
-- Jméno fotografa (Inter, grafitová)
-- Cena
-- EditionBadge
-- Hover: jemné zvětšení, overlay s CTA
+## Komponentové vzory
+- **Primární CTA**: `bg-[#1a1714] text-[#faf6f0] hover:bg-[#57503f]`, uppercase 10px tracking-[0.2em], px-8 py-4
+- **Sekundární CTA**: `border border-[#e7dfd2] hover:border-[#1a1714]`
+- **PhotoCard**: plnobarevná fotka 4:5 bez filtru, hover scale 1.03, mono badge (X/Y) na krémovém podkladu s blur, hairline progress bar
+- **Sekce**: oddělené `border-t border-[#e7dfd2]`, py-16 md:py-28, kontejner max-w-screen-2xl px-6 md:px-12
+- **Footer**: obří typografický wordmark OTISK (18vw) jako podpis stránky
 
-### EditionBadge
-- Limited count: "47 / 50 kusů" (s progress barem)
-- Time window: countdown "Vyprší za 23:14:05" (červené pokud < 1h)
-- Sold out: "Vyprodáno" (grafitová, disabled)
+## Logo
+- Wordmark: OTISK — grotesk bold, prostrkání 0.32em (public/assets/logo*.svg)
+- Mark: kruh + středový bod („O" jako clona / otisk objektivu)
 
-### CertificatePreview
-- Krémový (#F5F0E8) podklad, zlatý (#C8A96E) rámeček
-- Logo Limited Exposure (JetBrains Mono)
-- Název fotografie (Playfair Display, velký)
-- Jméno fotografa
-- Sériové číslo: "LE-0042 / 50" (zlatá, prominentní)
-- Datum tisku
-- QR kód ověření pravosti
+## Tier rozlišení
+Oba tiery žijí na stejné krémové ploše — rozlišuje je jen mono badge
+(„Signature Series" / X/Y) a velikost layoutu (Signature = spotlight 1/2+1/2).
+Žádné zlato, žádné tmavé bloky.
 
-## Tier vizuální rozlišení
-
-### Rising Talents
-- Bílé pozadí
-- Jemný šedý rámeček
-- Badge: "Rising Talent" (grafitová)
-
-### Signature Series
-- Tmavé pozadí (#0A0A0A)
-- Zlatý rámeček
-- Badge: "Signature Series" (zlatá)
-- Větší fotografie (prominentnější layout)
+## Motion
+- Page load: stagger reveal `.otisk-rise` (+ -1…-4 delay), respektuje prefers-reduced-motion
+- Hover: jen scale fotky a barevné přechody — nic víc
 
 ## Responzivita
 - Mobile-first
-- PhotoCard grid: 1 col (mobile) → 2 col (tablet) → 3–4 col (desktop)
-- Homepage hero: fullscreen fotografie s minimálním textem
+- PhotoCard grid: 2 col (mobil) → 3 col (desktop), stagger offsety md:mt-12/24
+- Hero: typografický (13vw → 7.5rem), pod ním široká fotka 21:9

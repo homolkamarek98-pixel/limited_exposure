@@ -1,4 +1,4 @@
-# Progress — Limited Exposure
+# Progress — OTISK (dříve Limited Exposure)
 
 ## Fáze 0: Příprava [DOKONČENA]
 - [x] Složka, git, GitHub repo
@@ -38,6 +38,17 @@
 - [x] prisma/seed.ts — 3 fotografové, 3 Rising Talents, 2 Signature Series (Neon DB)
 - [x] @prisma/adapter-pg — Prisma 7 driver adapter pro přímé PostgreSQL připojení
 - [x] tsc 0 chyb, HTTP 200 na všech stránkách
+
+## Redesign v3 „Papír" + rebrand OTISK [PROBÍHÁ] (větev design/v3-otisk)
+- [x] Nové jméno: OTISK (vybráno uživatelem)
+- [x] Design systém „Papír" — krémová #FAF6F0, inkoust #1A1714, hairline #E7DFD2 (globals.css)
+- [x] Typografie: Schibsted Grotesk (jediný font) + Spline Sans Mono pro číslice
+- [x] Fotky plnobarevné — grayscale filtry odstraněny všude
+- [x] Jádro: layout, Nav, Footer (obří wordmark), PhotoCard, EditionBadge, homepage
+- [x] Loga: wordmark OTISK + mark „clona" (kruh + bod), public/assets/
+- [x] Rebrand v kódu: jméno, doména → otisk.gallery (placeholder), serial prefix LE- → OT-
+- [ ] Restyle zbývajících stránek (gallery, listing, photographer, about, checkout…)
+- [ ] Build + vizuální kontrola
 
 ## Fáze 4: Platby [ČEKÁ]
 - [ ] Stripe checkout + webhook

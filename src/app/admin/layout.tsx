@@ -25,7 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div className="max-w-screen-2xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href="/" className="serif-display font-black text-sm uppercase tracking-tight opacity-70 hover:opacity-100 transition-opacity">
-              ← Limited Exposure
+              ← Otisk
             </Link>
             <span className="font-label text-[10px] uppercase tracking-widest opacity-50">|</span>
             <span className="font-label text-xs uppercase tracking-widest">Admin</span>

@@ -33,13 +33,13 @@ export default function PhotoCard({
         offset === true ? "md:mt-12" : offset === false ? "md:mt-24" : "",
       ].join(" ")}
     >
-      {/* Full-bleed image — no mat board */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-[#e8e4dc] mb-3">
+      {/* Plnobarevná fotka — jediná barva na stránce */}
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#f3ede3] mb-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-700"
+          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
         />
         {/* Edition badge — top right overlay */}
         <div className="absolute top-3 right-3">
@@ -53,32 +53,32 @@ export default function PhotoCard({
         </div>
       </div>
 
-      {/* Caption — instagram style */}
+      {/* Caption */}
       <div className="space-y-1.5">
         <div className="flex items-baseline justify-between gap-3">
-          <h3 className="serif-display text-sm font-bold leading-snug truncate">{title}</h3>
-          <span className="font-label text-[10px] text-[#8a8070] shrink-0">{formatPrice(price)}</span>
+          <h3 className="text-sm font-medium tracking-[-0.01em] leading-snug truncate text-[#1a1714]">{title}</h3>
+          <span className="otisk-mono text-[11px] text-[#1a1714] shrink-0">{formatPrice(price)}</span>
         </div>
-        <p className="font-label text-[9px] uppercase tracking-[0.15em] text-[#8a8070]">{photographerName}</p>
+        <p className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170]">{photographerName}</p>
 
         {/* Progress bar — LIMITED_COUNT */}
         {editionType === "LIMITED_COUNT" && totalCount !== null && totalCount > 0 && (
-          <div className="pt-1">
+          <div className="pt-1.5">
             {(() => {
               const remaining = totalCount - soldCount;
               const pct = Math.min(100, Math.round((soldCount / totalCount) * 100));
               const urgent = remaining <= Math.ceil(totalCount * 0.2);
               return (
                 <>
-                  <div className="flex justify-between items-center mb-1">
-                    <span className={["font-label text-[9px] uppercase tracking-widest", urgent ? "text-red-500" : "text-[#a09880]"].join(" ")}>
-                      {remaining <= 0 ? "Vyprodáno" : urgent ? `Zbývá ${remaining} ${remaining === 1 ? "kus" : remaining < 5 ? "kusy" : "kusů"}` : `${remaining} z ${totalCount}`}
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className={["otisk-mono text-[10px] uppercase", urgent ? "text-[#b2401c]" : "text-[#8a8170]"].join(" ")}>
+                      {remaining <= 0 ? "Vyprodáno" : urgent ? `Zbývá ${remaining} ${remaining === 1 ? "kus" : remaining < 5 ? "kusy" : "kusů"}` : `${remaining} / ${totalCount}`}
                     </span>
-                    <span className="font-label text-[9px] text-[#c0b8a8]">{pct} %</span>
+                    <span className="otisk-mono text-[10px] text-[#c4bba9]">{pct} %</span>
                   </div>
-                  <div className="h-px bg-[#e0dcd4] w-full overflow-hidden">
+                  <div className="h-px bg-[#e7dfd2] w-full overflow-hidden">
                     <div
-                      className={["h-full", urgent ? "bg-red-500" : "bg-[#1c1811]"].join(" ")}
+                      className={["h-full", urgent ? "bg-[#b2401c]" : "bg-[#1a1714]"].join(" ")}
                       style={{ width: `${pct}%` }}
                     />
                   </div>
@@ -90,18 +90,20 @@ export default function PhotoCard({
 
         {/* Progress bar — TIME_WINDOW */}
         {editionType === "TIME_WINDOW" && availableUntil && (
-          <div className="pt-1">
+          <div className="pt-1.5">
             {(() => {
+              // Server component — čas se počítá při renderu, ne reaktivně
+              // eslint-disable-next-line react-hooks/purity
               const now = Date.now();
               const deadline = new Date(availableUntil).getTime();
               const msLeft = deadline - now;
               if (msLeft <= 0) {
                 return (
                   <>
-                    <div className="mb-1">
-                      <span className="font-label text-[9px] uppercase tracking-widest text-red-500">Edice uzavřena</span>
+                    <div className="mb-1.5">
+                      <span className="otisk-mono text-[10px] uppercase text-[#b2401c]">Edice uzavřena</span>
                     </div>
-                    <div className="h-px bg-[#e0dcd4] w-full" />
+                    <div className="h-px bg-[#e7dfd2] w-full" />
                   </>
                 );
               }
@@ -115,15 +117,15 @@ export default function PhotoCard({
                 : `Zbývá ${Math.floor(hoursLeft / 24)} ${Math.floor(hoursLeft / 24) === 1 ? "den" : Math.floor(hoursLeft / 24) < 5 ? "dny" : "dní"}`;
               return (
                 <>
-                  <div className="flex justify-between items-center mb-1">
-                    <span className={["font-label text-[9px] uppercase tracking-widest", urgent ? "text-red-500" : "text-[#a09880]"].join(" ")}>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className={["otisk-mono text-[10px] uppercase", urgent ? "text-[#b2401c]" : "text-[#8a8170]"].join(" ")}>
                       {label}
                     </span>
-                    <span className="font-label text-[9px] text-[#c0b8a8]">časová edice</span>
+                    <span className="otisk-mono text-[10px] text-[#c4bba9]">časová edice</span>
                   </div>
-                  <div className="h-px bg-[#e0dcd4] w-full overflow-hidden">
+                  <div className="h-px bg-[#e7dfd2] w-full overflow-hidden">
                     <div
-                      className={["h-full transition-all", urgent ? "bg-red-500" : "bg-[#1c1811]"].join(" ")}
+                      className={["h-full transition-all", urgent ? "bg-[#b2401c]" : "bg-[#1a1714]"].join(" ")}
                       style={{ width: `${pct}%` }}
                     />
                   </div>

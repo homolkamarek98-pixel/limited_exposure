@@ -1,4 +1,4 @@
-# Provozní pravidla pro Claude Code — Limited Exposure
+# Provozní pravidla pro Claude Code — Otisk
 
 ## 1. Základní chování
 

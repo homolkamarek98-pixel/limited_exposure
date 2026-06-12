@@ -116,7 +116,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
               return (
                 <div key={item.id} className="flex gap-4 px-6 py-4 border-b border-gray-100 last:border-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={photo.imageUrl} alt={photo.title} className="w-16 h-16 object-cover grayscale shrink-0 rounded" />
+                  <img src={photo.imageUrl} alt={photo.title} className="w-16 h-16 object-cover  shrink-0 rounded" />
                   <div className="flex-1">
                     <p className="font-medium text-sm">{photo.title}</p>
                     <p className="text-xs text-gray-500">{authorName}</p>

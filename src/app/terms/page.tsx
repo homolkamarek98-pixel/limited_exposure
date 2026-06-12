@@ -1,13 +1,13 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Obchodní podmínky — Limited Exposure" };
+export const metadata = { title: "Obchodní podmínky — Otisk" };
 
 const sections = [
   {
     id: "uvod",
     title: "1. Úvodní ustanovení",
-    content: `Tyto obchodní podmínky (dále „OP") upravují práva a povinnosti mezi provozovatelem platformy Limited Exposure (dále „prodávající") a kupujícím při nákupu limitovaných fotografických tisků prostřednictvím webového rozhraní na adrese limitedexposure.cz (dále „web").
+    content: `Tyto obchodní podmínky (dále „OP") upravují práva a povinnosti mezi provozovatelem platformy Otisk (dále „prodávající") a kupujícím při nákupu limitovaných fotografických tisků prostřednictvím webového rozhraní na adrese otisk.gallery (dále „web").
 
 Kupující uzavřením objednávky potvrzuje, že se s těmito OP seznámil a souhlasí s nimi.`,
   },
@@ -54,16 +54,16 @@ K zásilce je přiložen certifikát pravosti v ochranném obalu.`,
 
 Dílo vykazující poškození při dopravě je třeba reklamovat neprodleně, nejpozději do 3 dnů od převzetí. Fotografická dokumentace poškození je podmínkou uznání reklamace.
 
-Reklamace se uplatňují e-mailem na adresu hello@limitedexposure.cz s popisem závady a fotografickou dokumentací.
+Reklamace se uplatňují e-mailem na adresu hello@otisk.gallery s popisem závady a fotografickou dokumentací.
 
 Na vady materiálu nebo tisku se vztahuje záruční lhůta 24 měsíců od převzetí.`,
   },
   {
     id: "certifikat",
     title: "7. Certifikát pravosti a archivní registrace",
-    content: `Každý prodaný tisk obdrží certifikát pravosti s jedinečným pořadovým číslem ve formátu LE-XXX/YYY (pořadové číslo / celkový počet kusů edice). Certifikát obsahuje: název díla, jméno fotografa, specifikaci edice, datum vydání a vlastnoruční podpis fotografa.
+    content: `Každý prodaný tisk obdrží certifikát pravosti s jedinečným pořadovým číslem ve formátu OT-XXX/YYY (pořadové číslo / celkový počet kusů edice). Certifikát obsahuje: název díla, jméno fotografa, specifikaci edice, datum vydání a vlastnoruční podpis fotografa.
 
-QR kód na certifikátu odkazuje na veřejně dostupný archivní záznam na webu Limited Exposure. Záznam obsahuje ověřitelné informace o tisku a je trvale dostupný po dobu existence platformy.
+QR kód na certifikátu odkazuje na veřejně dostupný archivní záznam na webu Otisk. Záznam obsahuje ověřitelné informace o tisku a je trvale dostupný po dobu existence platformy.
 
 Certifikát je součástí díla a jeho absence snižuje hodnotu tisku. Prodávající doporučuje certifikát uchovávat spolu s tiskem.`,
   },
@@ -90,7 +90,7 @@ export default function TermsPage() {
             Obchodní podmínky
           </h1>
           <p className="font-body text-sm text-[#777] mb-16">
-            Platné od 1. 1. 2025 · Limited Exposure
+            Platné od 1. 1. 2025 · Otisk
           </p>
 
           {/* Obsah */}
@@ -99,7 +99,7 @@ export default function TermsPage() {
             <ol className="space-y-2">
               {sections.map((s) => (
                 <li key={s.id}>
-                  <a href={`#${s.id}`} className="font-body text-sm text-[#474747] hover:text-black transition-colors">
+                  <a href={`#${s.id}`} className="font-body text-sm text-[#57503f] hover:text-black transition-colors">
                     {s.title}
                   </a>
                 </li>
@@ -114,7 +114,7 @@ export default function TermsPage() {
                 <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
                   {s.title}
                 </h2>
-                <div className="font-body text-sm text-[#474747] leading-relaxed whitespace-pre-line">
+                <div className="font-body text-sm text-[#57503f] leading-relaxed whitespace-pre-line">
                   {s.content}
                 </div>
               </section>
@@ -123,7 +123,7 @@ export default function TermsPage() {
 
           <div className="mt-16 pt-8 border-t border-[#e8e8e8]">
             <p className="font-body text-xs text-[#aaa]">
-              Dotazy k obchodním podmínkám: hello@limitedexposure.cz
+              Dotazy k obchodním podmínkám: hello@otisk.gallery
             </p>
           </div>
         </div>

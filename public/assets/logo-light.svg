@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 36" fill="none" role="img" aria-label="Limited Exposure">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 36" fill="none" role="img" aria-label="Otisk">
   <text
-    x="0" y="28"
-    font-family="'Noto Serif', Georgia, serif"
-    font-size="28"
-    font-weight="900"
-    letter-spacing="-0.02em"
-    fill="#f9f9f9">Limited Exposure</text>
+    x="0" y="27"
+    font-family="'Schibsted Grotesk', system-ui, sans-serif"
+    font-size="24"
+    font-weight="700"
+    letter-spacing="0.32em"
+    fill="#faf6f0">OTISK</text>
 </svg>

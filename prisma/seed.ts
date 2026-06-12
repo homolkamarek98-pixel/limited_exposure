@@ -19,7 +19,7 @@ const PHOTOS = [
 ];
 
 async function main() {
-  console.log("🌱 Seeding Limited Exposure databázi...");
+  console.log("🌱 Seeding Otisk databázi...");
 
   // ── De-dup edice (oprava duplicit z dřívějšího seedu bez guardu) ──
   const allEditions = await prisma.edition.findMany({ orderBy: { id: "asc" } });

@@ -1,4 +1,4 @@
-# Architektura — Limited Exposure
+# Architektura — Otisk
 
 ## Adresářová struktura
 ```

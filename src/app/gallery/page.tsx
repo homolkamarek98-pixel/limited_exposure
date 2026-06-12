@@ -42,20 +42,20 @@ export default async function GalleryPage({ searchParams }: { searchParams: Sear
       <main className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-32">
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-20 border-b border-outline-variant/30 pb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-20 border-b border-[#e7dfd2] pb-12">
           <div className="space-y-4">
-            <span className="font-label text-xs uppercase tracking-widest text-secondary">Kurátorský výběr</span>
-            <h1 className="serif-display text-5xl md:text-7xl font-black tracking-tighter leading-none">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-[#8a8170] block">Kurátorský výběr</span>
+            <h1 className="text-5xl md:text-7xl font-medium tracking-[-0.03em] leading-[0.95] text-[#1a1714]">
               Aktuální nabídka
             </h1>
           </div>
-          <p className="font-body text-base text-on-surface-variant max-w-sm">
+          <p className="text-base text-[#57503f] leading-relaxed max-w-sm">
             Limitované edice kurátorsky vybraných fotografů. Každé dílo opatřeno certifikátem pravosti a pořadovým číslem.
           </p>
         </div>
 
         {/* Filter tabs */}
-        <div className="flex gap-1 mb-16">
+        <div className="flex gap-3 mb-16">
           {tabs.map(({ label, value }) => {
             const active = tier === value || (!tier && value === undefined);
             const href = value ? `/gallery?tier=${value}` : "/gallery";
@@ -64,10 +64,10 @@ export default async function GalleryPage({ searchParams }: { searchParams: Sear
                 key={label}
                 href={href}
                 className={[
-                  "font-label text-xs uppercase tracking-widest px-6 py-3 transition-colors",
+                  "text-[10px] uppercase tracking-[0.2em] px-6 py-3 transition-colors",
                   active
-                    ? "bg-primary text-on-primary"
-                    : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high",
+                    ? "border border-[#1a1714] bg-[#1a1714] text-[#faf6f0]"
+                    : "border border-[#e7dfd2] text-[#57503f] hover:border-[#1a1714] hover:text-[#1a1714]",
                 ].join(" ")}
               >
                 {label}
@@ -79,10 +79,10 @@ export default async function GalleryPage({ searchParams }: { searchParams: Sear
         {/* Grid */}
         {editions.length === 0 ? (
           <div className="text-center py-32">
-            <p className="font-body text-secondary">Žádné edice v této kategorii.</p>
+            <p className="text-[#8a8170]">Žádné edice v této kategorii.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-12 md:gap-x-10 md:gap-y-20">
             {editions.map((edition) => (
               <PhotoCard
                 key={edition.id}

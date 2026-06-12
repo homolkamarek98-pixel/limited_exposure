@@ -22,7 +22,7 @@ export default function CountdownTimer({ deadline }: { deadline: Date }) {
 
   if (time.expired) {
     return (
-      <span className="font-label text-xs uppercase tracking-widest text-[#ba1a1a]">
+      <span className="text-xs uppercase tracking-[0.18em] text-[#b2401c]">
         Edice skončila
       </span>
     );
@@ -32,7 +32,7 @@ export default function CountdownTimer({ deadline }: { deadline: Date }) {
   const isUrgent = time.h === 0;
 
   return (
-    <div className={`flex items-baseline gap-4 serif-display ${isUrgent ? "text-[#ba1a1a]" : ""}`}>
+    <div className={`flex items-baseline gap-4 ${isUrgent ? "text-[#b2401c]" : "text-[#1a1714]"}`}>
       {[
         { val: time.h, label: "hod" },
         { val: time.m, label: "min" },
@@ -41,8 +41,8 @@ export default function CountdownTimer({ deadline }: { deadline: Date }) {
         <span key={label} className="flex items-baseline gap-2">
           {i > 0 && <span className="text-2xl font-light opacity-30">:</span>}
           <span className="text-center">
-            <span className="block text-3xl font-bold tabular-nums">{pad(val)}</span>
-            <span className="font-label text-[10px] uppercase tracking-widest opacity-60">{label}</span>
+            <span className="otisk-mono block text-3xl font-medium">{pad(val)}</span>
+            <span className="text-[10px] uppercase tracking-[0.18em] opacity-60">{label}</span>
           </span>
         </span>
       ))}

@@ -49,7 +49,7 @@ export default function PhotoLightbox({ src, alt, children }: Props) {
           <img
             src={src}
             alt={alt}
-            className="max-w-full max-h-full object-contain grayscale select-none"
+            className="max-w-full max-h-full object-contain  select-none"
             onClick={(e) => e.stopPropagation()}
             draggable={false}
           />

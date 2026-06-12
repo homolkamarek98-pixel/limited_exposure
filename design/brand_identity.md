@@ -1,4 +1,4 @@
-# Brand Identity — Limited Exposure
+# Brand Identity — Limited Exposure [PŘEKONÁNO — od v3 platí OTISK, viz DESIGN.md]
 ## "The Silent Curator"
 
 ---

@@ -11,12 +11,12 @@ export default function AuthButton() {
   if (session) {
     return (
       <div className="flex items-center gap-4">
-        <span className="font-label text-[10px] uppercase tracking-widest text-outline hidden md:block">
+        <span className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hidden md:block">
           {session.user?.name ?? session.user?.email}
         </span>
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="font-label text-[10px] uppercase tracking-widest text-outline hover:text-primary transition-colors"
+          className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hover:text-[#1a1714] transition-colors"
         >
           Odhlásit
         </button>
@@ -27,7 +27,7 @@ export default function AuthButton() {
   return (
     <Link
       href="/auth/signin"
-      className="font-label text-[10px] uppercase tracking-widest text-outline hover:text-primary transition-colors"
+      className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hover:text-[#1a1714] transition-colors"
     >
       Přihlásit
     </Link>

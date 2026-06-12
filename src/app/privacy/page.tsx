@@ -1,7 +1,7 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Ochrana soukromí — Limited Exposure" };
+export const metadata = { title: "Ochrana soukromí — Otisk" };
 
 export default function PrivacyPage() {
   return (
@@ -14,16 +14,16 @@ export default function PrivacyPage() {
             Ochrana osobních údajů
           </h1>
           <p className="font-body text-sm text-[#777] mb-16">
-            GDPR · Platné od 1. 1. 2025 · Limited Exposure
+            GDPR · Platné od 1. 1. 2025 · Otisk
           </p>
 
-          <div className="space-y-12 font-body text-sm text-[#474747] leading-relaxed">
+          <div className="space-y-12 font-body text-sm text-[#57503f] leading-relaxed">
 
             <section id="spravce" className="scroll-mt-24">
               <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
                 1. Správce osobních údajů
               </h2>
-              <p>Správcem osobních údajů je provozovatel platformy Limited Exposure (dále „správce"). Kontakt: hello@limitedexposure.cz</p>
+              <p>Správcem osobních údajů je provozovatel platformy Otisk (dále „správce“). Kontakt: hello@otisk.gallery</p>
             </section>
 
             <section id="udaje" className="scroll-mt-24">
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
                 5. Vaše práva
               </h2>
               <p className="mb-4">Máte právo na přístup ke svým údajům, opravu, výmaz (s výjimkou zákonem vyžadovaných záznamů), omezení zpracování, přenositelnost dat a vznést námitku. Stížnost lze podat u Úřadu pro ochranu osobních údajů (uoou.cz).</p>
-              <p>Pro uplatnění práv kontaktujte: hello@limitedexposure.cz</p>
+              <p>Pro uplatnění práv kontaktujte: hello@otisk.gallery</p>
             </section>
 
             <section id="cookies" className="scroll-mt-24">
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
 
           <div className="mt-16 pt-8 border-t border-[#e8e8e8]">
             <p className="font-body text-xs text-[#aaa]">
-              Dotazy k ochraně osobních údajů: hello@limitedexposure.cz
+              Dotazy k ochraně osobních údajů: hello@otisk.gallery
             </p>
           </div>
         </div>

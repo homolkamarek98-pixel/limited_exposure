@@ -1,42 +1,33 @@
 import type { Metadata } from "next";
-import { Noto_Serif, Inter, Manrope } from "next/font/google";
+import { Schibsted_Grotesk, Spline_Sans_Mono } from "next/font/google";
 import Providers from "@/components/Providers";
 import "./globals.css";
 
-// Noto Serif — display, headlines, artist names, curated statements
-const notoSerif = Noto_Serif({
-  variable: "--font-noto-serif",
-  subsets: ["latin"],
+// Schibsted Grotesk — jediný font: headliny, tělo, labely
+const grotesk = Schibsted_Grotesk({
+  variable: "--font-grotesk",
+  subsets: ["latin", "latin-ext"],
   display: "swap",
-  weight: ["400", "700", "900"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
-// Inter — body text, descriptions, metadata values
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+// Spline Sans Mono — čísla edic, sériová čísla, certifikáty
+const groteskMono = Spline_Sans_Mono({
+  variable: "--font-grotesk-mono",
+  subsets: ["latin", "latin-ext"],
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-// Manrope — labels, UI, uppercase tracking, navigation
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["300", "400", "500", "700", "800"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Limited Exposure — Limitované fotografie od současných autorů",
-    template: "%s — Limited Exposure",
+    default: "OTISK — Limitované fotografické tisky",
+    template: "%s — OTISK",
   },
   description:
     "Limitované fotografické edice s certifikátem pravosti. Každé dílo má pevně daný počet kusů — po vyprodání nekoupíte znovu.",
   openGraph: {
-    siteName: "Limited Exposure",
+    siteName: "OTISK",
     locale: "cs_CZ",
     type: "website",
   },
@@ -50,9 +41,9 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      className={`${notoSerif.variable} ${inter.variable} ${manrope.variable} h-full antialiased`}
+      className={`${grotesk.variable} ${groteskMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#f9f9f9] text-[#1a1c1c]">
+      <body className="min-h-full flex flex-col bg-[#faf6f0] text-[#1a1714]">
         <Providers>{children}</Providers>
       </body>
     </html>

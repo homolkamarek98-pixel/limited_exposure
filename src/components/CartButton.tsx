@@ -9,6 +9,8 @@ export default function CartButton() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // SSR hydratační guard — localStorage košík existuje jen na klientu
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
@@ -16,11 +18,11 @@ export default function CartButton() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="relative font-label text-xs uppercase tracking-widest text-[#474747] hover:text-black transition-colors"
+        className="relative text-xs uppercase tracking-[0.18em] text-[#57503f] hover:text-[#1a1714] transition-colors"
       >
         Košík
         {items.length > 0 && (
-          <span className="absolute -top-2 -right-4 bg-black text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+          <span className="otisk-mono absolute -top-2 -right-4 bg-[#1a1714] text-[#faf6f0] text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
             {items.length}
           </span>
         )}

@@ -51,7 +51,7 @@ export default async function AdminPhotosPage({ searchParams }: { searchParams: 
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
-                className="w-12 h-12 object-cover grayscale shrink-0"
+                className="w-12 h-12 object-cover  shrink-0"
               />
               <div className="space-y-1">
                 <div className="font-body font-medium">{photo.title}</div>

@@ -37,25 +37,25 @@ function SignInForm() {
   }
 
   return (
-    <div className="min-h-screen bg-surface flex items-center justify-center px-6">
+    <div className="min-h-screen bg-[#faf6f0] flex items-center justify-center px-6">
       <div className="w-full max-w-md">
 
         {/* Logo */}
         <Link href="/" className="block text-center mb-16">
-          <span className="serif-display text-2xl font-black tracking-tighter uppercase">
-            Limited Exposure
+          <span className="text-2xl font-medium tracking-[-0.02em] uppercase text-[#1a1714]">
+            Otisk
           </span>
         </Link>
 
-        <div className="bg-surface-container-low p-10 md:p-12 border border-outline-variant/20">
-          <h1 className="serif-display text-3xl font-black tracking-tighter mb-2">Přihlášení</h1>
-          <p className="font-body text-sm text-on-surface-variant mb-10">
+        <div className="p-10 md:p-12 border border-[#e7dfd2]">
+          <h1 className="text-3xl font-medium tracking-[-0.02em] text-[#1a1714] mb-2">Přihlášení</h1>
+          <p className="text-sm text-[#57503f] mb-10">
             Přístup do fotografického archivu.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-2">
-              <label className="font-label text-[10px] uppercase tracking-widest font-bold block">
+              <label className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] block">
                 E-mail
               </label>
               <input
@@ -65,12 +65,12 @@ function SignInForm() {
                 required
                 autoComplete="email"
                 placeholder="VÁŠ@EMAIL.CZ"
-                className="w-full bg-transparent border-0 border-b border-outline py-3 px-0 font-label text-sm tracking-wide focus:ring-0 focus:border-primary transition-colors outline-none placeholder:text-outline/50"
+                className="w-full bg-transparent border-0 border-b border-[#e7dfd2] py-3 px-0 text-sm tracking-wide focus:ring-0 focus:border-[#1a1714] transition-colors outline-none placeholder:text-[#c4bba9]"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="font-label text-[10px] uppercase tracking-widest font-bold block">
+              <label className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] block">
                 Heslo
               </label>
               <input
@@ -80,12 +80,12 @@ function SignInForm() {
                 required
                 autoComplete="current-password"
                 placeholder="••••••••"
-                className="w-full bg-transparent border-0 border-b border-outline py-3 px-0 font-label text-sm focus:ring-0 focus:border-primary transition-colors outline-none placeholder:text-outline/50"
+                className="w-full bg-transparent border-0 border-b border-[#e7dfd2] py-3 px-0 text-sm focus:ring-0 focus:border-[#1a1714] transition-colors outline-none placeholder:text-[#c4bba9]"
               />
             </div>
 
             {error && (
-              <p className="font-label text-xs text-error uppercase tracking-widest">
+              <p className="text-xs text-[#b2401c] uppercase tracking-[0.18em]">
                 {error}
               </p>
             )}
@@ -93,15 +93,15 @@ function SignInForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-on-primary py-4 font-label text-xs uppercase tracking-[0.2em] font-bold hover:opacity-90 transition-opacity disabled:opacity-40"
+              className="w-full bg-[#1a1714] text-[#faf6f0] py-4 text-[10px] uppercase tracking-[0.2em] hover:bg-[#57503f] transition-colors disabled:opacity-40"
             >
               {loading ? "Přihlašuji…" : "Přihlásit se"}
             </button>
           </form>
         </div>
 
-        <p className="text-center mt-8 font-body text-sm text-on-surface-variant">
-          <Link href="/" className="font-label text-xs uppercase tracking-widest hover:text-primary transition-colors">
+        <p className="text-center mt-8 text-sm text-[#57503f]">
+          <Link href="/" className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hover:text-[#1a1714] transition-colors">
             ← Zpět do galerie
           </Link>
         </p>

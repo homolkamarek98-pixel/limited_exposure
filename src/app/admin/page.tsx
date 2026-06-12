@@ -30,7 +30,7 @@ export default async function AdminDashboard() {
     <div className="space-y-10">
       <div>
         <h1 className="serif-display text-3xl font-black tracking-tighter mb-1">Dashboard</h1>
-        <p className="font-body text-sm text-on-surface-variant">Správa obsahu Limited Exposure.</p>
+        <p className="font-body text-sm text-on-surface-variant">Správa obsahu Otisk.</p>
       </div>
 
       {/* Stats */}
