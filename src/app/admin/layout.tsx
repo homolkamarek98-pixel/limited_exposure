@@ -19,12 +19,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f0f0] flex flex-col">
+    <div className="min-h-screen bg-[#f4efe4] flex flex-col">
       {/* Admin header */}
-      <header className="bg-primary text-on-primary sticky top-0 z-50">
+      <header className="bg-mocha text-on-primary sticky top-0 z-50">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <Link href="/" className="serif-display font-black text-sm uppercase tracking-tight opacity-70 hover:opacity-100 transition-opacity">
+            <Link href="/" className="serif-display font-semibold text-sm uppercase tracking-tight opacity-70 hover:opacity-100 transition-opacity">
               ← Otisk
             </Link>
             <span className="font-label text-[10px] uppercase tracking-widest opacity-50">|</span>

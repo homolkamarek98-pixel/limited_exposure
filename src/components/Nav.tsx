@@ -16,28 +16,28 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
   ] as const;
 
   return (
-    <header className="bg-[#faf6f0]/90 backdrop-blur-md border-b border-[#e7dfd2] sticky top-0 z-50">
-      <div className="flex justify-between items-center w-full px-6 md:px-12 py-5 md:py-6 max-w-screen-2xl mx-auto">
+    <header className="bg-[#fbf8f2]/95 backdrop-blur-md border-b border-[#e6decd] shadow-[0_1px_3px_rgba(47,42,34,0.05)] sticky top-0 z-50">
+      <div className="flex justify-between items-center w-full px-6 md:px-12 py-5 md:py-8 max-w-screen-2xl mx-auto">
         {/* Wordmark */}
         <Link
           href="/"
-          className="text-base md:text-lg font-bold text-[#1a1714] tracking-[0.32em] uppercase"
+          className="text-xl md:text-2xl font-semibold font-headline text-[#2f2a22] tracking-tighter uppercase"
           onClick={() => setMenuOpen(false)}
         >
           Otisk
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center space-x-10">
+        <nav className="hidden md:flex items-center space-x-12">
           {links.map(({ href, label, key }) => (
             <Link
               key={key}
               href={href}
               className={[
-                "text-[11px] uppercase tracking-[0.18em] transition-colors duration-300",
+                "font-headline uppercase tracking-tight text-sm transition-colors duration-300",
                 active === key
-                  ? "text-[#1a1714] border-b border-[#1a1714] pb-0.5"
-                  : "text-[#8a8170] hover:text-[#1a1714]",
+                  ? "text-[#2f2a22] border-b-2 border-[#2f2a22] pb-1"
+                  : "text-[#8e8779] hover:text-[#2f2a22]",
               ].join(" ")}
             >
               {label}
@@ -55,24 +55,24 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Menu"
           >
-            <span className={["block w-6 h-px bg-[#1a1714] transition-all duration-200", menuOpen ? "rotate-45 translate-y-[6px]" : ""].join(" ")} />
-            <span className={["block w-6 h-px bg-[#1a1714] transition-all duration-200", menuOpen ? "opacity-0" : ""].join(" ")} />
-            <span className={["block w-6 h-px bg-[#1a1714] transition-all duration-200", menuOpen ? "-rotate-45 -translate-y-[6px]" : ""].join(" ")} />
+            <span className={["block w-6 h-px bg-[#2f2a22] transition-all duration-200", menuOpen ? "rotate-45 translate-y-[6px]" : ""].join(" ")} />
+            <span className={["block w-6 h-px bg-[#2f2a22] transition-all duration-200", menuOpen ? "opacity-0" : ""].join(" ")} />
+            <span className={["block w-6 h-px bg-[#2f2a22] transition-all duration-200", menuOpen ? "-rotate-45 -translate-y-[6px]" : ""].join(" ")} />
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div className={["md:hidden overflow-hidden transition-all duration-300", menuOpen ? "max-h-64 border-t border-[#e7dfd2]" : "max-h-0"].join(" ")}>
-        <nav className="flex flex-col px-6 py-4 bg-[#faf6f0]">
+      <div className={["md:hidden overflow-hidden transition-all duration-300", menuOpen ? "max-h-64 border-t border-[#eee7d8]" : "max-h-0"].join(" ")}>
+        <nav className="flex flex-col px-6 py-4 bg-[#f7f3ec]">
           {links.map(({ href, label, key }) => (
             <Link
               key={key}
               href={href}
               onClick={() => setMenuOpen(false)}
               className={[
-                "text-[11px] uppercase tracking-[0.18em] py-4 border-b border-[#e7dfd2] last:border-0 transition-colors",
-                active === key ? "text-[#1a1714]" : "text-[#8a8170]",
+                "font-headline uppercase tracking-tight text-sm py-4 border-b border-[#eee7d8] last:border-0 transition-colors",
+                active === key ? "text-[#2f2a22] font-semibold" : "text-[#8e8779]",
               ].join(" ")}
             >
               {label}

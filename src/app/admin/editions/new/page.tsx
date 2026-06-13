@@ -19,7 +19,7 @@ export default async function NewEditionPage({ searchParams }: { searchParams: S
           ← Zpět
         </Link>
         <span className="text-outline-variant/50">|</span>
-        <h1 className="serif-display text-3xl font-black tracking-tighter">Nová edice</h1>
+        <h1 className="serif-display text-3xl font-semibold tracking-tighter">Nová edice</h1>
       </div>
 
       <form action={createEdition} className="bg-surface border border-outline-variant/20 p-8 space-y-8">
@@ -168,7 +168,7 @@ export default async function NewEditionPage({ searchParams }: { searchParams: S
         <div className="pt-4 border-t border-outline-variant/20">
           <button
             type="submit"
-            className="bg-primary text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
+            className="bg-mocha text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
           >
             Vytvořit edici
           </button>

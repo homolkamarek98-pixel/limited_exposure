@@ -97,59 +97,31 @@ export default async function ListingPage({ params }: Props) {
         {/* ── Narrative section ────────────────────────── */}
         <div className="mt-24 md:mt-48 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16">
           <div className="lg:col-span-3">
-            <h2 className="text-[10px] uppercase tracking-[0.25em] text-[#8a8170] border-b border-[#e7dfd2] pb-4 mb-8">
+            <h2 className="serif-display text-sm font-semibold uppercase tracking-widest border-b border-primary pb-4 mb-8">
               Příběh díla
             </h2>
           </div>
-          <div className="lg:col-span-7 space-y-16">
-            {/* Popis */}
-            {photo.description && (
-              <p className="text-2xl md:text-3xl font-medium tracking-[-0.02em] leading-[1.3] text-[#1a1714]">
-                {photo.description}
-              </p>
-            )}
-
-            {/* Vyjádření kurátora */}
-            {photo.curatorNote && (
-              <div className="border-l border-[#1a1714] pl-6 space-y-3">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] block">
-                  Vyjádření kurátora
-                </span>
-                <p className="text-base text-[#57503f] leading-relaxed italic">
-                  &ldquo;{photo.curatorNote}&rdquo;
-                </p>
-              </div>
-            )}
-
-            {/* Za objektivem */}
-            {photo.behindTheLens && (
-              <div className="space-y-3">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] block">
-                  Za objektivem — {authorName}
-                </span>
-                <p className="text-xl md:text-2xl font-medium tracking-[-0.01em] leading-[1.4] text-[#1a1714]">
-                  {photo.behindTheLens}
-                </p>
-              </div>
-            )}
-
-            <div className="grid grid-cols-2 gap-8 md:gap-12 pt-12 border-t border-[#e7dfd2]">
+          <div className="lg:col-span-7">
+            <p className="serif-display text-2xl md:text-3xl leading-relaxed text-on-surface mb-12">
+              {photo.description || "Fotografie jako stav ticha. Každý detail je záměrný, každý stín je výsledkem trpělivého čekání."}
+            </p>
+            <div className="grid grid-cols-2 gap-8 md:gap-12 pt-12 border-t border-outline-variant/30">
               <div>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] block mb-4">
+                <span className="font-label text-[10px] uppercase tracking-widest font-bold text-outline block mb-4">
                   Specifikace
                 </span>
-                <ul className="text-sm space-y-2 text-[#57503f]">
+                <ul className="font-body text-sm space-y-2 text-on-surface-variant">
                   <li>Formát: {photo.format === "S" ? "30 × 40" : photo.format === "M" ? "50 × 70" : "70 × 100"} cm</li>
                   <li>Papír: Hahnemühle Photo Rag Baryta</li>
                   <li>Archivní inkousty, 100+ let stálosti</li>
-                  {edition.totalCount && <li>Edice: <span className="otisk-mono">{edition.totalCount}</span> kusů celkem</li>}
+                  {edition.totalCount && <li>Edice: {edition.totalCount} kusů celkem</li>}
                 </ul>
               </div>
               <div>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] block mb-4">
+                <span className="font-label text-[10px] uppercase tracking-widest font-bold text-outline block mb-4">
                   Certifikát
                 </span>
-                <ul className="text-sm space-y-2 text-[#57503f]">
+                <ul className="font-body text-sm space-y-2 text-on-surface-variant">
                   <li>Certifikát pravosti</li>
                   <li>Vlastnoruční podpis fotografa</li>
                   <li>Pořadové číslo tisku</li>
@@ -163,13 +135,13 @@ export default async function ListingPage({ params }: Props) {
         {/* ── More from this photographer ──────────────── */}
         {photographer.photos.length > 0 && (
           <div className="mt-24 md:mt-40">
-            <div className="flex justify-between items-baseline mb-12">
-              <h3 className="text-2xl md:text-3xl font-medium tracking-[-0.02em]">
+            <div className="flex justify-between items-end mb-12">
+              <h3 className="serif-display text-2xl md:text-3xl font-bold">
                 Další práce — {authorName}
               </h3>
               <Link
                 href={`/photographer/${photographer.id}`}
-                className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hover:text-[#1a1714] transition-colors border-b border-[#e7dfd2] pb-0.5 hidden md:block"
+                className="font-label text-xs uppercase tracking-widest border-b border-primary pb-1 hover:opacity-60 transition-opacity hidden md:block"
               >
                 Celé portfolio →
               </Link>

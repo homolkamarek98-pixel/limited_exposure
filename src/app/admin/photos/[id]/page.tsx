@@ -35,7 +35,7 @@ export default async function EditPhotoPage({ params, searchParams }: Props) {
           ← Zpět
         </Link>
         <span className="text-outline-variant/50">|</span>
-        <h1 className="serif-display text-3xl font-black tracking-tighter">{photo.title}</h1>
+        <h1 className="serif-display text-3xl font-semibold tracking-tighter">{photo.title}</h1>
       </div>
 
       {created && (
@@ -61,20 +61,6 @@ export default async function EditPhotoPage({ params, searchParams }: Props) {
 
         <Field label="Název díla" name="title" defaultValue={photo.title} />
         <Field label="Popis" name="description" defaultValue={photo.description} textarea />
-        <Field
-          label="Vyjádření kurátora"
-          name="curatorNote"
-          defaultValue={photo.curatorNote}
-          textarea
-          hint="2 věty. Proč si komise vybrala právě tuhle fotku. Učí diváka jak se na snímek dívat."
-        />
-        <Field
-          label="Za objektivem"
-          name="behindTheLens"
-          defaultValue={photo.behindTheLens}
-          textarea
-          hint="1 věta. Co fotograf cítil nebo zažíval v momentu, kdy zmáčkl spoušť."
-        />
         <Field label="URL fotografie" name="imageUrl" defaultValue={photo.imageUrl} />
 
         <div className="space-y-2">
@@ -93,7 +79,7 @@ export default async function EditPhotoPage({ params, searchParams }: Props) {
 
         <div className="pt-4 border-t border-outline-variant/20 flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
-            <button type="submit" className="bg-primary text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
+            <button type="submit" className="bg-mocha text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
               Uložit změny
             </button>
             <Link href={photo.editions[0] ? `/listing/${photo.editions[0].id}` : "#"} target="_blank" className="font-label text-xs uppercase tracking-widest text-outline hover:text-primary transition-colors">
@@ -148,11 +134,10 @@ export default async function EditPhotoPage({ params, searchParams }: Props) {
   );
 }
 
-function Field({ label, name, defaultValue = "", textarea = false, hint }: { label: string; name: string; defaultValue?: string; textarea?: boolean; hint?: string }) {
+function Field({ label, name, defaultValue = "", textarea = false }: { label: string; name: string; defaultValue?: string; textarea?: boolean }) {
   return (
     <div className="space-y-2">
       <label className="font-label text-[10px] uppercase tracking-widest font-bold block text-on-surface-variant">{label}</label>
-      {hint && <p className="font-body text-xs text-outline leading-relaxed">{hint}</p>}
       {textarea ? (
         <textarea name={name} defaultValue={defaultValue} rows={3} className="w-full bg-surface-container-low border border-outline-variant/30 px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors resize-none" />
       ) : (

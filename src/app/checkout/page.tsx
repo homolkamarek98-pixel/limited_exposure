@@ -97,8 +97,8 @@ export default function CheckoutPage() {
       <>
         <Nav />
         <main className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-24 pb-32 text-center">
-          <p className="text-[#8a8170] mb-8">Košík je prázdný</p>
-          <a href="/gallery" className="text-[10px] uppercase tracking-[0.2em] border border-[#e7dfd2] text-[#1a1714] px-8 py-4 hover:border-[#1a1714] transition-colors">
+          <p className="font-body text-secondary mb-8">Košík je prázdný</p>
+          <a href="/gallery" className="font-label text-xs uppercase tracking-widest border border-[#2f2a22] px-8 py-4 hover:bg-mocha hover:text-[#f7f3ec] transition-colors">
             Zpět do galerie
           </a>
         </main>
@@ -186,17 +186,17 @@ export default function CheckoutPage() {
     }
   }
 
-  const inputCls = "w-full border border-[#e7dfd2] bg-[#f3ede3] px-4 py-3 text-sm text-[#1a1714] focus:outline-none focus:border-[#1a1714] transition-colors";
-  const labelCls = "text-[10px] uppercase tracking-[0.18em] text-[#8a8170] block mb-2";
-  const sectionHead = "text-[10px] uppercase tracking-[0.2em] text-[#8a8170] mb-8 pb-3 border-b border-[#e7dfd2]";
+  const inputCls = "w-full border border-[#e7e0d2] bg-[#fdfbf6] px-4 py-3 font-body text-sm focus:outline-none focus:border-[#2f2a22] transition-colors";
+  const labelCls = "font-label text-[10px] uppercase tracking-widest block mb-2";
+  const sectionHead = "font-label text-[10px] uppercase tracking-widest font-bold mb-8 pb-3 border-b border-[#eee7d8]";
 
   return (
     <>
       <Nav />
       <main className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-32">
-        <div className="mb-16 border-b border-[#e7dfd2] pb-10">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#8a8170] block mb-3">Objednávka</span>
-          <h1 className="text-4xl md:text-5xl font-medium tracking-[-0.03em] text-[#1a1714]">Pokladna</h1>
+        <div className="mb-16 border-b border-[#eee7d8] pb-10">
+          <span className="font-label text-xs uppercase tracking-widest text-[#8e8779] block mb-3">Objednávka</span>
+          <h1 className="font-headline text-4xl md:text-5xl font-semibold tracking-tighter uppercase">Pokladna</h1>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -213,12 +213,12 @@ export default function CheckoutPage() {
                 <div>
                   <label className={labelCls}>Jméno *</label>
                   <input {...register("firstName")} autoComplete="given-name" className={inputCls} />
-                  {errors.firstName && <p className="text-[#b2401c] text-xs mt-1">{errors.firstName.message}</p>}
+                  {errors.firstName && <p className="text-[#a8432a] text-xs mt-1">{errors.firstName.message}</p>}
                 </div>
                 <div>
                   <label className={labelCls}>Příjmení *</label>
                   <input {...register("lastName")} autoComplete="family-name" className={inputCls} />
-                  {errors.lastName && <p className="text-[#b2401c] text-xs mt-1">{errors.lastName.message}</p>}
+                  {errors.lastName && <p className="text-[#a8432a] text-xs mt-1">{errors.lastName.message}</p>}
                 </div>
               </div>
 
@@ -227,7 +227,7 @@ export default function CheckoutPage() {
                 <div>
                   <label className={labelCls}>Email *</label>
                   <input {...register("email")} type="email" autoComplete="email" className={inputCls} />
-                  {errors.email && <p className="text-[#b2401c] text-xs mt-1">{errors.email.message}</p>}
+                  {errors.email && <p className="text-[#a8432a] text-xs mt-1">{errors.email.message}</p>}
                 </div>
                 <div>
                   <label className={labelCls}>Telefon</label>
@@ -237,12 +237,12 @@ export default function CheckoutPage() {
 
               {/* Na firmu */}
               <label className="flex items-center gap-3 cursor-pointer mb-6">
-                <input type="checkbox" {...register("isCompany")} className="w-4 h-4 accent-[#1a1714]" />
-                <span className="font-label text-[10px] uppercase tracking-[0.18em]">Nakupuji na firmu (IČO / DIČ)</span>
+                <input type="checkbox" {...register("isCompany")} className="w-4 h-4 accent-black" />
+                <span className="font-label text-[10px] uppercase tracking-widest">Nakupuji na firmu (IČO / DIČ)</span>
               </label>
 
               {isCompany && (
-                <div className="space-y-4 mb-6 pl-7 border-l-2 border-[#e7dfd2]">
+                <div className="space-y-4 mb-6 pl-7 border-l-2 border-[#eee7d8]">
                   <div>
                     <label className={labelCls}>Název firmy *</label>
                     <input {...register("companyName")} autoComplete="organization" className={inputCls} />
@@ -265,22 +265,22 @@ export default function CheckoutPage() {
                 <div>
                   <label className={labelCls}>Ulice a číslo *</label>
                   <input {...register("billingAddressLine1")} autoComplete="billing address-line1" className={inputCls} />
-                  {errors.billingAddressLine1 && <p className="text-[#b2401c] text-xs mt-1">{errors.billingAddressLine1.message}</p>}
+                  {errors.billingAddressLine1 && <p className="text-[#a8432a] text-xs mt-1">{errors.billingAddressLine1.message}</p>}
                 </div>
                 <div>
                   <label className={labelCls}>Doplněk adresy</label>
-                  <input {...register("billingAddressLine2")} autoComplete="billing address-line2" placeholder="Byt, patro, firma…" className={inputCls + " placeholder:text-[#c4bba9]"} />
+                  <input {...register("billingAddressLine2")} autoComplete="billing address-line2" placeholder="Byt, patro, firma…" className={inputCls + " placeholder:text-[#cabfa9]"} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className={labelCls}>Město *</label>
                     <input {...register("billingCity")} autoComplete="billing address-level2" className={inputCls} />
-                    {errors.billingCity && <p className="text-[#b2401c] text-xs mt-1">{errors.billingCity.message}</p>}
+                    {errors.billingCity && <p className="text-[#a8432a] text-xs mt-1">{errors.billingCity.message}</p>}
                   </div>
                   <div>
                     <label className={labelCls}>PSČ *</label>
                     <input {...register("billingPostalCode")} autoComplete="billing postal-code" className={inputCls} />
-                    {errors.billingPostalCode && <p className="text-[#b2401c] text-xs mt-1">{errors.billingPostalCode.message}</p>}
+                    {errors.billingPostalCode && <p className="text-[#a8432a] text-xs mt-1">{errors.billingPostalCode.message}</p>}
                   </div>
                 </div>
                 <div>
@@ -305,21 +305,21 @@ export default function CheckoutPage() {
                   <label
                     key={c.value}
                     className={[
-                      "flex items-center justify-between p-4 border cursor-pointer transition-colors",
-                      selectedCarrier === c.value ? "border-[#1a1714] bg-[#f3ede3]" : "border-[#e7dfd2] hover:border-[#1a1714]",
+                      "flex items-center justify-between p-4 border-2 cursor-pointer transition-colors",
+                      selectedCarrier === c.value ? "border-[#2f2a22] bg-[#faf7f0]" : "border-[#e7e0d2] hover:border-[#2f2a22]",
                     ].join(" ")}
                   >
                     <div className="flex items-center gap-4">
                       <input {...register("carrier")} type="radio" value={c.value} className="sr-only" />
-                      <div className={["w-4 h-4 rounded-full border flex items-center justify-center shrink-0", selectedCarrier === c.value ? "border-[#1a1714]" : "border-[#c4bba9]"].join(" ")}>
-                        {selectedCarrier === c.value && <div className="w-2 h-2 rounded-full bg-[#1a1714]" />}
+                      <div className={["w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0", selectedCarrier === c.value ? "border-[#2f2a22]" : "border-[#cabfa9]"].join(" ")}>
+                        {selectedCarrier === c.value && <div className="w-2 h-2 rounded-full bg-[#2f2a22]" />}
                       </div>
                       <div>
-                        <span className="font-label text-xs uppercase tracking-[0.18em] font-bold block">{c.label}</span>
-                        <span className="font-label text-[10px] text-[#8a8170]">{c.note}</span>
+                        <span className="font-label text-xs uppercase tracking-widest font-bold block">{c.label}</span>
+                        <span className="font-label text-[10px] text-[#8e8779]">{c.note}</span>
                       </div>
                     </div>
-                    <span className="otisk-mono text-sm shrink-0">
+                    <span className="font-headline text-sm font-bold shrink-0">
                       {c.price === 0 ? "Na dotaz" : formatPrice(c.price)}
                     </span>
                   </label>
@@ -337,7 +337,7 @@ export default function CheckoutPage() {
                   selected={pickupPoint}
                 />
                 {!pickupPoint && (
-                  <p className="font-label text-[10px] text-[#c4bba9] uppercase tracking-[0.18em] mt-3">
+                  <p className="font-label text-[10px] text-[#b8ad96] uppercase tracking-widest mt-3">
                     Vyberte výdejní místo kliknutím na tlačítko výše
                   </p>
                 )}
@@ -346,19 +346,19 @@ export default function CheckoutPage() {
               <section>
                 <h2 className={sectionHead}>Dodací adresa</h2>
                 <label className="flex items-center gap-3 cursor-pointer mb-6">
-                  <input type="checkbox" {...register("differentDelivery")} className="w-4 h-4 accent-[#1a1714]" />
-                  <span className="font-label text-[10px] uppercase tracking-[0.18em]">Doručit na jinou adresu</span>
+                  <input type="checkbox" {...register("differentDelivery")} className="w-4 h-4 accent-black" />
+                  <span className="font-label text-[10px] uppercase tracking-widest">Doručit na jinou adresu</span>
                 </label>
 
                 {differentDelivery && (
-                  <div className="space-y-4 pl-7 border-l-2 border-[#e7dfd2]">
+                  <div className="space-y-4 pl-7 border-l-2 border-[#eee7d8]">
                     <div>
                       <label className={labelCls}>Ulice a číslo *</label>
                       <input {...register("addressLine1")} autoComplete="shipping address-line1" className={inputCls} />
                     </div>
                     <div>
                       <label className={labelCls}>Doplněk adresy</label>
-                      <input {...register("addressLine2")} autoComplete="shipping address-line2" placeholder="Byt, patro, firma…" className={inputCls + " placeholder:text-[#c4bba9]"} />
+                      <input {...register("addressLine2")} autoComplete="shipping address-line2" placeholder="Byt, patro, firma…" className={inputCls + " placeholder:text-[#cabfa9]"} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -385,7 +385,7 @@ export default function CheckoutPage() {
                 )}
 
                 {!differentDelivery && (
-                  <p className="font-label text-[10px] text-[#c4bba9] uppercase tracking-[0.18em]">
+                  <p className="font-label text-[10px] text-[#b8ad96] uppercase tracking-widest">
                     Zásilka bude doručena na fakturační adresu
                   </p>
                 )}
@@ -394,7 +394,7 @@ export default function CheckoutPage() {
 
             {/* Poznámka */}
             <section>
-              <h2 className="font-label text-[10px] uppercase tracking-[0.18em] font-bold mb-4">Poznámka k objednávce</h2>
+              <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-4">Poznámka k objednávce</h2>
               <textarea {...register("notes")} rows={3} className={inputCls + " resize-none"} placeholder="Nepovinné…" />
             </section>
 
@@ -403,7 +403,7 @@ export default function CheckoutPage() {
           {/* Right — summary */}
           <div className="lg:col-span-5">
             <div className="sticky top-32">
-              <h2 className="font-label text-[10px] uppercase tracking-[0.18em] font-bold mb-6 pb-3 border-b border-[#e7dfd2]">
+              <h2 className="font-label text-[10px] uppercase tracking-widest font-bold mb-6 pb-3 border-b border-[#eee7d8]">
                 Shrnutí objednávky
               </h2>
 
@@ -411,49 +411,49 @@ export default function CheckoutPage() {
                 {items.map((item) => (
                   <div key={item.editionId} className="flex gap-4">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.imageUrl} alt={item.photoTitle} className="w-16 h-16 object-cover shrink-0 " />
+                    <img src={item.imageUrl} alt={item.photoTitle} className="w-16 h-16 object-cover shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium tracking-[-0.01em] leading-tight line-clamp-2">{item.photoTitle}</p>
-                      <p className="font-label text-[10px] text-[#8a8170] uppercase tracking-[0.18em]">{item.photographerName}</p>
-                      <p className="otisk-mono text-sm mt-1">{formatPrice(item.price)}</p>
+                      <p className="font-headline text-xs font-bold uppercase tracking-tight leading-tight line-clamp-2">{item.photoTitle}</p>
+                      <p className="font-label text-[10px] text-[#8e8779] uppercase tracking-widest">{item.photographerName}</p>
+                      <p className="font-headline text-sm font-bold mt-1">{formatPrice(item.price)}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-[#e7dfd2] pt-4 space-y-3 mb-8">
+              <div className="border-t border-[#eee7d8] pt-4 space-y-3 mb-8">
                 <div className="flex justify-between">
-                  <span className="font-label text-xs uppercase tracking-[0.18em] text-[#8a8170]">Díla</span>
+                  <span className="font-label text-xs uppercase tracking-widest text-[#8e8779]">Díla</span>
                   <span className="font-label text-xs">{formatPrice(totalAmount())}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-label text-xs uppercase tracking-[0.18em] text-[#8a8170]">Doprava</span>
+                  <span className="font-label text-xs uppercase tracking-widest text-[#8e8779]">Doprava</span>
                   <span className="font-label text-xs">{carrierPrice === 0 ? "Na dotaz" : formatPrice(carrierPrice)}</span>
                 </div>
-                <div className="flex justify-between pt-3 border-t border-[#e7dfd2]">
-                  <span className="font-label text-xs uppercase tracking-[0.18em] font-bold">Celkem</span>
-                  <span className="otisk-mono text-lg font-medium">{formatPrice(grandTotal)}</span>
+                <div className="flex justify-between pt-3 border-t border-[#eee7d8]">
+                  <span className="font-label text-xs uppercase tracking-widest font-bold">Celkem</span>
+                  <span className="font-headline text-lg font-semibold">{formatPrice(grandTotal)}</span>
                 </div>
               </div>
 
-              <div className="bg-[#f3ede3] p-4 mb-6">
-                <p className="font-label text-[10px] uppercase tracking-[0.18em] font-bold mb-2">Platba bankovním převodem</p>
-                <p className="font-body text-xs text-[#8a8170] leading-relaxed">
+              <div className="bg-[#f4efe4] p-4 mb-6">
+                <p className="font-label text-[10px] uppercase tracking-widest font-bold mb-2">Platba bankovním převodem</p>
+                <p className="font-body text-xs text-[#8e8779] leading-relaxed">
                   Po odeslání objednávky obdržíte email s platebními instrukcemi a variabilním symbolem. Objednávka je rezervována po dobu 5 pracovních dní.
                 </p>
               </div>
 
-              {error && <p className="text-[#b2401c] text-sm mb-4 font-body">{error}</p>}
+              {error && <p className="text-[#a8432a] text-sm mb-4 font-body">{error}</p>}
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-[#1a1714] text-[#faf6f0] font-label text-[10px] uppercase tracking-[0.18em] py-5 hover:bg-[#57503f] transition-colors disabled:opacity-50"
+                className="w-full bg-mocha text-[#f7f3ec] font-label text-[10px] uppercase tracking-widest py-5 hover:opacity-80 transition-opacity disabled:opacity-50"
               >
                 {submitting ? "Odesílám…" : "Odeslat objednávku →"}
               </button>
 
-              <p className="font-label text-[10px] text-[#c4bba9] uppercase tracking-[0.18em] text-center mt-4">
+              <p className="font-label text-[10px] text-[#b8ad96] uppercase tracking-widest text-center mt-4">
                 Pojištěná doprava · Certifikát pravosti · 14 dní na vrácení
               </p>
             </div>

@@ -1,49 +1,77 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────
-   OTISK — Design system "Papír"
-   Jedna krémová plocha. Jeden grotesk. Hairline linky.
-   Fotografie je jediná barva na stránce.
+   Otisk — "Silent Curator" v krému
+   Stejná galerijní struktura, teplá krémová paleta,
+   moderní bezpatkový font. 0px radius.
    ───────────────────────────────────────────────────────── */
 
 @theme inline {
-  /* ── Typography — one grotesque + mono for numerals ──── */
-  --font-headline: var(--font-grotesk), system-ui, sans-serif;
-  --font-body:     var(--font-grotesk), system-ui, sans-serif;
-  --font-label:    var(--font-grotesk), system-ui, sans-serif;
-  --font-mono:     var(--font-grotesk-mono), monospace;
+  /* ── Typografie — moderní sans ────────────────────────── */
+  --font-headline: var(--font-manrope), system-ui, sans-serif;
+  --font-body:     var(--font-inter), Inter, system-ui, sans-serif;
+  --font-label:    var(--font-manrope), system-ui, sans-serif;
 
-  /* ── Paper palette ────────────────────────────────────── */
-  --color-paper:      #faf6f0;  /* pozadí všeho */
-  --color-paper-dim:  #f3ede3;  /* vstupy, jemné plochy */
-  --color-ink:        #1a1714;  /* primární text */
-  --color-ink-soft:   #57503f;  /* sekundární text */
-  --color-muted:      #8a8170;  /* terciární text, labely */
-  --color-faint:      #c4bba9;  /* placeholdery, nejjemnější text */
-  --color-line:       #e7dfd2;  /* hairline bordery */
-  --color-urgent:     #b2401c;  /* jediný akcent: končící edice */
+  /* ── Krémová paleta ───────────────────────────────────── */
+  --color-primary:                   #2f2a22;
+  --color-on-primary:                #f7f3ec;
+  --color-primary-container:         #3a352b;
+  --color-on-primary-container:      #fdfbf6;
+  --color-primary-fixed:             #6b6151;
+  --color-primary-fixed-dim:         #4a443a;
+  --color-on-primary-fixed:          #fdfbf6;
+  --color-on-primary-fixed-variant:  #eee7d8;
 
-  /* ── Legacy aliases (starší stránky) ──────────────────── */
-  --color-primary:                   #1a1714;
-  --color-on-primary:                #faf6f0;
-  --color-secondary:                 #57503f;
-  --color-on-secondary:              #faf6f0;
-  --color-background:                #faf6f0;
-  --color-on-background:             #1a1714;
-  --color-surface:                   #faf6f0;
-  --color-surface-dim:               #f3ede3;
-  --color-surface-variant:           #f3ede3;
-  --color-surface-container-lowest:  #fdfaf6;
-  --color-surface-container-low:     #f6f1e8;
-  --color-surface-container:         #f3ede3;
-  --color-surface-container-high:    #ede5d7;
-  --color-surface-container-highest: #e7dfd2;
-  --color-on-surface:                #1a1714;
+  --color-secondary:                 #6b6151;
+  --color-on-secondary:              #fdfbf6;
+  --color-secondary-container:       #e0d8c6;
+  --color-on-secondary-container:    #2f2a22;
+  --color-secondary-fixed:           #d8cdb6;
+  --color-secondary-fixed-dim:       #cabfa9;
+  --color-on-secondary-fixed:        #2f2a22;
+  --color-on-secondary-fixed-variant:#3a352b;
+
+  --color-tertiary:                  #4a443a;
+  --color-on-tertiary:               #f7f3ec;
+  --color-tertiary-container:        #8e8779;
+  --color-on-tertiary-container:     #fdfbf6;
+  --color-tertiary-fixed:            #6b6151;
+  --color-tertiary-fixed-dim:        #4a443a;
+  --color-on-tertiary-fixed:         #fdfbf6;
+  --color-on-tertiary-fixed-variant: #f7f3ec;
+
+  --color-background:                #f7f3ec;
+  --color-on-background:             #2f2a22;
+
+  --color-surface:                   #f7f3ec;
+  --color-surface-bright:            #fbf8f2;
+  --color-surface-dim:               #ece5d7;
+  --color-surface-variant:           #f1ebdf;
+  --color-surface-tint:              #6b6151;
+
+  --color-surface-container-lowest:  #fdfbf7;
+  --color-surface-container-low:     #f5f0e7;
+  --color-surface-container:         #f1ebdf;
+  --color-surface-container-high:    #ece5d7;
+  --color-surface-container-highest: #e6decd;
+
+  --color-on-surface:                #2f2a22;
   --color-on-surface-variant:        #57503f;
-  --color-outline:                   #8a8170;
-  --color-outline-variant:           #e7dfd2;
-  --color-error:                     #b2401c;
-  --color-on-error:                  #faf6f0;
+
+  --color-outline:                   #8e8779;
+  --color-outline-variant:           #d8cdb6;
+
+  /* Mochaccino — teplý kávový tón pro tmavé sekce (kontrast, ne černá) */
+  --color-mocha:                     #574231;
+
+  --color-error:                     #a8432a;
+  --color-on-error:                  #f7f3ec;
+  --color-error-container:           #f3ddd2;
+  --color-on-error-container:        #3d130a;
+
+  --color-inverse-surface:           #2f2a22;
+  --color-inverse-on-surface:        #f1ece2;
+  --color-inverse-primary:           #cabfa9;
 
   /* ── Border radius — 0px everywhere ──────────────────── */
   --radius:    0px;
@@ -62,29 +90,26 @@
 
 /* ── Base ─────────────────────────────────────────────── */
 body {
-  background-color: #faf6f0;
-  color: #1a1714;
+  background-color: #f7f3ec;
+  color: #2f2a22;
   font-family: var(--font-body);
-  font-feature-settings: "ss01" on;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Fotografie jsou jediná barva na stránce — žádné filtry */
-img { filter: none !important; }
-
 /* ── Selection ────────────────────────────────────────── */
 ::selection {
-  background-color: #1a1714;
-  color: #faf6f0;
+  background-color: #2f2a22;
+  color: #f7f3ec;
 }
 
 /* ── Typography helpers ───────────────────────────────── */
-/* Headline — dříve serif, nyní grotesk: velký, těsný, klidný */
+/* Dříve serif — nyní moderní sans displej. Lehčí, vzdušnější. */
 .serif-display {
   font-family: var(--font-headline);
-  font-weight: 500;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
 }
 
 .le-label {
@@ -92,19 +117,12 @@ img { filter: none !important; }
   font-size: 0.625rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #8a8170;
-}
-
-/* Mono numerals — čísla edic, sériová čísla, ceny */
-.otisk-mono {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.04em;
+  color: #8e8779;
 }
 
 /* ── Photo utilities ──────────────────────────────────── */
 .le-mat {
-  background-color: #f3ede3;
+  background-color: #e7e0d2;
   padding: 1.5rem;
 }
 @media (min-width: 768px) {
@@ -113,48 +131,32 @@ img { filter: none !important; }
 
 /* ── Glass overlay (hero, modals) ─────────────────────── */
 .le-glass {
-  background: rgba(250, 246, 240, 0.78);
+  background: rgba(246, 242, 234, 0.72);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
 /* ── Certificate component ────────────────────────────── */
 .le-certificate {
-  border: 1px solid #1a1714;
-  background-color: #fdfaf6;
+  border: 1px solid #8e8779;
+  background-color: #fdfbf6;
   position: relative;
   overflow: hidden;
 }
 .le-certificate::before {
-  content: "OTISK";
+  content: "CERTIFICATE";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-20deg);
   font-family: var(--font-headline);
-  font-size: 6rem;
-  font-weight: 700;
-  color: #1a1714;
+  font-size: 5rem;
+  font-weight: 800;
+  color: #2f2a22;
   opacity: 0.04;
   pointer-events: none;
   white-space: nowrap;
-  letter-spacing: 0.1em;
-}
-
-/* ── Stagger reveal — page load ───────────────────────── */
-@keyframes otisk-rise {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.otisk-rise {
-  animation: otisk-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.otisk-rise-1 { animation-delay: 0.05s; }
-.otisk-rise-2 { animation-delay: 0.15s; }
-.otisk-rise-3 { animation-delay: 0.25s; }
-.otisk-rise-4 { animation-delay: 0.35s; }
-@media (prefers-reduced-motion: reduce) {
-  .otisk-rise { animation: none; }
+  letter-spacing: -0.02em;
 }
 
 /* ── Hide scrollbar ───────────────────────────────────── */

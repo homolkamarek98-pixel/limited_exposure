@@ -22,7 +22,7 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
       {/* Overlay */}
       {open && (
         <div
-          className="fixed inset-0 bg-[#1a1714]/40 z-40 backdrop-blur-sm"
+          className="fixed inset-0 bg-[#2f2a22]/40 z-40 backdrop-blur-sm"
           onClick={onClose}
         />
       )}
@@ -30,18 +30,18 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
       {/* Drawer */}
       <div
         className={[
-          "fixed top-0 right-0 h-full w-full max-w-md bg-[#faf6f0] z-50 border-l border-[#e7dfd2] flex flex-col transition-transform duration-300",
+          "fixed top-0 right-0 h-full w-full max-w-md bg-[#fdfbf6] z-50 shadow-2xl flex flex-col transition-transform duration-300",
           open ? "translate-x-0" : "translate-x-full",
         ].join(" ")}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-[#e7dfd2]">
-          <span className="font-label text-xs uppercase tracking-[0.18em] font-bold">
+        <div className="flex items-center justify-between px-8 py-6 border-b border-[#eee7d8]">
+          <span className="font-label text-xs uppercase tracking-widest font-bold">
             Košík ({items.length})
           </span>
           <button
             onClick={onClose}
-            className="font-label text-xs text-[#8a8170] hover:text-[#1a1714] transition-colors"
+            className="font-label text-xs text-[#8e8779] hover:text-[#2f2a22] transition-colors"
           >
             ✕ Zavřít
           </button>
@@ -51,11 +51,11 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
         <div className="flex-1 overflow-y-auto px-8 py-6 space-y-6">
           {items.length === 0 ? (
             <div className="text-center py-20">
-              <p className="font-body text-sm text-[#8a8170]">Košík je prázdný</p>
+              <p className="font-body text-sm text-[#8e8779]">Košík je prázdný</p>
               <Link
                 href="/gallery"
                 onClick={onClose}
-                className="inline-block mt-6 font-label text-[10px] uppercase tracking-[0.18em] border border-[#1a1714] px-6 py-3 hover:bg-[#1a1714] hover:text-[#faf6f0] transition-colors"
+                className="inline-block mt-6 font-label text-[10px] uppercase tracking-widest border border-[#2f2a22] px-6 py-3 hover:bg-mocha hover:text-[#f7f3ec] transition-colors"
               >
                 Prohlédnout galerii
               </Link>
@@ -67,20 +67,20 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
                 <img
                   src={item.imageUrl}
                   alt={item.photoTitle}
-                  className="w-20 h-20 object-cover shrink-0 "
+                  className="w-20 h-20 object-cover shrink-0"
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium tracking-[-0.01em] leading-tight line-clamp-2">
+                  <p className="font-headline text-sm font-bold uppercase tracking-tight leading-tight line-clamp-2">
                     {item.photoTitle}
                   </p>
-                  <p className="font-label text-[10px] uppercase tracking-[0.18em] text-[#8a8170] mt-1">
+                  <p className="font-label text-[10px] uppercase tracking-widest text-[#8e8779] mt-1">
                     {item.photographerName}
                   </p>
                   <div className="flex items-center justify-between mt-3">
-                    <span className="otisk-mono text-sm">{formatPrice(item.price)}</span>
+                    <span className="font-headline text-sm font-bold">{formatPrice(item.price)}</span>
                     <button
                       onClick={() => removeItem(item.editionId)}
-                      className="font-label text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hover:text-[#b2401c] transition-colors"
+                      className="font-label text-[10px] uppercase tracking-widest text-[#9a907a] hover:text-[#a8432a] transition-colors"
                     >
                       Odebrat
                     </button>
@@ -93,18 +93,18 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="px-8 py-6 border-t border-[#e7dfd2] space-y-4">
+          <div className="px-8 py-6 border-t border-[#eee7d8] space-y-4">
             <div className="flex justify-between items-center">
-              <span className="font-label text-xs uppercase tracking-[0.18em] text-[#8a8170]">Celkem</span>
-              <span className="otisk-mono text-xl font-medium">{formatPrice(totalAmount())}</span>
+              <span className="font-label text-xs uppercase tracking-widest text-[#8e8779]">Celkem</span>
+              <span className="font-headline text-xl font-semibold">{formatPrice(totalAmount())}</span>
             </div>
-            <p className="font-label text-[10px] text-[#c4bba9] uppercase tracking-[0.18em]">
+            <p className="font-label text-[10px] text-[#b8ad96] uppercase tracking-widest">
               Doprava bude vypočtena při pokladně
             </p>
             <Link
               href="/checkout"
               onClick={onClose}
-              className="block w-full bg-[#1a1714] text-[#faf6f0] text-center font-label text-[10px] uppercase tracking-[0.18em] py-4 hover:bg-[#57503f] transition-colors"
+              className="block w-full bg-mocha text-[#f7f3ec] text-center font-label text-[10px] uppercase tracking-widest py-4 hover:opacity-80 transition-opacity"
             >
               Přejít k pokladně →
             </Link>

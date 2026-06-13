@@ -83,7 +83,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <Link href="/admin/orders" className="text-sm text-gray-500 hover:text-black mb-2 block">← Zpět na objednávky</Link>
+          <Link href="/admin/orders" className="text-sm text-gray-500 hover:text-[#2f2a22] mb-2 block">← Zpět na objednávky</Link>
           <h1 className="text-2xl font-bold">Objednávka #{orderNumber}</h1>
           <p className="text-sm text-gray-500 mt-1">
             {new Date(order.createdAt).toLocaleDateString("cs-CZ", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}
@@ -106,7 +106,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
         <div className="col-span-2 space-y-6">
 
           {/* Items */}
-          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
               <h2 className="font-semibold text-sm">Objednané položky</h2>
             </div>
@@ -116,7 +116,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
               return (
                 <div key={item.id} className="flex gap-4 px-6 py-4 border-b border-gray-100 last:border-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={photo.imageUrl} alt={photo.title} className="w-16 h-16 object-cover  shrink-0 rounded" />
+                  <img src={photo.imageUrl} alt={photo.title} className="w-16 h-16 object-cover shrink-0 rounded" />
                   <div className="flex-1">
                     <p className="font-medium text-sm">{photo.title}</p>
                     <p className="text-xs text-gray-500">{authorName}</p>
@@ -141,7 +141,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           </div>
 
           {/* Payment */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg p-6">
             <h2 className="font-semibold text-sm mb-4">Platba</h2>
             <dl className="grid grid-cols-2 gap-3 text-sm">
               <dt className="text-gray-500">Metoda</dt>
@@ -163,7 +163,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
 
           {/* Zásilkovna — vytvořit zásilku */}
           {order.carrier === "ZASILKOVNA" && (
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-semibold text-sm">Zásilkovna</h2>
                 {order.pickupPointName && (
@@ -185,7 +185,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
                       href={getLabelUrl(order.packetaId)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block bg-black text-white px-4 py-2 text-xs font-medium rounded hover:opacity-80"
+                      className="inline-block bg-mocha text-[#f7f3ec] px-4 py-2 text-xs font-medium rounded hover:opacity-80"
                     >
                       Tisk štítku (A6) →
                     </a>
@@ -193,7 +193,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
                       href={getTrackingUrl(order.packetaId)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block border border-gray-300 px-4 py-2 text-xs font-medium rounded hover:border-black transition-colors"
+                      className="inline-block border border-gray-300 px-4 py-2 text-xs font-medium rounded hover:border-[#2f2a22] transition-colors"
                     >
                       Sledovat zásilku →
                     </a>
@@ -211,7 +211,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
 
           {/* Shipping email form */}
           {(order.status === "PAID" || order.status === "PROCESSING") && (
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg p-6">
               <h2 className="font-semibold text-sm mb-4">Odeslat zásilku</h2>
               <form action={sendShippingEmail.bind(null, id)} className="space-y-4">
                 <div>
@@ -219,7 +219,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
                   <input
                     name="trackingNumber"
                     required
-                    className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-black"
+                    className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#2f2a22]"
                     placeholder="1234567890"
                   />
                 </div>
@@ -228,13 +228,13 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
                   <input
                     name="trackingUrl"
                     type="url"
-                    className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-black"
+                    className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#2f2a22]"
                     placeholder="https://…"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="bg-black text-white px-6 py-2 text-sm font-medium hover:opacity-80 transition-opacity rounded"
+                  className="bg-mocha text-[#f7f3ec] px-6 py-2 text-sm font-medium hover:opacity-80 transition-opacity rounded"
                 >
                   Označit jako odesláno + odeslat email zákazníkovi
                 </button>
@@ -255,7 +255,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
         <div className="space-y-6">
 
           {/* Customer */}
-          <div className="bg-white border border-gray-200 rounded-lg p-5">
+          <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg p-5">
             <h2 className="font-semibold text-sm mb-4">Zákazník</h2>
             <p className="text-sm font-medium">{order.firstName} {order.lastName}</p>
             {order.companyName && (
@@ -276,7 +276,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
 
           {/* Fakturační adresa */}
           {order.billingAddressLine1 && (
-            <div className="bg-white border border-gray-200 rounded-lg p-5">
+            <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg p-5">
               <h2 className="font-semibold text-sm mb-4">Fakturační adresa</h2>
               <p className="text-sm text-gray-700 leading-relaxed">
                 {order.billingAddressLine1}<br />
@@ -288,7 +288,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           )}
 
           {/* Delivery */}
-          <div className="bg-white border border-gray-200 rounded-lg p-5">
+          <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg p-5">
             <h2 className="font-semibold text-sm mb-4">Dodací adresa</h2>
             {order.addressLine1 ? (
               <p className="text-sm text-gray-700 leading-relaxed">
@@ -307,13 +307,13 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           </div>
 
           {/* Change status */}
-          <div className="bg-white border border-gray-200 rounded-lg p-5">
+          <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg p-5">
             <h2 className="font-semibold text-sm mb-4">Změna stavu</h2>
             <form action={updateStatusAction}>
               <select
                 name="status"
                 defaultValue={order.status}
-                className="w-full border border-gray-200 rounded px-3 py-2 text-sm mb-3 focus:outline-none focus:border-black"
+                className="w-full border border-gray-200 rounded px-3 py-2 text-sm mb-3 focus:outline-none focus:border-[#2f2a22]"
               >
                 {allStatuses.map((s) => (
                   <option key={s} value={s}>{statusLabels[s] ?? s}</option>
@@ -321,7 +321,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
               </select>
               <button
                 type="submit"
-                className="w-full bg-black text-white py-2 text-xs font-medium rounded hover:opacity-80 transition-opacity"
+                className="w-full bg-mocha text-[#f7f3ec] py-2 text-xs font-medium rounded hover:opacity-80 transition-opacity"
               >
                 Uložit stav
               </button>

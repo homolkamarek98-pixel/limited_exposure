@@ -102,7 +102,7 @@ export default async function AdminOrdersPage({
               href={href}
               className={[
                 "px-4 py-2 text-xs font-medium rounded-full transition-colors",
-                active ? "bg-black text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+                active ? "bg-mocha text-[#f7f3ec]" : "bg-gray-100 text-gray-600 hover:bg-gray-200",
               ].join(" ")}
             >
               {label}
@@ -117,7 +117,7 @@ export default async function AdminOrdersPage({
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+      <div className="bg-[#fdfbf6] border border-gray-200 rounded-lg overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-200 bg-gray-50">
@@ -165,7 +165,7 @@ export default async function AdminOrdersPage({
                 <td className="px-6 py-4">
                   <Link
                     href={`/admin/orders/${order.id}`}
-                    className="text-xs font-medium text-black hover:underline"
+                    className="text-xs font-medium text-[#2f2a22] hover:underline"
                   >
                     Detail →
                   </Link>

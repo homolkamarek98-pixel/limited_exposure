@@ -18,11 +18,11 @@ export default function CartButton() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="relative text-xs uppercase tracking-[0.18em] text-[#57503f] hover:text-[#1a1714] transition-colors"
+        className="relative font-label text-xs uppercase tracking-widest text-[#4a443a] hover:text-[#2f2a22] transition-colors"
       >
         Košík
         {items.length > 0 && (
-          <span className="otisk-mono absolute -top-2 -right-4 bg-[#1a1714] text-[#faf6f0] text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
+          <span className="absolute -top-2 -right-4 bg-mocha text-[#f7f3ec] text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
             {items.length}
           </span>
         )}

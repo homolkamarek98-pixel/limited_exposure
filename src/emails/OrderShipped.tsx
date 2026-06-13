@@ -24,11 +24,11 @@ export default function OrderShipped({ orderNumber, firstName, carrier, tracking
     <Html lang="cs">
       <Head />
       <Preview>Zásilka odeslána — sledovací číslo {trackingNumber}</Preview>
-      <Body style={{ background: "#f3ede3", fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif" }}>
-        <Container style={{ maxWidth: "560px", margin: "40px auto", background: "#faf6f0" }}>
+      <Body style={{ background: "#f4efe4", fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif" }}>
+        <Container style={{ maxWidth: "560px", margin: "40px auto", background: "#fdfbf6" }}>
 
-          <Section style={{ background: "#1a1714", padding: "32px 40px" }}>
-            <Text style={{ color: "#faf6f0", fontWeight: 900, fontSize: "14px", letterSpacing: "0.2em", textTransform: "uppercase", margin: 0 }}>
+          <Section style={{ background: "#2f2a22", padding: "32px 40px" }}>
+            <Text style={{ color: "#fdfbf6", fontWeight: 900, fontSize: "14px", letterSpacing: "0.2em", textTransform: "uppercase", margin: 0 }}>
               Otisk
             </Text>
           </Section>
@@ -37,29 +37,29 @@ export default function OrderShipped({ orderNumber, firstName, carrier, tracking
             <Heading style={{ fontSize: "22px", fontWeight: 900, margin: "0 0 8px", letterSpacing: "-0.03em" }}>
               Zásilka odeslána
             </Heading>
-            <Text style={{ color: "#8a8170", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 32px" }}>
+            <Text style={{ color: "#8e8779", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 32px" }}>
               Objednávka #{orderNumber}
             </Text>
 
-            <Text style={{ fontSize: "15px", lineHeight: "1.6", color: "#57503f" }}>
+            <Text style={{ fontSize: "15px", lineHeight: "1.6", color: "#4a443a" }}>
               Dobrý den, {firstName},<br />
               vaše díla opustila náš ateliér a jsou na cestě k vám.
             </Text>
 
-            <Hr style={{ borderColor: "#e7dfd2", margin: "32px 0" }} />
+            <Hr style={{ borderColor: "#eee7d8", margin: "32px 0" }} />
 
-            <Section style={{ background: "#f3ede3", padding: "24px", marginBottom: "32px" }}>
+            <Section style={{ background: "#f4efe4", padding: "24px", marginBottom: "32px" }}>
               <Text style={{ fontWeight: 900, fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0 0 16px" }}>
                 Sledování zásilky
               </Text>
-              <Text style={{ fontSize: "13px", lineHeight: "1.8", color: "#57503f", margin: "0 0 16px" }}>
+              <Text style={{ fontSize: "13px", lineHeight: "1.8", color: "#4a443a", margin: "0 0 16px" }}>
                 Dopravce: <strong>{carrierLabels[carrier] ?? carrier}</strong><br />
                 Číslo zásilky: <strong>{trackingNumber}</strong>
               </Text>
               {trackingUrl && (
                 <Link
                   href={trackingUrl}
-                  style={{ background: "#1a1714", color: "#faf6f0", padding: "12px 24px", fontWeight: 700, fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", textDecoration: "none", display: "inline-block" }}
+                  style={{ background: "#000", color: "#fff", padding: "12px 24px", fontWeight: 700, fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", textDecoration: "none", display: "inline-block" }}
                 >
                   Sledovat zásilku →
                 </Link>
@@ -68,19 +68,19 @@ export default function OrderShipped({ orderNumber, firstName, carrier, tracking
 
             {items.map((item, i) => (
               <Text key={i} style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 8px" }}>
-                {item.photoTitle} <span style={{ fontWeight: 400, color: "#8a8170" }}>— {item.photographerName}</span>
+                {item.photoTitle} <span style={{ fontWeight: 400, color: "#8e8779" }}>— {item.photographerName}</span>
               </Text>
             ))}
 
-            <Hr style={{ borderColor: "#e7dfd2", margin: "32px 0" }} />
+            <Hr style={{ borderColor: "#eee7d8", margin: "32px 0" }} />
 
-            <Text style={{ fontSize: "13px", color: "#8a8170", lineHeight: "1.6" }}>
+            <Text style={{ fontSize: "13px", color: "#8e8779", lineHeight: "1.6" }}>
               Zásilka je zabalena do ochranných materiálů, které zabraňují poškození tisku. Doporučujeme uskladnit dílo na místě chráněném před přímým slunečním svitem.
             </Text>
           </Section>
 
-          <Section style={{ background: "#f3ede3", padding: "24px 40px" }}>
-            <Text style={{ fontSize: "11px", color: "#8a8170", letterSpacing: "0.1em", textTransform: "uppercase", margin: 0 }}>
+          <Section style={{ background: "#f4efe4", padding: "24px 40px" }}>
+            <Text style={{ fontSize: "11px", color: "#b8ad96", letterSpacing: "0.1em", textTransform: "uppercase", margin: 0 }}>
               © {new Date().getFullYear()} Otisk · Originální tisky · Certifikovaná pravost
             </Text>
           </Section>

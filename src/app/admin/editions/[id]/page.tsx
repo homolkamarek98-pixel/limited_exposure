@@ -34,7 +34,7 @@ export default async function EditEditionPage({ params }: Props) {
           ← Zpět
         </Link>
         <span className="text-outline-variant/50">|</span>
-        <h1 className="serif-display text-3xl font-black tracking-tighter">{edition.photo.title}</h1>
+        <h1 className="serif-display text-3xl font-semibold tracking-tighter">{edition.photo.title}</h1>
       </div>
 
       {/* Info */}
@@ -169,7 +169,7 @@ export default async function EditEditionPage({ params }: Props) {
         </div>
 
         <div className="pt-4 border-t border-outline-variant/20">
-          <button type="submit" className="bg-primary text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
+          <button type="submit" className="bg-mocha text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
             Uložit změny
           </button>
         </div>

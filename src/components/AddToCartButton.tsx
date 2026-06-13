@@ -18,7 +18,7 @@ export default function AddToCartButton({ item, soldOut, expired }: Props) {
 
   if (unavailable) {
     return (
-      <div className="w-full bg-[#f3ede3] py-5 px-12 text-[10px] uppercase tracking-[0.2em] text-[#8a8170] text-center border border-[#e7dfd2]">
+      <div className="w-full bg-surface-container py-5 px-12 font-label text-xs uppercase tracking-[0.2em] font-bold text-outline text-center border border-outline-variant/30">
         {soldOut ? "Edice vyprodána" : "Edice vypršela"}
       </div>
     );
@@ -26,7 +26,7 @@ export default function AddToCartButton({ item, soldOut, expired }: Props) {
 
   if (inCart || added) {
     return (
-      <div className="w-full bg-[#1a1714] text-[#faf6f0] py-5 px-12 text-[10px] uppercase tracking-[0.2em] text-center">
+      <div className="w-full bg-mocha text-[#f7f3ec] py-5 px-12 font-label text-xs uppercase tracking-[0.2em] font-bold text-center">
         ✓ Přidáno do košíku
       </div>
     );
@@ -40,9 +40,9 @@ export default function AddToCartButton({ item, soldOut, expired }: Props) {
   return (
     <button
       onClick={handleClick}
-      className="w-full bg-[#1a1714] text-[#faf6f0] py-5 px-12 text-[10px] uppercase tracking-[0.2em] hover:bg-[#57503f] transition-colors"
+      className="w-full bg-mocha text-[#f7f3ec] py-5 px-12 font-label text-xs uppercase tracking-[0.2em] font-bold hover:opacity-80 transition-opacity"
     >
-      Získat do sbírky
+      Přidat do košíku
     </button>
   );
 }

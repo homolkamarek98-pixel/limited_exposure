@@ -9,25 +9,25 @@ export default function PrivacyPage() {
       <Nav />
       <main className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-32">
         <div className="max-w-3xl">
-          <span className="font-label text-[10px] uppercase tracking-widest text-[#777] block mb-6">Legal</span>
-          <h1 className="font-headline text-4xl md:text-5xl font-black tracking-tighter uppercase mb-4">
+          <span className="font-label text-[10px] uppercase tracking-widest text-[#8e8779] block mb-6">Legal</span>
+          <h1 className="font-headline text-4xl md:text-5xl font-semibold tracking-tighter uppercase mb-4">
             Ochrana osobních údajů
           </h1>
-          <p className="font-body text-sm text-[#777] mb-16">
+          <p className="font-body text-sm text-[#8e8779] mb-16">
             GDPR · Platné od 1. 1. 2025 · Otisk
           </p>
 
-          <div className="space-y-12 font-body text-sm text-[#57503f] leading-relaxed">
+          <div className="space-y-12 font-body text-sm text-[#4a443a] leading-relaxed">
 
             <section id="spravce" className="scroll-mt-24">
-              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
+              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#eee7d8]">
                 1. Správce osobních údajů
               </h2>
-              <p>Správcem osobních údajů je provozovatel platformy Otisk (dále „správce“). Kontakt: hello@otisk.gallery</p>
+              <p>Správcem osobních údajů je provozovatel platformy Otisk (dále „správce“). Kontakt: hello@otisk.cz</p>
             </section>
 
             <section id="udaje" className="scroll-mt-24">
-              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
+              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#eee7d8]">
                 2. Jaké údaje zpracováváme
               </h2>
               <p className="mb-4">Zpracováváme pouze údaje nezbytné pro splnění objednávky a zákonných povinností:</p>
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
                   "Údaje o objednávce: zakoupená díla, cena, datum objednávky",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <span className="text-[#ccc] mt-1">—</span>
+                    <span className="text-[#cabfa9] mt-1">—</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
             </section>
 
             <section id="ucel" className="scroll-mt-24">
-              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
+              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#eee7d8]">
                 3. Účel zpracování
               </h2>
               <div className="space-y-4">
@@ -59,22 +59,22 @@ export default function PrivacyPage() {
             </section>
 
             <section id="doba" className="scroll-mt-24">
-              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
+              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#eee7d8]">
                 4. Doba uchování
               </h2>
               <p>Údaje spojené s objednávkou uchováváme po dobu 10 let od uzavření smlouvy (zákonná povinnost pro účetní doklady). Archivní záznam certifikátu pravosti je veden trvale jako součást záruky pravosti díla.</p>
             </section>
 
             <section id="prava" className="scroll-mt-24">
-              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
+              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#eee7d8]">
                 5. Vaše práva
               </h2>
               <p className="mb-4">Máte právo na přístup ke svým údajům, opravu, výmaz (s výjimkou zákonem vyžadovaných záznamů), omezení zpracování, přenositelnost dat a vznést námitku. Stížnost lze podat u Úřadu pro ochranu osobních údajů (uoou.cz).</p>
-              <p>Pro uplatnění práv kontaktujte: hello@otisk.gallery</p>
+              <p>Pro uplatnění práv kontaktujte: hello@otisk.cz</p>
             </section>
 
             <section id="cookies" className="scroll-mt-24">
-              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
+              <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#eee7d8]">
                 6. Cookies
               </h2>
               <p>Web používá pouze technicky nezbytné cookies pro fungování košíku a přihlášení (session cookie). Nepoužíváme cookies pro sledování nebo reklamu třetích stran.</p>
@@ -82,9 +82,9 @@ export default function PrivacyPage() {
 
           </div>
 
-          <div className="mt-16 pt-8 border-t border-[#e8e8e8]">
-            <p className="font-body text-xs text-[#aaa]">
-              Dotazy k ochraně osobních údajů: hello@otisk.gallery
+          <div className="mt-16 pt-8 border-t border-[#eee7d8]">
+            <p className="font-body text-xs text-[#b8ad96]">
+              Dotazy k ochraně osobních údajů: hello@otisk.cz
             </p>
           </div>
         </div>

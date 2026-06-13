@@ -30,12 +30,12 @@ export default function PhotoLightbox({ src, alt, children }: Props) {
 
       {open && (
         <div
-          className="fixed inset-0 z-[200] bg-black/96 flex items-center justify-center p-4 md:p-16"
+          className="fixed inset-0 z-[200] bg-[#2f2a22]/96 flex items-center justify-center p-4 md:p-16"
           onClick={() => setOpen(false)}
         >
           {/* Close */}
           <button
-            className="absolute top-6 right-8 font-label text-[10px] uppercase tracking-widest text-white/50 hover:text-white transition-colors flex items-center gap-2"
+            className="absolute top-6 right-8 font-label text-[10px] uppercase tracking-widest text-[#f7f3ec]/50 hover:text-[#f7f3ec] transition-colors flex items-center gap-2"
             onClick={() => setOpen(false)}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -49,13 +49,13 @@ export default function PhotoLightbox({ src, alt, children }: Props) {
           <img
             src={src}
             alt={alt}
-            className="max-w-full max-h-full object-contain  select-none"
+            className="max-w-full max-h-full object-contain select-none"
             onClick={(e) => e.stopPropagation()}
             draggable={false}
           />
 
           {/* Hint */}
-          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 font-label text-[10px] uppercase tracking-widest text-white/30">
+          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 font-label text-[10px] uppercase tracking-widest text-[#f7f3ec]/30">
             Klikněte mimo pro zavření · ESC
           </p>
         </div>

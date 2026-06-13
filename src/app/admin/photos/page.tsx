@@ -25,12 +25,12 @@ export default async function AdminPhotosPage({ searchParams }: { searchParams: 
     <div className="space-y-8">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="serif-display text-3xl font-black tracking-tighter mb-1">Fotografie</h1>
+          <h1 className="serif-display text-3xl font-semibold tracking-tighter mb-1">Fotografie</h1>
           <p className="font-body text-sm text-on-surface-variant">{photos.length} fotografií</p>
         </div>
         <Link
           href="/admin/photos/new"
-          className="bg-primary text-on-primary px-6 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
+          className="bg-mocha text-on-primary px-6 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
         >
           + Nová fotografie
         </Link>
@@ -51,7 +51,7 @@ export default async function AdminPhotosPage({ searchParams }: { searchParams: 
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
-                className="w-12 h-12 object-cover  shrink-0"
+                className="w-12 h-12 object-cover shrink-0"
               />
               <div className="space-y-1">
                 <div className="font-body font-medium">{photo.title}</div>

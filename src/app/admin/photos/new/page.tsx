@@ -15,7 +15,7 @@ export default async function NewPhotoPage() {
           ← Zpět
         </Link>
         <span className="text-outline-variant/50">|</span>
-        <h1 className="serif-display text-3xl font-black tracking-tighter">Nová fotografie</h1>
+        <h1 className="serif-display text-3xl font-semibold tracking-tighter">Nová fotografie</h1>
       </div>
 
       <form action={createPhoto} className="bg-surface border border-outline-variant/20 p-8 space-y-8">
@@ -39,8 +39,6 @@ export default async function NewPhotoPage() {
 
         <Field label="Název díla" name="title" required />
         <Field label="Popis" name="description" textarea />
-        <Field label="Vyjádření kurátora" name="curatorNote" textarea placeholder="Proč si komise vybrala právě tuhle fotku. 2 věty." />
-        <Field label="Za objektivem" name="behindTheLens" textarea placeholder="Co fotograf cítil nebo zažíval v momentu, kdy zmáčkl spoušť. 1 věta." />
         <Field label="URL fotografie" name="imageUrl" placeholder="https://…" required />
 
         <div className="space-y-2">
@@ -62,7 +60,7 @@ export default async function NewPhotoPage() {
         <div className="pt-4 border-t border-outline-variant/20">
           <button
             type="submit"
-            className="bg-primary text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
+            className="bg-mocha text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
           >
             Vytvořit fotografii
           </button>

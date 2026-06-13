@@ -24,7 +24,7 @@ export default async function EditPhotographerPage({ params }: Props) {
           ← Zpět
         </Link>
         <span className="text-outline-variant/50">|</span>
-        <h1 className="serif-display text-3xl font-black tracking-tighter">
+        <h1 className="serif-display text-3xl font-semibold tracking-tighter">
           {photographer.user.name ?? photographer.user.email}
         </h1>
       </div>
@@ -38,7 +38,7 @@ export default async function EditPhotographerPage({ params }: Props) {
         <div className="pt-4 border-t border-outline-variant/20 flex items-center gap-4">
           <button
             type="submit"
-            className="bg-primary text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
+            className="bg-mocha text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
           >
             Uložit změny
           </button>

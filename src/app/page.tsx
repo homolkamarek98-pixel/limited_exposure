@@ -13,7 +13,7 @@ async function getData() {
       where: { tier: "RISING_TALENT" },
       include: { photo: { include: { photographer: { include: { user: { select: { id: true, name: true } } } } } } },
       orderBy: { photo: { photographer: { totalSales: "desc" } } },
-      take: 6,
+      take: 3,
     }),
     prisma.edition.findMany({
       where: { tier: "SIGNATURE" },
@@ -31,105 +31,100 @@ async function getData() {
 
 export default async function HomePage() {
   const { risingTalents, signature } = await getData();
-  const heroImage = signature?.photo.imageUrl ?? risingTalents[0]?.photo.imageUrl ?? "https://picsum.photos/seed/hero-gallery/1600/900";
 
   return (
     <>
       <Nav active="gallery" />
       <main>
 
-        {/* ── Hero — typografický, na papíru ──────────────── */}
-        <section className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-16 md:pt-28 pb-12 md:pb-20">
-          <p className="otisk-rise otisk-rise-1 text-[10px] uppercase tracking-[0.3em] text-[#8a8170] mb-8">
-            Kurátorský výběr · Každý tisk číslován a podepsán
-          </p>
-          <h1 className="otisk-rise otisk-rise-2 text-[13vw] md:text-8xl lg:text-[7.5rem] font-medium tracking-[-0.04em] leading-[0.92] text-[#1a1714] max-w-5xl">
-            Limitované fotografické tisky.
-          </h1>
-          <div className="otisk-rise otisk-rise-3 mt-10 md:mt-14 flex flex-col sm:flex-row sm:items-end justify-between gap-8">
-            <p className="text-base md:text-lg text-[#57503f] leading-relaxed max-w-md">
-              Každé dílo vychází v pevně dané edici. Po vyprodání ho nekoupíte znovu — váš otisk zůstane jediný svého čísla.
-            </p>
-            <div className="flex gap-3 shrink-0">
-              <Link
-                href="/gallery"
-                className="bg-[#1a1714] text-[#faf6f0] px-8 md:px-10 py-4 text-[10px] uppercase tracking-[0.2em] hover:bg-[#57503f] transition-colors text-center"
-              >
-                Vybrat dílo
-              </Link>
-              <Link
-                href="/about"
-                className="border border-[#e7dfd2] text-[#1a1714] px-8 md:px-10 py-4 text-[10px] uppercase tracking-[0.2em] hover:border-[#1a1714] transition-colors text-center"
-              >
-                Jak to funguje
-              </Link>
+        {/* ── Hero ───────────────────────────────────────── */}
+        <section className="relative w-full min-h-screen bg-surface flex items-center overflow-hidden">
+          <div className="absolute inset-0 z-0 px-6 md:px-12 py-16">
+            <div className="w-full h-full bg-surface-container-highest overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://picsum.photos/seed/hero-gallery/1600/900"
+                alt="Otisk — featured work"
+                className="w-full h-full object-cover brightness-90 transition-transform duration-1000 hover:scale-105"
+              />
+            </div>
+          </div>
+          <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-12">
+            <div className="max-w-2xl space-y-8 le-glass p-8 md:p-12 inline-block">
+              <span className="font-label text-xs uppercase tracking-[0.3em] text-secondary">
+                Kurátorský výběr · Každý tisk číslován
+              </span>
+              <h1 className="serif-display text-5xl md:text-7xl font-semibold leading-[0.95] text-primary">
+                Limitované fotografie od současných autorů.
+              </h1>
+              <p className="font-body text-base md:text-lg text-on-surface/80 max-w-md leading-relaxed">
+                Každá edice má pevně daný počet kusů. Po vyprodání končí.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                <Link
+                  href="/gallery"
+                  className="bg-mocha text-on-primary px-10 md:px-12 py-4 md:py-5 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity inline-block text-center"
+                >
+                  Vybrat dílo
+                </Link>
+                <Link
+                  href="/about"
+                  className="border border-outline/40 text-primary px-10 md:px-12 py-4 md:py-5 font-label text-xs uppercase tracking-widest hover:border-primary transition-colors inline-block text-center"
+                >
+                  Jak to funguje →
+                </Link>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ── Hero foto — plnobarevné, široké ─────────────── */}
-        <section className="otisk-rise otisk-rise-4 max-w-screen-2xl mx-auto px-6 md:px-12 pb-20 md:pb-28">
-          <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-[#f3ede3]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={heroImage}
-              alt="Otisk — aktuální dílo"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="flex justify-between items-center pt-3 border-b border-[#e7dfd2] pb-3">
-            <span className="otisk-mono text-[10px] uppercase text-[#8a8170]">
-              {signature ? `${signature.photo.title} — ${signature.photo.photographer?.user?.name ?? ""}` : "Z aktuální kolekce"}
-            </span>
-            <span className="otisk-mono text-[10px] uppercase text-[#c4bba9]">01</span>
-          </div>
-        </section>
-
-        {/* ── Value pillars — hairline řádek ──────────────── */}
-        <section className="border-y border-[#e7dfd2]">
+        {/* ── Social proof bar ───────────────────────────── */}
+        <section className="bg-surface-container-low border-y border-outline-variant/40 py-5">
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-2 md:grid-cols-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-x-0">
               {(["Kurátorský výběr", "Limitované edice", "Pojištěná doprava", "Certifikát pravosti"] as const).map((label, i) => (
                 <div
                   key={label}
                   className={[
-                    "text-center px-4 py-5",
-                    i % 2 === 1 ? "border-l border-[#e7dfd2]" : "",
-                    i >= 2 ? "border-t border-[#e7dfd2] md:border-t-0" : "",
-                    i >= 1 ? "md:border-l md:border-[#e7dfd2]" : "",
+                    "text-center px-4 py-4",
+                    i === 1 || i === 3 ? "border-l border-outline-variant/50" : "",
+                    i >= 2 ? "border-t border-outline-variant/50" : "",
+                    i >= 1 ? "md:border-l md:border-outline-variant/50" : "",
+                    i >= 2 ? "md:border-t-0" : "",
                   ].filter(Boolean).join(" ")}
                 >
-                  <span className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[#8a8170]">{label}</span>
+                  <span className="font-label text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant">{label}</span>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── Rising Talents — grid ───────────────────────── */}
-        <section id="gallery" className="py-16 md:py-28">
+        {/* ── Rising Talents ─────────────────────────────── */}
+        <section id="gallery" className="py-24 md:py-32 bg-surface-container-low">
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            {/* Header */}
-            <div className="flex justify-between items-baseline mb-10 md:mb-14">
-              <div>
-                <h2 className="text-2xl md:text-4xl font-medium tracking-[-0.02em]">Rising Talents</h2>
-                <p className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] mt-2">
-                  Fotografové na vzestupu · omezené edice
+            <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6 mb-16 md:mb-20">
+              <div className="space-y-4">
+                <span className="font-label text-xs uppercase tracking-widest text-secondary">Nová díla v kolekci</span>
+                <h2 className="serif-display text-4xl md:text-5xl font-bold text-primary">Rising Talents</h2>
+                <p className="font-body text-base text-on-surface-variant max-w-md">
+                  Fotografové na vzestupu.<br />
+                  Edice mají pevně daný počet kusů. Po vyprodání končí.
                 </p>
               </div>
               <Link
                 href="/gallery"
-                className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hover:text-[#1a1714] transition-colors whitespace-nowrap"
+                className="font-label text-xs uppercase tracking-widest border-b border-primary pb-1 hover:opacity-60 transition-opacity self-start md:self-auto whitespace-nowrap"
               >
-                Vše →
+                Zobrazit kolekci →
               </Link>
             </div>
 
             {risingTalents.length === 0 ? (
-              <p className="text-[#8a8170] text-center py-24">Žádné edice zatím nejsou k dispozici.</p>
+              <p className="font-body text-secondary text-center py-24">Žádné edice zatím nejsou k dispozici.</p>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-12 md:gap-x-10 md:gap-y-20">
-                {risingTalents.map((edition, idx) => (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
+                {risingTalents.map((edition) => (
                   <PhotoCard
                     key={edition.id}
                     id={edition.id}
@@ -142,7 +137,6 @@ export default async function HomePage() {
                     totalCount={edition.totalCount}
                     soldCount={edition.soldCount}
                     availableUntil={edition.availableUntil}
-                    offset={idx % 3 === 1}
                   />
                 ))}
               </div>
@@ -151,7 +145,7 @@ export default async function HomePage() {
             <div className="mt-16 text-center">
               <Link
                 href="/gallery"
-                className="inline-block border border-[#e7dfd2] text-[#1a1714] px-10 py-4 text-[10px] uppercase tracking-[0.2em] hover:border-[#1a1714] transition-colors"
+                className="inline-block border border-outline/30 text-primary px-12 py-4 font-label text-xs uppercase tracking-widest hover:border-primary hover:bg-surface-container transition-colors"
               >
                 Zobrazit celou kolekci →
               </Link>
@@ -159,47 +153,111 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── Signature Series spotlight — světlý ─────────── */}
+        {/* ── How it works ───────────────────────────────── */}
+        <section className="py-24 md:py-32 bg-surface">
+          <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+              <div className="md:col-span-4">
+                <h2 className="serif-display text-3xl md:text-4xl font-bold">Jak to funguje</h2>
+              </div>
+              <div className="md:col-span-8">
+                <p className="font-body text-lg text-on-surface-variant leading-relaxed">
+                  Od výběru díla po doručení — proces je jednoduchý a přehledný.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-outline-variant/20">
+              {[
+                {
+                  step: "01",
+                  title: "Vyberte dílo",
+                  body: "Procházejte kurátorský výběr fotografií.\nKaždé dílo je dostupné v omezené edici.",
+                  cta: "Do galerie",
+                  href: "/gallery",
+                },
+                {
+                  step: "02",
+                  title: "Rezervujte si své číslo",
+                  body: "Vaše číslo tisku je rezervováno okamžitě po potvrzené platbě.",
+                  cta: null,
+                  href: null,
+                },
+                {
+                  step: "03",
+                  title: "Doručení",
+                  body: "Tisk na papír Hahnemühle Photo Rag Baryta.\nArchivní balení a pojištěná doprava.\nCertifikát pravosti je součástí.",
+                  cta: null,
+                  href: null,
+                },
+              ].map(({ step, title, body, cta, href }, i) => (
+                <div
+                  key={step}
+                  className={[
+                    "p-8 md:p-10 space-y-4",
+                    i < 2 ? "border-b md:border-b-0 md:border-r border-outline-variant/20" : "",
+                  ].join(" ")}
+                >
+                  <div className="serif-display text-4xl font-semibold text-outline/20">{step}</div>
+                  <h3 className="font-body font-bold text-lg">{title}</h3>
+                  <p className="font-body text-sm text-on-surface-variant leading-relaxed whitespace-pre-line">{body}</p>
+                  {cta && href && (
+                    <Link href={href} className="font-label text-xs uppercase tracking-widest border-b border-primary pb-0.5 hover:opacity-60 transition-opacity inline-block">
+                      {cta} →
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Signature Series spotlight ──────────────────── */}
         {signature && (
-          <section className="border-y border-[#e7dfd2]">
-            <div className="max-w-screen-2xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2">
-                {/* Fotka — edge to edge, plná barva */}
-                <div className="relative aspect-square lg:aspect-auto lg:min-h-[640px] overflow-hidden bg-[#f3ede3]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={signature.photo.imageUrl}
-                    alt={signature.photo.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="otisk-mono text-[9px] uppercase tracking-[0.2em] bg-[#faf6f0]/90 backdrop-blur-sm px-2.5 py-1.5 text-[#1a1714]">
-                      Signature Series
-                    </span>
+          <section className="py-24 md:py-32 bg-mocha text-on-primary overflow-hidden">
+            <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
+                {/* Image */}
+                <div className="relative group">
+                  <div className="absolute -top-4 -left-4 w-full h-full border border-outline-variant/30 z-0" />
+                  <div className="relative z-10 bg-[#fdfbf6] p-4 overflow-hidden">
+                    <div className="aspect-square overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={signature.photo.imageUrl}
+                        alt={signature.photo.title}
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-[0.04] pointer-events-none overflow-hidden">
+                      <span className="serif-display text-[100px] font-semibold uppercase tracking-tighter text-[#2f2a22] whitespace-nowrap">
+                        LIMITED
+                      </span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Info */}
-                <div className="flex flex-col justify-center px-6 md:px-12 lg:px-20 py-14 md:py-20 space-y-10 lg:border-l border-[#e7dfd2]">
-                  <div className="space-y-5">
-                    <p className="text-[10px] uppercase tracking-[0.25em] text-[#8a8170]">
-                      {signature.photo.photographer?.user?.name ?? "Fotograf"}
-                    </p>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.03em] leading-[0.95] text-[#1a1714]">
+                <div className="space-y-8">
+                  <div className="space-y-4">
+                    <span className="font-label text-xs uppercase tracking-[0.4em] text-on-primary/50">
+                      Signature Series
+                    </span>
+                    <h2 className="serif-display text-5xl md:text-7xl font-bold leading-none">
                       {signature.photo.title}
                     </h2>
-                    <p className="text-base text-[#57503f] max-w-sm leading-relaxed">
-                      Limitovaná edice. Po vyprodání nebo uplynutí doby edice nekoupíte znovu.
+                    <p className="font-body text-lg text-on-primary/70 max-w-md leading-relaxed">
+                      Limitovaná edice {signature.photo.photographer?.user?.name ?? "fotografa"}.<br />
+                      Po vyprodání nebo uplynutí doby edice končí.
                     </p>
                   </div>
 
                   {signature.availableUntil && (
-                    <div className="space-y-2 py-8 border-y border-[#e7dfd2]">
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-[#8a8170]">
+                    <div className="space-y-3 py-6 border-y border-on-primary/20">
+                      <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/50">
                         Edice se uzavírá za:
                       </p>
                       <CountdownTimer deadline={new Date(signature.availableUntil)} />
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-[#c4bba9]">
+                      <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/40">
                         Po uzavření nebude edice znovu dostupná.
                       </p>
                     </div>
@@ -208,11 +266,11 @@ export default async function HomePage() {
                   <div className="space-y-4">
                     <Link
                       href={`/listing/${signature.id}`}
-                      className="inline-block bg-[#1a1714] text-[#faf6f0] px-10 py-4 text-[10px] uppercase tracking-[0.2em] hover:bg-[#57503f] transition-colors"
+                      className="inline-block w-full md:w-auto text-center bg-on-primary text-primary px-12 md:px-16 py-5 md:py-6 font-label text-xs uppercase tracking-widest font-bold hover:bg-surface-dim transition-colors"
                     >
-                      Získat do sbírky
+                      Koupit tisk
                     </Link>
-                    <p className="text-[9px] uppercase tracking-[0.18em] text-[#8a8170] block">
+                    <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/40 block">
                       Certifikát pravosti · Pojištěná doprava · Vlastnoruční podpis
                     </p>
                   </div>
@@ -222,130 +280,125 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ── Jak to funguje — 3 kroky, hairline mřížka ──── */}
-        <section className="py-20 md:py-32">
+        {/* ── Guarantees ─────────────────────────────────── */}
+        <section className="py-24 md:py-32 bg-surface-container-low">
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            <div className="flex justify-between items-baseline mb-12 md:mb-16">
-              <h2 className="text-2xl md:text-4xl font-medium tracking-[-0.02em]">Jak to funguje</h2>
-              <span className="otisk-mono text-[10px] uppercase text-[#8a8170]">3 kroky</span>
+            <div className="text-center mb-16">
+              <h2 className="serif-display text-3xl md:text-4xl font-bold mb-4">Proč nakupovat u nás</h2>
+              <p className="font-body text-on-surface-variant max-w-md mx-auto">
+                Každý detail procesu je navržen tak, aby váš nákup byl bezpečný.
+              </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 border-t border-[#e7dfd2]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-outline-variant/20">
               {[
                 {
-                  step: "01",
-                  title: "Vyberte dílo",
-                  body: "Procházejte kurátorský výběr fotografií. Každé dílo je dostupné v omezené edici.",
-                  cta: "Do galerie →",
-                  href: "/gallery",
+                  title: "Certifikát pravosti",
+                  body: "Certifikát s pořadovým číslem a podpisem fotografa.",
                 },
                 {
-                  step: "02",
-                  title: "Rezervujte si své číslo",
-                  body: "Vaše číslo tisku je rezervováno okamžitě po potvrzené platbě. Číslo si volíte sami.",
-                  cta: null,
-                  href: null,
+                  title: "Archivní kvalita",
+                  body: "Tisk na Hahnemühle Photo Rag Baryta s archivní stálostí.",
                 },
                 {
-                  step: "03",
-                  title: "Doručení",
-                  body: "Hahnemühle Photo Rag Baryta, archivní balení, pojištěná doprava. Certifikát pravosti je součástí.",
-                  cta: null,
-                  href: null,
+                  title: "Doprava",
+                  body: "Bezpečné balení a pojištěná doprava.",
                 },
-              ].map(({ step, title, body, cta, href }, i) => (
+                {
+                  title: "Uzavřené edice",
+                  body: "Edice mají pevně daný počet kusů. Po vyprodání nejsou znovu dostupné.",
+                },
+              ].map(({ title, body }, i) => (
                 <div
-                  key={step}
+                  key={title}
                   className={[
-                    "py-10 md:py-12 md:px-10 space-y-5 border-b border-[#e7dfd2] md:border-b-0",
-                    i > 0 ? "md:border-l md:border-[#e7dfd2]" : "md:pl-0",
+                    "p-8 space-y-3 bg-surface",
+                    i < 3 ? "border-b lg:border-b-0 lg:border-r border-outline-variant/20" : "",
                   ].join(" ")}
                 >
-                  <div className="otisk-mono text-sm text-[#c4bba9]">{step}</div>
-                  <h3 className="text-base font-medium tracking-[-0.01em]">{title}</h3>
-                  <p className="text-sm text-[#57503f] leading-relaxed">{body}</p>
-                  {cta && href && (
-                    <Link href={href} className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170] hover:text-[#1a1714] transition-colors inline-block border-b border-[#e7dfd2] pb-0.5">
-                      {cta}
-                    </Link>
-                  )}
+                  <h3 className="font-body font-bold">{title}</h3>
+                  <p className="font-body text-sm text-on-surface-variant leading-relaxed">{body}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── Záruky + fyzický zážitek ────────────────────── */}
-        <section className="border-t border-[#e7dfd2] py-20 md:py-32">
+        {/* ── Unboxing moment ─────────────────────────────── */}
+        <section className="py-24 md:py-32 bg-surface-container-low overflow-hidden">
           <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-start">
-              <div className="space-y-6 lg:sticky lg:top-32">
-                <span className="text-[10px] uppercase tracking-[0.25em] text-[#8a8170] block">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-6">
+                <span className="font-label text-[10px] uppercase tracking-widest text-secondary block">
                   Fyzický zážitek
                 </span>
-                <h2 className="text-3xl md:text-5xl font-medium tracking-[-0.03em] leading-[1.05]">
-                  Tisk, který cítíte ještě před pověšením.
+                <h2 className="serif-display text-4xl md:text-5xl font-semibold tracking-tighter leading-tight text-primary">
+                  Tisk, který cítíte<br />ještě před pověšením.
                 </h2>
-                <p className="text-base text-[#57503f] max-w-md leading-relaxed">
-                  Archivní papír 315 g/m², ochranná trubice, bavlněné rukavice a certifikát s vlastnoručním podpisem.
+                <p className="font-body text-base text-on-surface-variant max-w-md leading-relaxed">
+                  Archivní papír 315 g/m², ochranná trubice, bavlněné rukavice a certifikát s vlastnoručním podpisem. Tak vypadá balení díla z Otisk.
                 </p>
+                <div className="flex flex-col gap-3 pt-2">
+                  {[
+                    "Archivní balení v ochranné trubici",
+                    "Bavlněné rukavice pro manipulaci s tiskem",
+                    "Certifikát v ochranném plexisklovém pouzdře",
+                    "Instrukce pro dlouhodobé uchovávání",
+                  ].map((item) => (
+                    <div key={item} className="flex items-center gap-3">
+                      <div className="w-1 h-1 bg-outline/50 rounded-full shrink-0" />
+                      <span className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="divide-y divide-[#e7dfd2] border-y border-[#e7dfd2]">
-                {[
-                  {
-                    title: "Certifikát pravosti",
-                    body: "Certifikát s pořadovým číslem a podpisem fotografa, v ochranném pouzdře.",
-                  },
-                  {
-                    title: "Archivní kvalita",
-                    body: "Tisk na Hahnemühle Photo Rag Baryta s archivní stálostí 100+ let.",
-                  },
-                  {
-                    title: "Pojištěná doprava",
-                    body: "Bezpečné archivní balení v ochranné trubici a pojištěná doprava ke dveřím.",
-                  },
-                  {
-                    title: "Uzavřené edice",
-                    body: "Edice mají pevně daný počet kusů. Po vyprodání nejsou znovu dostupné.",
-                  },
-                ].map(({ title, body }, i) => (
-                  <div key={title} className="py-7 flex gap-6 md:gap-10 items-baseline">
-                    <span className="otisk-mono text-xs text-[#c4bba9] shrink-0 w-8">{String(i + 1).padStart(2, "0")}</span>
-                    <div className="space-y-2">
-                      <h3 className="text-base font-medium tracking-[-0.01em]">{title}</h3>
-                      <p className="text-sm text-[#57503f] leading-relaxed">{body}</p>
-                    </div>
+              {/* Video placeholder — nahradit skutečným videem */}
+              <div className="relative aspect-video bg-surface border border-outline-variant/40 flex items-center justify-center group cursor-pointer">
+                {/* Play button */}
+                <div className="relative z-10 flex flex-col items-center gap-4">
+                  <div className="w-16 h-16 border-2 border-outline/40 rounded-full flex items-center justify-center group-hover:border-primary/60 transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="ml-1 text-secondary group-hover:text-primary transition-colors">
+                      <polygon points="5,3 19,12 5,21" />
+                    </svg>
                   </div>
-                ))}
+                  <span className="font-label text-[10px] uppercase tracking-widest text-outline group-hover:text-secondary transition-colors">
+                    Video — brzy k dispozici
+                  </span>
+                </div>
+                {/* Decorative corners */}
+                <div className="absolute top-4 left-4 w-8 h-8 border-l border-t border-outline-variant/40" />
+                <div className="absolute top-4 right-4 w-8 h-8 border-r border-t border-outline-variant/40" />
+                <div className="absolute bottom-4 left-4 w-8 h-8 border-l border-b border-outline-variant/40" />
+                <div className="absolute bottom-4 right-4 w-8 h-8 border-r border-b border-outline-variant/40" />
               </div>
             </div>
           </div>
         </section>
 
         {/* ── Newsletter ──────────────────────────────────── */}
-        <section className="border-t border-[#e7dfd2] py-28 md:py-40">
-          <div className="max-w-screen-sm mx-auto px-6 md:px-12 text-center space-y-8">
+        <section className="py-32 md:py-40 bg-surface">
+          <div className="max-w-screen-md mx-auto px-6 md:px-12 text-center space-y-8">
             <div className="space-y-4">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8a8170] block">Privátní přístup</span>
-              <h3 className="text-3xl md:text-4xl font-medium tracking-[-0.02em]">Získejte přednostní přístup</h3>
+              <span className="font-label text-xs uppercase tracking-widest text-secondary block">Privátní přístup</span>
+              <h3 className="serif-display text-3xl md:text-4xl font-bold">Získejte přednostní přístup</h3>
             </div>
-            <p className="text-[#57503f] max-w-xs mx-auto leading-relaxed text-sm">
+            <p className="font-body text-on-surface-variant max-w-sm mx-auto leading-relaxed">
               Odběratelé mají přístup k novým edicím 24 hodin před zveřejněním.
             </p>
-            <form className="relative max-w-sm mx-auto pt-4">
+            <form className="relative max-w-md mx-auto pt-4">
               <input
                 type="email"
-                placeholder="váš@email.cz"
-                className="w-full bg-transparent border-0 border-b border-[#e7dfd2] py-4 px-0 text-sm focus:ring-0 focus:border-[#1a1714] transition-all placeholder:text-[#c4bba9] outline-none"
+                placeholder="VÁŠ@EMAIL.CZ"
+                className="w-full bg-transparent border-0 border-b border-outline py-4 px-0 font-label text-xs tracking-widest focus:ring-0 focus:border-primary transition-all uppercase placeholder:text-outline outline-none"
               />
               <button
                 type="submit"
-                className="absolute right-0 bottom-4 text-[10px] uppercase tracking-[0.2em] text-[#8a8170] hover:text-[#1a1714] transition-colors"
+                className="absolute right-0 bottom-4 font-label text-xs font-bold uppercase tracking-widest hover:opacity-60 transition-opacity"
               >
-                Odebírat →
+                Získat přístup →
               </button>
             </form>
-            <p className="text-[9px] uppercase tracking-[0.2em] text-[#c4bba9]">
+            <p className="font-label text-[10px] uppercase tracking-widest text-outline">
               Žádný spam. Odhlášení kdykoliv.
             </p>
           </div>

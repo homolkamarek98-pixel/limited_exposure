@@ -18,7 +18,7 @@ export default async function AdminPhotographersPage({ searchParams }: { searchP
     <div className="space-y-8">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="serif-display text-3xl font-black tracking-tighter mb-1">Fotografové</h1>
+          <h1 className="serif-display text-3xl font-semibold tracking-tighter mb-1">Fotografové</h1>
           <p className="font-body text-sm text-on-surface-variant">{photographers.length} fotografů</p>
         </div>
       </div>

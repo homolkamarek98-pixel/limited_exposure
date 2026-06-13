@@ -1,33 +1,33 @@
 import type { Metadata } from "next";
-import { Schibsted_Grotesk, Spline_Sans_Mono } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 import Providers from "@/components/Providers";
 import "./globals.css";
 
-// Schibsted Grotesk — jediný font: headliny, tělo, labely
-const grotesk = Schibsted_Grotesk({
-  variable: "--font-grotesk",
+// Manrope — moderní geometrický sans: nadpisy, displej, labely, UI
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-// Spline Sans Mono — čísla edic, sériová čísla, certifikáty
-const groteskMono = Spline_Sans_Mono({
-  variable: "--font-grotesk-mono",
+// Inter — tělo, popisy, hodnoty
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  weight: ["400", "500"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "OTISK — Limitované fotografické tisky",
-    template: "%s — OTISK",
+    default: "Otisk — Limitované fotografie od současných autorů",
+    template: "%s — Otisk",
   },
   description:
     "Limitované fotografické edice s certifikátem pravosti. Každé dílo má pevně daný počet kusů — po vyprodání nekoupíte znovu.",
   openGraph: {
-    siteName: "OTISK",
+    siteName: "Otisk",
     locale: "cs_CZ",
     type: "website",
   },
@@ -41,9 +41,9 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      className={`${grotesk.variable} ${groteskMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#faf6f0] text-[#1a1714]">
+      <body className="min-h-full flex flex-col bg-[#f7f3ec] text-[#2f2a22]">
         <Providers>{children}</Providers>
       </body>
     </html>

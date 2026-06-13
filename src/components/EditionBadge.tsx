@@ -16,7 +16,7 @@ export default function EditionBadge({
 
   if (isSoldOut) {
     return (
-      <span className="otisk-mono text-[10px] bg-[#faf6f0]/90 backdrop-blur-sm px-2.5 py-1 uppercase text-[#8a8170]">
+      <span className="font-label text-[10px] border border-[#8e8779] px-3 py-1 uppercase tracking-tighter text-[#8e8779]">
         Vyprodáno
       </span>
     );
@@ -25,17 +25,17 @@ export default function EditionBadge({
   if (type === "LIMITED_COUNT" && totalCount !== null) {
     if (variant === "card") {
       return (
-        <span className="otisk-mono text-[10px] bg-[#faf6f0]/90 backdrop-blur-sm px-2.5 py-1 uppercase text-[#1a1714]">
+        <span className="font-label text-[10px] border border-[#8e8779] px-3 py-1 uppercase tracking-tighter">
           {soldCount} / {totalCount}
         </span>
       );
     }
     return (
       <div className="flex flex-col items-end">
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#b2401c]">
+        <span className="font-label text-[10px] uppercase tracking-widest text-[#a8432a] font-bold">
           Limitovaná edice
         </span>
-        <span className="otisk-mono text-sm text-[#57503f]">
+        <span className="font-body text-sm text-[#3a352b]">
           zbývá {remaining} z {totalCount}
         </span>
       </div>
@@ -45,14 +45,14 @@ export default function EditionBadge({
   if (type === "TIME_WINDOW" && availableUntil) {
     if (variant === "card") {
       return (
-        <span className="otisk-mono text-[10px] bg-[#faf6f0]/90 backdrop-blur-sm px-2.5 py-1 uppercase text-[#1a1714]">
+        <span className="font-label text-[10px] border border-[#8e8779] px-3 py-1 uppercase tracking-tighter">
           Časová edice
         </span>
       );
     }
     return (
       <div className="flex flex-col items-start gap-2">
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170]">
+        <span className="font-label text-[10px] uppercase tracking-widest text-[#8e8779]">
           Edice vyprší za:
         </span>
         <CountdownTimer deadline={availableUntil} />

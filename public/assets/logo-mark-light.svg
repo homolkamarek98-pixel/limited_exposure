@@ -1,5 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none" role="img" aria-label="Otisk">
-  <!-- O jako clona/otisk: kruh + střed -->
-  <circle cx="18" cy="18" r="14" stroke="#faf6f0" stroke-width="1.5" />
-  <circle cx="18" cy="18" r="3.5" fill="#faf6f0" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" role="img" aria-label="LE — Limited Exposure">
+  <!-- Outer frame — 0px radius, sharp corners -->
+  <rect x="0.5" y="0.5" width="39" height="39" stroke="#f9f9f9" stroke-width="1"/>
+  <!-- LE monogram — Noto Serif, font-black -->
+  <text
+    x="20" y="27"
+    font-family="'Noto Serif', Georgia, serif"
+    font-size="15"
+    font-weight="900"
+    letter-spacing="-0.02em"
+    text-anchor="middle"
+    fill="#f9f9f9">LE</text>
 </svg>

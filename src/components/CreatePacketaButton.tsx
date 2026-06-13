@@ -40,7 +40,7 @@ export default function CreatePacketaButton({ orderId, hasPickupPoint }: Props) 
             href={result.labelUrl}
             target="_blank"
             rel="noopener"
-            className="inline-block bg-black text-white px-4 py-2 text-xs font-medium rounded hover:opacity-80"
+            className="inline-block bg-mocha text-[#f7f3ec] px-4 py-2 text-xs font-medium rounded hover:opacity-80"
           >
             Tisk štítku (A6) →
           </a>
@@ -48,7 +48,7 @@ export default function CreatePacketaButton({ orderId, hasPickupPoint }: Props) 
             href={result.trackingUrl}
             target="_blank"
             rel="noopener"
-            className="inline-block border border-black px-4 py-2 text-xs font-medium rounded hover:bg-black hover:text-white transition-colors"
+            className="inline-block border border-[#2f2a22] px-4 py-2 text-xs font-medium rounded hover:bg-mocha hover:text-[#f7f3ec] transition-colors"
           >
             Sledovat zásilku →
           </a>
@@ -67,11 +67,11 @@ export default function CreatePacketaButton({ orderId, hasPickupPoint }: Props) 
       <button
         onClick={handleClick}
         disabled={loading}
-        className="flex items-center gap-2 bg-[#e63228] text-white px-5 py-2.5 text-sm font-semibold rounded hover:opacity-90 transition-opacity disabled:opacity-50"
+        className="flex items-center gap-2 bg-[#a8432a] text-[#f7f3ec] px-5 py-2.5 text-sm font-semibold rounded hover:opacity-90 transition-opacity disabled:opacity-50"
       >
         {loading ? (
           <>
-            <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <span className="inline-block w-4 h-4 border-2 border-[#fdfbf6]/30 border-t-white rounded-full animate-spin" />
             Vytváří se…
           </>
         ) : (
@@ -84,7 +84,7 @@ export default function CreatePacketaButton({ orderId, hasPickupPoint }: Props) 
         )}
       </button>
       {result?.error && (
-        <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded p-2">
+        <p className="text-xs text-[#a8432a] bg-red-50 border border-red-200 rounded p-2">
           Chyba: {result.error}
         </p>
       )}

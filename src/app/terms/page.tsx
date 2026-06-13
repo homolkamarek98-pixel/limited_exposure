@@ -7,7 +7,7 @@ const sections = [
   {
     id: "uvod",
     title: "1. Úvodní ustanovení",
-    content: `Tyto obchodní podmínky (dále „OP") upravují práva a povinnosti mezi provozovatelem platformy Otisk (dále „prodávající") a kupujícím při nákupu limitovaných fotografických tisků prostřednictvím webového rozhraní na adrese otisk.gallery (dále „web").
+    content: `Tyto obchodní podmínky (dále „OP") upravují práva a povinnosti mezi provozovatelem platformy Otisk (dále „prodávající") a kupujícím při nákupu limitovaných fotografických tisků prostřednictvím webového rozhraní na adrese otisk.cz (dále „web").
 
 Kupující uzavřením objednávky potvrzuje, že se s těmito OP seznámil a souhlasí s nimi.`,
   },
@@ -54,7 +54,7 @@ K zásilce je přiložen certifikát pravosti v ochranném obalu.`,
 
 Dílo vykazující poškození při dopravě je třeba reklamovat neprodleně, nejpozději do 3 dnů od převzetí. Fotografická dokumentace poškození je podmínkou uznání reklamace.
 
-Reklamace se uplatňují e-mailem na adresu hello@otisk.gallery s popisem závady a fotografickou dokumentací.
+Reklamace se uplatňují e-mailem na adresu hello@otisk.cz s popisem závady a fotografickou dokumentací.
 
 Na vady materiálu nebo tisku se vztahuje záruční lhůta 24 měsíců od převzetí.`,
   },
@@ -85,21 +85,21 @@ export default function TermsPage() {
       <main className="max-w-screen-2xl mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-32">
 
         <div className="max-w-3xl">
-          <span className="font-label text-[10px] uppercase tracking-widest text-[#777] block mb-6">Legal</span>
-          <h1 className="font-headline text-4xl md:text-5xl font-black tracking-tighter uppercase mb-4">
+          <span className="font-label text-[10px] uppercase tracking-widest text-[#8e8779] block mb-6">Legal</span>
+          <h1 className="font-headline text-4xl md:text-5xl font-semibold tracking-tighter uppercase mb-4">
             Obchodní podmínky
           </h1>
-          <p className="font-body text-sm text-[#777] mb-16">
+          <p className="font-body text-sm text-[#8e8779] mb-16">
             Platné od 1. 1. 2025 · Otisk
           </p>
 
           {/* Obsah */}
-          <nav className="mb-16 p-6 bg-[#f3f3f4] border border-[#e8e8e8]">
+          <nav className="mb-16 p-6 bg-[#f4efe4] border border-[#eee7d8]">
             <p className="font-label text-[10px] uppercase tracking-widest font-bold mb-4">Obsah</p>
             <ol className="space-y-2">
               {sections.map((s) => (
                 <li key={s.id}>
-                  <a href={`#${s.id}`} className="font-body text-sm text-[#57503f] hover:text-black transition-colors">
+                  <a href={`#${s.id}`} className="font-body text-sm text-[#4a443a] hover:text-[#2f2a22] transition-colors">
                     {s.title}
                   </a>
                 </li>
@@ -111,19 +111,19 @@ export default function TermsPage() {
           <div className="space-y-12">
             {sections.map((s) => (
               <section key={s.id} id={s.id} className="scroll-mt-24">
-                <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#e8e8e8]">
+                <h2 className="font-label text-xs uppercase tracking-widest font-bold mb-4 pb-3 border-b border-[#eee7d8]">
                   {s.title}
                 </h2>
-                <div className="font-body text-sm text-[#57503f] leading-relaxed whitespace-pre-line">
+                <div className="font-body text-sm text-[#4a443a] leading-relaxed whitespace-pre-line">
                   {s.content}
                 </div>
               </section>
             ))}
           </div>
 
-          <div className="mt-16 pt-8 border-t border-[#e8e8e8]">
-            <p className="font-body text-xs text-[#aaa]">
-              Dotazy k obchodním podmínkám: hello@otisk.gallery
+          <div className="mt-16 pt-8 border-t border-[#eee7d8]">
+            <p className="font-body text-xs text-[#b8ad96]">
+              Dotazy k obchodním podmínkám: hello@otisk.cz
             </p>
           </div>
         </div>

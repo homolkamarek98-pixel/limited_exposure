@@ -29,7 +29,7 @@ export default async function AdminDashboard() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="serif-display text-3xl font-black tracking-tighter mb-1">Dashboard</h1>
+        <h1 className="serif-display text-3xl font-semibold tracking-tighter mb-1">Dashboard</h1>
         <p className="font-body text-sm text-on-surface-variant">Správa obsahu Otisk.</p>
       </div>
 
@@ -41,7 +41,7 @@ export default async function AdminDashboard() {
             href={href}
             className="bg-surface border border-outline-variant/20 p-6 hover:border-primary transition-colors group"
           >
-            <div className="serif-display text-4xl font-black mb-2 group-hover:text-primary transition-colors">
+            <div className="serif-display text-4xl font-semibold mb-2 group-hover:text-primary transition-colors">
               {value}
             </div>
             <div className="font-label text-[10px] uppercase tracking-widest text-outline">{label}</div>
@@ -57,7 +57,7 @@ export default async function AdminDashboard() {
             <Link
               key={label}
               href={href}
-              className="bg-primary text-on-primary px-6 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
+              className="bg-mocha text-on-primary px-6 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
             >
               {label}
             </Link>

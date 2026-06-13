@@ -100,7 +100,7 @@ export default function PacketaWidget({ apiKey, onSelect, selected }: Props) {
         type="button"
         onClick={handleClick}
         disabled={open}
-        className="w-full border-2 border-black bg-white font-label text-[10px] uppercase tracking-widest py-4 hover:bg-black hover:text-white transition-colors disabled:opacity-40"
+        className="w-full border-2 border-[#2f2a22] bg-[#fdfbf6] font-label text-[10px] uppercase tracking-widest py-4 hover:bg-mocha hover:text-[#f7f3ec] transition-colors disabled:opacity-40"
       >
         {status === "loading" ? (
           "Načítám…"
@@ -112,15 +112,15 @@ export default function PacketaWidget({ apiKey, onSelect, selected }: Props) {
       </button>
 
       {selected && (
-        <div className="mt-3 bg-[#f3f3f4] px-4 py-3 flex justify-between items-start">
+        <div className="mt-3 bg-[#f4efe4] px-4 py-3 flex justify-between items-start">
           <div>
             <p className="font-label text-[10px] uppercase tracking-widest font-bold">{selected.name}</p>
-            <p className="font-label text-[10px] text-[#777] mt-0.5">{selected.nameStreet}, {selected.zip} {selected.city}</p>
+            <p className="font-label text-[10px] text-[#8e8779] mt-0.5">{selected.nameStreet}, {selected.zip} {selected.city}</p>
           </div>
           <button
             type="button"
             onClick={handleClick}
-            className="font-label text-[10px] uppercase tracking-widest text-[#999] hover:text-black transition-colors shrink-0 ml-4"
+            className="font-label text-[10px] uppercase tracking-widest text-[#9a907a] hover:text-[#2f2a22] transition-colors shrink-0 ml-4"
           >
             Změnit
           </button>
@@ -129,7 +129,7 @@ export default function PacketaWidget({ apiKey, onSelect, selected }: Props) {
 
       <div
         ref={containerRef}
-        className={open ? "fixed inset-0 z-[100] bg-white" : "hidden"}
+        className={open ? "fixed inset-0 z-[100] bg-[#fdfbf6]" : "hidden"}
       />
     </div>
   );

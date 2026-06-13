@@ -99,24 +99,24 @@ export default function ListingSidebar({
     <>
       {/* Breadcrumb + title */}
       <div>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] mb-4 flex items-center gap-2">
+        <span className="font-label text-[10px] uppercase tracking-[0.2em] text-outline mb-4 flex items-center gap-2">
           <span>{isSignature ? "Signature Series" : "Rising Talents"}</span>
-          <span className="h-px w-8 bg-[#e7dfd2] inline-block" />
+          <span className="h-px w-8 bg-outline-variant inline-block" />
         </span>
-        <h1 className="text-4xl md:text-5xl font-medium tracking-[-0.03em] leading-[1.05] text-[#1a1714] mb-2">
+        <h1 className="serif-display text-4xl md:text-5xl font-semibold tracking-tighter leading-tight mb-2">
           {photo.title}
         </h1>
         <Link
           href={`/photographer/${photographer.id}`}
-          className="text-lg text-[#57503f] hover:text-[#1a1714] transition-colors"
+          className="font-body text-lg font-medium text-tertiary hover:text-primary transition-colors"
         >
           od {photographer.name}
         </Link>
       </div>
 
       {/* Price + edition badge */}
-      <div className="flex items-baseline justify-between py-6 border-t border-[#e7dfd2]">
-        <span className="otisk-mono text-3xl font-medium text-[#1a1714]">
+      <div className="flex items-baseline justify-between py-6 border-t border-outline-variant/20">
+        <span className="serif-display text-3xl font-bold">
           {formatPrice(currentPrice)}
         </span>
         <EditionBadge
@@ -130,7 +130,7 @@ export default function ListingSidebar({
 
       {/* Progress bar — LIMITED_COUNT: zbývá X z Y */}
       {edition.type === "LIMITED_COUNT" && edition.totalCount !== null && (
-        <div className="pb-6 border-b border-[#e7dfd2] -mt-2">
+        <div className="pb-6 border-b border-outline-variant/20 -mt-2">
           {(() => {
             const remaining = edition.totalCount - edition.soldCount;
             const pct = Math.min(100, Math.round((edition.soldCount / edition.totalCount) * 100));
@@ -138,14 +138,14 @@ export default function ListingSidebar({
             return (
               <>
                 <div className="flex justify-between items-center mb-2">
-                  <span className={["otisk-mono text-[10px] uppercase tracking-[0.18em]", urgent ? "text-[#b2401c]" : "text-[#8a8170]"].join(" ")}>
+                  <span className={["font-label text-[10px] uppercase tracking-widest font-bold", urgent ? "text-[#a8432a]" : "text-outline"].join(" ")}>
                     {soldOut ? "Vyprodáno" : urgent ? `Zbývá pouze ${remaining} ${remaining === 1 ? "kus" : remaining < 5 ? "kusy" : "kusů"}` : `Zbývá ${remaining} z ${edition.totalCount}`}
                   </span>
-                  <span className="otisk-mono text-[10px] text-[#8a8170]">{pct} % prodáno</span>
+                  <span className="font-label text-[10px] text-outline">{pct} % prodáno</span>
                 </div>
-                <div className="h-0.5 bg-[#e7dfd2] w-full overflow-hidden">
+                <div className="h-1 bg-outline-variant/20 w-full overflow-hidden">
                   <div
-                    className={["h-full transition-all duration-500", urgent ? "bg-[#b2401c]" : "bg-[#1a1714]"].join(" ")}
+                    className={["h-full transition-all duration-500", urgent ? "bg-[#a8432a]" : "bg-primary"].join(" ")}
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -157,18 +157,17 @@ export default function ListingSidebar({
 
       {/* Progress bar — TIME_WINDOW: zbývá čas */}
       {edition.type === "TIME_WINDOW" && availableUntilDate && (
-        <div className="pb-6 border-b border-[#e7dfd2] -mt-2">
+        <div className="pb-6 border-b border-outline-variant/20 -mt-2">
           {(() => {
-            // Čas se počítá při renderu, ne reaktivně
             // eslint-disable-next-line react-hooks/purity
             const msLeft = availableUntilDate.getTime() - Date.now();
             if (msLeft <= 0 || expired) {
               return (
                 <>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] uppercase tracking-[0.18em] text-[#b2401c]">Edice uzavřena</span>
+                    <span className="font-label text-[10px] uppercase tracking-widest font-bold text-[#a8432a]">Edice uzavřena</span>
                   </div>
-                  <div className="h-0.5 bg-[#e7dfd2] w-full" />
+                  <div className="h-1 bg-outline-variant/20 w-full" />
                 </>
               );
             }
@@ -183,14 +182,14 @@ export default function ListingSidebar({
             return (
               <>
                 <div className="flex justify-between items-center mb-2">
-                  <span className={["otisk-mono text-[10px] uppercase tracking-[0.18em]", urgent ? "text-[#b2401c]" : "text-[#8a8170]"].join(" ")}>
+                  <span className={["font-label text-[10px] uppercase tracking-widest font-bold", urgent ? "text-[#a8432a]" : "text-outline"].join(" ")}>
                     {label}
                   </span>
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-[#8a8170]">časová edice</span>
+                  <span className="font-label text-[10px] text-outline">časová edice</span>
                 </div>
-                <div className="h-0.5 bg-[#e7dfd2] w-full overflow-hidden">
+                <div className="h-1 bg-outline-variant/20 w-full overflow-hidden">
                   <div
-                    className={["h-full transition-all duration-500", urgent ? "bg-[#b2401c]" : "bg-[#1a1714]"].join(" ")}
+                    className={["h-full transition-all duration-500", urgent ? "bg-[#a8432a]" : "bg-primary"].join(" ")}
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -202,7 +201,7 @@ export default function ListingSidebar({
 
       {/* Format selector */}
       <div>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] mb-3 block">
+        <span className="font-label text-[10px] uppercase tracking-widest font-bold mb-3 block">
           Formát tisku
         </span>
         <div className="flex flex-col gap-2">
@@ -223,16 +222,16 @@ export default function ListingSidebar({
                 type="button"
                 onClick={() => setSelectedFormat(f)}
                 className={[
-                  "flex items-center justify-between px-4 py-4 border text-left transition-all duration-150 w-full",
+                  "flex items-center justify-between px-4 py-4 border-2 text-left transition-all duration-150 w-full",
                   active
-                    ? "border-[#1a1714] bg-[#1a1714] text-[#faf6f0]"
-                    : "border-[#e7dfd2] bg-transparent text-[#1a1714] hover:border-[#1a1714]",
+                    ? "border-[#2f2a22] bg-mocha text-[#f7f3ec]"
+                    : "border-[#e7e0d2] bg-[#fdfbf6] text-[#2f2a22] hover:border-[#2f2a22]",
                 ].join(" ")}
               >
-                <span className="text-[10px] uppercase tracking-[0.18em]">
+                <span className="font-label text-xs uppercase tracking-wider font-bold">
                   {formatLabels[f]}
                 </span>
-                <span className={["otisk-mono text-xs shrink-0 ml-4", active ? "text-[#faf6f0]/70" : "text-[#8a8170]"].join(" ")}>
+                <span className={["font-label text-xs shrink-0 ml-4", active ? "text-[#f7f3ec]/70" : "text-[#8e8779]"].join(" ")}>
                   {diffLabel}
                 </span>
               </button>
@@ -243,7 +242,7 @@ export default function ListingSidebar({
 
       {/* Frame selector */}
       <div>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170] mb-3 block">
+        <span className="font-label text-[10px] uppercase tracking-widest font-bold mb-3 block">
           Rám a zasklení
         </span>
         <div className="flex flex-col gap-2 mb-3">
@@ -256,30 +255,30 @@ export default function ListingSidebar({
                 type="button"
                 onClick={() => onFrameChange(key)}
                 className={[
-                  "flex items-center gap-3 px-4 py-3.5 border text-left transition-all duration-150 w-full",
+                  "flex items-center gap-3 px-4 py-3.5 border-2 text-left transition-all duration-150 w-full",
                   active
-                    ? "border-[#1a1714] bg-[#1a1714] text-[#faf6f0]"
-                    : "border-[#e7dfd2] bg-transparent text-[#1a1714] hover:border-[#1a1714]",
+                    ? "border-[#2f2a22] bg-mocha text-[#f7f3ec]"
+                    : "border-[#e7e0d2] bg-[#fdfbf6] text-[#2f2a22] hover:border-[#2f2a22]",
                 ].join(" ")}
               >
                 {/* Swatch */}
                 {key === "NONE" ? (
-                  <span className={["w-4 h-4 shrink-0 border flex items-center justify-center", active ? "border-[#faf6f0]/30" : "border-[#c4bba9]"].join(" ")}>
+                  <span className={["w-4 h-4 shrink-0 border flex items-center justify-center", active ? "border-[#fdfbf6]/30" : "border-[#cabfa9]"].join(" ")}>
                     <svg width="8" height="8" viewBox="0 0 10 10" stroke="currentColor" strokeWidth="1.5">
                       <line x1="0" y1="0" x2="10" y2="10" />
                     </svg>
                   </span>
                 ) : (
                   <span
-                    className="w-4 h-4 shrink-0 border border-[#1a1714]/10"
+                    className="w-4 h-4 shrink-0 border border-[#2f2a22]/10"
                     style={{ backgroundColor: swatch }}
                   />
                 )}
                 <span className="flex-1 min-w-0">
-                  <span className="text-[10px] uppercase tracking-[0.18em] block leading-none mb-0.5">{label}</span>
-                  <span className={["text-[9px] uppercase tracking-[0.12em]", active ? "text-[#faf6f0]/50" : "text-[#8a8170]"].join(" ")}>{desc}</span>
+                  <span className="font-label text-xs uppercase tracking-wider font-bold block leading-none mb-0.5">{label}</span>
+                  <span className={["font-label text-[9px] uppercase tracking-wider", active ? "text-[#f7f3ec]/50" : "text-[#9a907a]"].join(" ")}>{desc}</span>
                 </span>
-                <span className={["otisk-mono text-xs shrink-0 ml-2", active ? "text-[#faf6f0]/70" : "text-[#8a8170]"].join(" ")}>
+                <span className={["font-label text-xs shrink-0 ml-2", active ? "text-[#f7f3ec]/70" : "text-[#8e8779]"].join(" ")}>
                   {addon === 0 ? "V ceně" : `+${formatPrice(addon)}`}
                 </span>
               </button>
@@ -287,9 +286,9 @@ export default function ListingSidebar({
           })}
         </div>
         {selectedFrame !== "NONE" && (
-          <div className="bg-[#f3ede3] border border-[#e7dfd2] px-4 py-3 space-y-1">
-            <p className="text-[9px] uppercase tracking-[0.18em] text-[#57503f] leading-relaxed">
-              Sklo s vysokým UV filtrem · Chrání pigmenty před vyblednutím · Černá zůstává černá · Barvy zůstávají živé
+          <div className="bg-[#f7f3ec] border border-[#eee7d8] px-4 py-3 space-y-1">
+            <p className="font-label text-[9px] uppercase tracking-widest text-[#555] leading-relaxed">
+              Sklo s vysokým UV filtrem · Chrání pigmenty před vyblednutím · Cerna zůstává černá · Barvy zůstávají živé
             </p>
           </div>
         )}
@@ -299,11 +298,11 @@ export default function ListingSidebar({
       {edition.type === "LIMITED_COUNT" && edition.totalCount !== null && edition.totalCount > 0 && !soldOut && (
         <div>
           <div className="flex justify-between items-baseline mb-3">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#8a8170]">
+            <span className="font-label text-[10px] uppercase tracking-widest font-bold">
               Vyberte číslo tisku
             </span>
             {selectedNumber !== null && (
-              <span className="otisk-mono text-[10px] text-[#57503f]">
+              <span className="font-label text-[10px] text-outline">
                 Číslo {String(selectedNumber).padStart(3, "0")}/{edition.totalCount} vybráno
               </span>
             )}
@@ -323,12 +322,12 @@ export default function ListingSidebar({
                   onClick={() => setSelectedNumber(selected ? null : n)}
                   title={taken ? `Číslo ${n} je obsazeno` : `Vybrat číslo ${n}`}
                   className={[
-                    "aspect-square flex items-center justify-center text-[10px] otisk-mono border transition-all",
+                    "aspect-square flex items-center justify-center text-[10px] font-label font-bold border transition-all",
                     taken
-                      ? "border-[#e7dfd2] text-[#c4bba9] cursor-not-allowed bg-[#f3ede3]"
+                      ? "border-[#eee7d8] text-[#cabfa9] cursor-not-allowed bg-[#f7f3ec]"
                       : selected
-                      ? "border-[#1a1714] bg-[#1a1714] text-[#faf6f0]"
-                      : "border-[#e7dfd2] text-[#57503f] hover:border-[#1a1714] hover:bg-[#1a1714] hover:text-[#faf6f0]",
+                      ? "border-[#2f2a22] bg-mocha text-[#f7f3ec]"
+                      : "border-[#e7e0d2] text-[#4a443a] hover:border-[#2f2a22] hover:bg-mocha hover:text-[#f7f3ec]",
                   ].join(" ")}
                 >
                   {n}
@@ -337,7 +336,7 @@ export default function ListingSidebar({
             })}
           </div>
           {selectedNumber === null && (
-            <p className="text-[9px] uppercase tracking-[0.18em] text-[#8a8170] mt-2">
+            <p className="font-label text-[9px] uppercase tracking-widest text-outline mt-2">
               Nekliknete-li, přiřadíme nejnižší dostupné číslo.
             </p>
           )}
@@ -360,14 +359,14 @@ export default function ListingSidebar({
       />
 
       {/* Shipping note */}
-      <div className="flex items-center gap-3 text-[#8a8170]">
+      <div className="flex items-center gap-3 text-outline">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
           <rect x="1" y="3" width="15" height="13" />
           <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
           <circle cx="5.5" cy="18.5" r="2.5" />
           <circle cx="18.5" cy="18.5" r="2.5" />
         </svg>
-        <span className="text-[10px] uppercase tracking-[0.18em]">
+        <span className="font-label text-[10px] uppercase tracking-widest">
           Pojištěná světová doprava v ceně
         </span>
       </div>

@@ -28,10 +28,10 @@ export default async function AdminEditionsPage({ searchParams }: { searchParams
     <div className="space-y-8">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="serif-display text-3xl font-black tracking-tighter mb-1">Edice</h1>
+          <h1 className="serif-display text-3xl font-semibold tracking-tighter mb-1">Edice</h1>
           <p className="font-body text-sm text-on-surface-variant">{editions.length} edic</p>
         </div>
-        <Link href="/admin/editions/new" className="bg-primary text-on-primary px-6 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
+        <Link href="/admin/editions/new" className="bg-mocha text-on-primary px-6 py-3 font-label text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
           + Nová edice
         </Link>
       </div>
@@ -54,7 +54,7 @@ export default async function AdminEditionsPage({ searchParams }: { searchParams
                   <span className="font-body font-medium">{e.photo.title}</span>
                   <span className={[
                     "font-label text-[10px] uppercase tracking-widest px-2 py-0.5",
-                    e.tier === "SIGNATURE" ? "bg-primary text-on-primary" : "bg-surface-container text-on-surface-variant",
+                    e.tier === "SIGNATURE" ? "bg-mocha text-on-primary" : "bg-surface-container text-on-surface-variant",
                   ].join(" ")}>
                     {e.tier === "SIGNATURE" ? "Signature" : "Rising"}
                   </span>
