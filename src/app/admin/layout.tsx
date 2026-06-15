@@ -3,6 +3,10 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
+// Admin je vždy dynamický (živá data za authem) — nikdy neprerenderovat.
+// Brání i buildu sáhnout do DB při statickém generování.
+export const dynamic = "force-dynamic";
+
 const navItems = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/orders", label: "Objednávky" },

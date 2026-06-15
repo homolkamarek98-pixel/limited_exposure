@@ -31,3 +31,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Build nepotřebuje reálnou DB (admin je force-dynamic, ostatní DB
+          # stránky force-dynamic / dynamické parametry). Dummy URL jen splní
+          # eager kontrolu v src/lib/prisma.ts; pg.Pool se líně nepřipojí.
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+          NEXTAUTH_SECRET: ci-build-placeholder-secret
