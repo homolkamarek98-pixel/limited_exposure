@@ -4,12 +4,13 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export type CartItem = {
-  editionId: string;
+  editionId: string; // tvar "uuid__S" (id + formát)
   photoTitle: string;
   photographerName: string;
   imageUrl: string;
-  price: number; // v haléřích
+  price: number; // v haléřích — jen pro zobrazení; server cenu přepočítá autoritativně
   tier: "RISING_TALENT" | "SIGNATURE";
+  frame?: "NONE" | "OAK" | "BLACK" | "WHITE"; // pro serverový přepočet ceny
   requestedNumber?: number; // volitelné preferované číslo v edici
 };
 

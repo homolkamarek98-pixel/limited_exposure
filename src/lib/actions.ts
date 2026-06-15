@@ -7,6 +7,8 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmation } from "@/lib/email";
 import type { CartItem } from "@/lib/cart";
+import { computeItemPrice, parseEditionId, shippingPrices, isCarrier, isFrame } from "@/lib/pricing";
+import { orderToken } from "@/lib/order-token";
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -28,7 +30,7 @@ function generateSerialNumber(count: number, total: number | null): string {
 
 export async function createOrder(
   formData: FormData
-): Promise<{ orderId?: string; error?: string }> {
+): Promise<{ orderId?: string; token?: string; error?: string }> {
   const session = await getServerSession(authOptions);
 
   const itemsJson = formData.get("items");
@@ -43,11 +45,12 @@ export async function createOrder(
 
   if (items.length === 0) return { error: "Košík je prázdný" };
 
-  const totalAmount = parseInt(String(formData.get("totalAmount") ?? "0"), 10);
   const paymentReference = generatePaymentReference();
 
-  const carrier = String(formData.get("carrier") ?? "ZASILKOVNA") as
-    "ZASILKOVNA" | "CZECH_POST" | "DPD" | "PPL" | "TOP_TRANS";
+  // Dopravce validujeme proti ceníku — cenu dopravy bere server, ne klient
+  const carrierRaw = String(formData.get("carrier") ?? "ZASILKOVNA");
+  const carrier = isCarrier(carrierRaw) ? carrierRaw : "ZASILKOVNA";
+  const shipping = shippingPrices[carrier];
 
   try {
     const order = await prisma.$transaction(async (tx) => {
@@ -79,7 +82,7 @@ export async function createOrder(
           postalCode: String(formData.get("postalCode") ?? ""),
           country: String(formData.get("country") ?? "CZ"),
           carrier,
-          totalAmount,
+          totalAmount: 0, // dopočítáme serverově níže
           paymentMethod: "BANK_TRANSFER",
           paymentReference,
           pickupPointId: formData.get("pickupPointId") ? String(formData.get("pickupPointId")) : null,
@@ -89,23 +92,61 @@ export async function createOrder(
       });
 
       const orderItems = [];
-      for (const item of items) {
-        // editionId v košíku může mít formát "uuid__S" — bereme jen UUID před "__"
-        const rawEditionId = item.editionId.split("__")[0];
-        const edition = await tx.edition.findUnique({ where: { id: rawEditionId } });
-        if (!edition) throw new Error(`Edice ${rawEditionId} neexistuje`);
+      let itemsTotal = 0;
 
-        // Určení čísla: buď požadované (pokud volné), nebo nejnižší dostupné
+      for (const item of items) {
+        const { id: rawEditionId, format } = parseEditionId(item.editionId);
+
+        // Zámek řádku edice — serializuje souběžné objednávky téže edice
+        // (zabraňuje race condition při rezervaci čísla a přeprodeji).
+        await tx.$queryRaw`SELECT id FROM "Edition" WHERE id = ${rawEditionId} FOR UPDATE`;
+
+        const edition = await tx.edition.findUnique({ where: { id: rawEditionId } });
+        if (!edition) throw new Error("USER:Některé dílo v košíku již není dostupné.");
+
+        // Serverová kontrola dostupnosti
+        const now = new Date();
+        if (edition.type === "LIMITED_COUNT") {
+          if (edition.totalCount == null || edition.soldCount >= edition.totalCount) {
+            throw new Error("USER:Edice je vyprodaná.");
+          }
+        } else if (edition.type === "TIME_WINDOW") {
+          if (!edition.availableUntil || edition.availableUntil <= now) {
+            throw new Error("USER:Edice je již uzavřená.");
+          }
+        }
+
+        // Přiřazení pořadového čísla — pod zámkem, validované proti obsazeným
+        const takenRows = await tx.orderItem.findMany({
+          where: { editionId: rawEditionId },
+          select: { certificateNumber: true },
+        });
+        const taken = new Set(takenRows.map((r) => r.certificateNumber));
+
         let certificateNumber: number;
-        if (item.requestedNumber && edition.type === "LIMITED_COUNT" && edition.totalCount) {
-          // Ověříme, že číslo není obsazené
-          const taken = await tx.orderItem.findFirst({
-            where: { editionId: rawEditionId, certificateNumber: item.requestedNumber },
-          });
-          certificateNumber = taken ? edition.soldCount + 1 : item.requestedNumber;
+        if (edition.type === "LIMITED_COUNT" && edition.totalCount) {
+          if (item.requestedNumber != null) {
+            if (item.requestedNumber < 1 || item.requestedNumber > edition.totalCount) {
+              throw new Error("USER:Neplatné číslo tisku.");
+            }
+            if (taken.has(item.requestedNumber)) {
+              throw new Error(`USER:Číslo ${item.requestedNumber} už není dostupné, vyberte prosím jiné.`);
+            }
+            certificateNumber = item.requestedNumber;
+          } else {
+            // nejnižší volné číslo
+            let n = 1;
+            while (taken.has(n) && n <= edition.totalCount) n++;
+            if (n > edition.totalCount) throw new Error("USER:Edice je vyprodaná.");
+            certificateNumber = n;
+          }
         } else {
           certificateNumber = edition.soldCount + 1;
         }
+
+        // Cena se počítá SERVEROVĚ z ceníku — částka z košíku se ignoruje
+        const frame = isFrame(item.frame) ? item.frame : "NONE";
+        const serverPrice = computeItemPrice(edition, format, frame);
 
         await tx.edition.update({
           where: { id: rawEditionId },
@@ -116,7 +157,7 @@ export async function createOrder(
           data: {
             orderId: newOrder.id,
             editionId: rawEditionId,
-            price: item.price,
+            price: serverPrice,
             certificateNumber,
           },
         });
@@ -130,27 +171,29 @@ export async function createOrder(
           },
         });
 
-        orderItems.push({ orderItem, serialNumber, certificateNumber });
+        itemsTotal += serverPrice;
+        orderItems.push({
+          photoTitle: item.photoTitle,
+          photographerName: item.photographerName,
+          price: serverPrice,
+          certificateNumber,
+          serialNumber,
+        });
       }
 
-      return { newOrder, orderItems };
+      const computedTotal = itemsTotal + shipping;
+      await tx.order.update({ where: { id: newOrder.id }, data: { totalAmount: computedTotal } });
+
+      return { newOrder, orderItems, computedTotal };
     });
 
-    // Odeslat potvrzení emailem
+    // Odeslat potvrzení emailem (neblokující)
     try {
-      const emailItems = items.map((item, i) => ({
-        photoTitle: item.photoTitle,
-        photographerName: item.photographerName,
-        price: item.price,
-        certificateNumber: order.orderItems[i].certificateNumber,
-        serialNumber: order.orderItems[i].serialNumber,
-      }));
-
       await sendOrderConfirmation(String(formData.get("email") ?? ""), {
         orderNumber: order.newOrder.id.slice(-8).toUpperCase(),
         firstName: String(formData.get("firstName") ?? ""),
-        items: emailItems,
-        totalAmount,
+        items: order.orderItems,
+        totalAmount: order.computedTotal,
         paymentReference,
         carrier,
         addressLine1: String(formData.get("addressLine1") ?? ""),
@@ -163,9 +206,11 @@ export async function createOrder(
     }
 
     revalidatePath("/admin/orders");
-    return { orderId: order.newOrder.id };
+    return { orderId: order.newOrder.id, token: orderToken(order.newOrder.id) };
   } catch (err) {
     console.error("createOrder error:", err);
+    const msg = err instanceof Error ? err.message : "";
+    if (msg.startsWith("USER:")) return { error: msg.slice(5) };
     return { error: "Chyba při vytváření objednávky. Zkuste to prosím znovu." };
   }
 }

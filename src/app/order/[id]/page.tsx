@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/lib/auth";
+import { orderToken } from "@/lib/order-token";
 
 export const dynamic = "force-dynamic";
 
@@ -18,10 +21,11 @@ const carrierLabels: Record<string, string> = {
   TOP_TRANS: "Top Trans",
 };
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ t?: string }> };
 
-export default async function OrderConfirmationPage({ params }: Props) {
+export default async function OrderConfirmationPage({ params, searchParams }: Props) {
   const { id } = await params;
+  const { t } = await searchParams;
   const order = await prisma.order.findUnique({
     where: { id },
     include: {
@@ -41,6 +45,14 @@ export default async function OrderConfirmationPage({ params }: Props) {
   });
 
   if (!order) notFound();
+
+  // Ochrana proti IDOR — objednávku (vč. PII) uvidí jen vlastník, admin,
+  // nebo kdo má platný podpisový token z přesměrování po nákupu.
+  const session = await getServerSession(authOptions);
+  const isOwner = !!session?.user?.id && !!order.buyerId && session.user.id === order.buyerId;
+  const isAdmin = session?.user?.role === "ADMIN";
+  const tokenOk = !!t && t === orderToken(order.id);
+  if (!isOwner && !isAdmin && !tokenOk) notFound();
 
   const orderNumber = order.id.slice(-8).toUpperCase();
 

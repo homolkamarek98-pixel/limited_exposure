@@ -179,7 +179,7 @@ export default function CheckoutPage() {
       }
 
       clearCart();
-      router.push(`/order/${result.orderId}`);
+      router.push(`/order/${result.orderId}${result.token ? `?t=${result.token}` : ""}`);
     } catch {
       setError("Nepodařilo se vytvořit objednávku. Zkuste to prosím znovu.");
       setSubmitting(false);

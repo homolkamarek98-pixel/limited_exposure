@@ -5,6 +5,7 @@ import Link from "next/link";
 import AddToCartButton from "@/components/AddToCartButton";
 import EditionBadge from "@/components/EditionBadge";
 import { useCart } from "@/lib/cart";
+import { framePrices, basePriceForFormat } from "@/lib/pricing";
 
 export type Format = "S" | "M" | "L";
 export type Frame = "NONE" | "OAK" | "BLACK" | "WHITE";
@@ -13,14 +14,6 @@ const formatLabels: Record<Format, string> = {
   S: "Small — 30 × 40 cm",
   M: "Medium — 50 × 70 cm",
   L: "Large — 70 × 100 cm",
-};
-
-// Ceny rámů v haléřích dle formátu
-const framePrices: Record<Frame, Record<Format, number>> = {
-  NONE:  { S: 0,      M: 0,      L: 0 },
-  OAK:   { S: 190000, M: 290000, L: 490000 },
-  BLACK: { S: 149000, M: 199000, L: 349000 },
-  WHITE: { S: 149000, M: 199000, L: 349000 },
 };
 
 const frameOptions: { key: Frame; label: string; swatch: string; desc: string }[] = [
@@ -82,15 +75,9 @@ export default function ListingSidebar({
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const { addItem } = useCart();
 
-  // Použij admin-nastavenou cenu, fallback na procentní koeficient
-  const basePrices: Record<Format, number> = {
-    S: edition.priceS ?? Math.round(edition.price * 0.85),
-    M: edition.price,
-    L: edition.priceL ?? Math.round(edition.price * 1.25),
-  };
-
+  // Cena se počítá z autoritativního ceníku (@/lib/pricing) — stejně jako na serveru
   const frameAddon = framePrices[selectedFrame][selectedFormat];
-  const currentPrice = basePrices[selectedFormat] + frameAddon;
+  const currentPrice = basePriceForFormat(edition, selectedFormat) + frameAddon;
 
   // availableUntil je ISO string ze serveru
   const availableUntilDate = edition.availableUntil ? new Date(edition.availableUntil) : null;
@@ -207,7 +194,7 @@ export default function ListingSidebar({
         <div className="flex flex-col gap-2">
           {(["S", "M", "L"] as Format[]).map((f) => {
             const active = selectedFormat === f;
-            const p = basePrices[f];
+            const p = basePriceForFormat(edition, f);
             const diff = p - edition.price;
             const diffLabel =
               diff === 0
@@ -352,6 +339,7 @@ export default function ListingSidebar({
           imageUrl: photo.imageUrl,
           price: currentPrice,
           tier: edition.tier,
+          frame: selectedFrame,
           requestedNumber: selectedNumber ?? undefined,
         }}
         soldOut={soldOut}
