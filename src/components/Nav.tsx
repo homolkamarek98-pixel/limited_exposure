@@ -16,28 +16,28 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
   ] as const;
 
   return (
-    <header className="bg-[#fbf8f2]/95 backdrop-blur-md border-b border-[#e6decd] shadow-[0_1px_3px_rgba(47,42,34,0.05)] sticky top-0 z-50">
-      <div className="flex justify-between items-center w-full px-6 md:px-12 py-5 md:py-8 max-w-screen-2xl mx-auto">
-        {/* Wordmark */}
+    <header className="bg-[#faf6ee]/85 backdrop-blur-xl border-b border-[#cfc3ab] shadow-[0_1px_0_rgba(255,255,255,0.5)_inset,0_10px_30px_-18px_rgba(47,42,34,0.35)] sticky top-0 z-50">
+      <div className="flex justify-between items-center w-full px-6 md:px-12 py-5 md:py-7 max-w-screen-2xl mx-auto">
+        {/* Wordmark — Fraunces serif */}
         <Link
           href="/"
-          className="text-xl md:text-2xl font-semibold font-headline text-[#2f2a22] tracking-tighter uppercase"
+          className="text-2xl md:text-3xl font-semibold font-headline text-[#2f2a22] tracking-tight"
           onClick={() => setMenuOpen(false)}
         >
           Otisk
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center space-x-12">
+        <nav className="hidden md:flex items-center space-x-10">
           {links.map(({ href, label, key }) => (
             <Link
               key={key}
               href={href}
               className={[
-                "font-headline uppercase tracking-tight text-sm transition-colors duration-300",
+                "font-label uppercase tracking-[0.12em] text-[13px] transition-colors duration-300",
                 active === key
-                  ? "text-[#2f2a22] border-b-2 border-[#2f2a22] pb-1"
-                  : "text-[#8e8779] hover:text-[#2f2a22]",
+                  ? "text-[#2f2a22] font-semibold border-b-2 border-[#2f2a22] pb-1"
+                  : "text-[#57503f] hover:text-[#2f2a22]",
               ].join(" ")}
             >
               {label}
@@ -71,8 +71,8 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
               href={href}
               onClick={() => setMenuOpen(false)}
               className={[
-                "font-headline uppercase tracking-tight text-sm py-4 border-b border-[#eee7d8] last:border-0 transition-colors",
-                active === key ? "text-[#2f2a22] font-semibold" : "text-[#8e8779]",
+                "font-label uppercase tracking-[0.12em] text-sm py-4 border-b border-[#eee7d8] last:border-0 transition-colors",
+                active === key ? "text-[#2f2a22] font-semibold" : "text-[#57503f]",
               ].join(" ")}
             >
               {label}

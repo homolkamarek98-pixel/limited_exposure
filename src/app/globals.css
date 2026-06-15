@@ -7,10 +7,10 @@
    ───────────────────────────────────────────────────────── */
 
 @theme inline {
-  /* ── Typografie — moderní sans ────────────────────────── */
-  --font-headline: var(--font-manrope), system-ui, sans-serif;
+  /* ── Typografie — editorial serif displej + čistý sans ──── */
+  --font-headline: var(--font-fraunces), Georgia, "Times New Roman", serif;
   --font-body:     var(--font-inter), Inter, system-ui, sans-serif;
-  --font-label:    var(--font-manrope), system-ui, sans-serif;
+  --font-label:    var(--font-inter), Inter, system-ui, sans-serif;
 
   /* ── Krémová paleta ───────────────────────────────────── */
   --color-primary:                   #2f2a22;
@@ -105,11 +105,12 @@ body {
 }
 
 /* ── Typography helpers ───────────────────────────────── */
-/* Dříve serif — nyní moderní sans displej. Lehčí, vzdušnější. */
+/* Editorial serif displej (Fraunces) s optickým laděním. */
 .serif-display {
   font-family: var(--font-headline);
-  letter-spacing: -0.025em;
-  line-height: 1.1;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  font-optical-sizing: auto;
 }
 
 .le-label {

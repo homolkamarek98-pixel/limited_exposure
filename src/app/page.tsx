@@ -51,9 +51,6 @@ export default async function HomePage() {
           </div>
           <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-12">
             <div className="max-w-2xl space-y-8 le-glass p-8 md:p-12 inline-block">
-              <span className="font-label text-xs uppercase tracking-[0.3em] text-secondary">
-                Kurátorský výběr · Každý tisk číslován
-              </span>
               <h1 className="serif-display text-5xl md:text-7xl font-semibold leading-[0.95] text-primary">
                 Limitované fotografie od současných autorů.
               </h1>
@@ -239,25 +236,25 @@ export default async function HomePage() {
                 {/* Info */}
                 <div className="space-y-8">
                   <div className="space-y-4">
-                    <span className="font-label text-xs uppercase tracking-[0.4em] text-on-primary/50">
+                    <span className="font-label text-xs uppercase tracking-[0.4em] text-secondary-fixed-dim">
                       Signature Series
                     </span>
                     <h2 className="serif-display text-5xl md:text-7xl font-bold leading-none">
                       {signature.photo.title}
                     </h2>
-                    <p className="font-body text-lg text-on-primary/70 max-w-md leading-relaxed">
+                    <p className="font-body text-lg text-on-primary/85 max-w-md leading-relaxed">
                       Limitovaná edice {signature.photo.photographer?.user?.name ?? "fotografa"}.<br />
                       Po vyprodání nebo uplynutí doby edice končí.
                     </p>
                   </div>
 
                   {signature.availableUntil && (
-                    <div className="space-y-3 py-6 border-y border-on-primary/20">
-                      <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/50">
+                    <div className="space-y-3 py-6 border-y border-on-primary/25">
+                      <p className="font-label text-[10px] uppercase tracking-widest text-secondary-fixed-dim">
                         Edice se uzavírá za:
                       </p>
                       <CountdownTimer deadline={new Date(signature.availableUntil)} />
-                      <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/40">
+                      <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/65">
                         Po uzavření nebude edice znovu dostupná.
                       </p>
                     </div>
@@ -270,7 +267,7 @@ export default async function HomePage() {
                     >
                       Koupit tisk
                     </Link>
-                    <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/40 block">
+                    <p className="font-label text-[10px] uppercase tracking-widest text-on-primary/65 block">
                       Certifikát pravosti · Pojištěná doprava · Vlastnoruční podpis
                     </p>
                   </div>

@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import Providers from "@/components/Providers";
 import "./globals.css";
 
-// Manrope — moderní geometrický sans: nadpisy, displej, labely, UI
-const manrope = Manrope({
-  variable: "--font-manrope",
+// Fraunces — editorial serif s optickým osovým laděním: velké displej nadpisy.
+// Galerijní, vysoký kontrast, charakter — opak generického cream-minimalu.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
+  axes: ["opsz"],
 });
 
-// Inter — tělo, popisy, hodnoty
+// Inter — tělo, popisy, labely, UI, hodnoty. Čistý moderní sans, skvělá čitelnost.
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "latin-ext"],
@@ -41,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      className={`${manrope.variable} ${inter.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#f7f3ec] text-[#2f2a22]">
         <Providers>{children}</Providers>
