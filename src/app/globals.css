@@ -7,10 +7,10 @@
    ───────────────────────────────────────────────────────── */
 
 @theme inline {
-  /* ── Typografie — editorial serif displej + čistý sans ──── */
-  --font-headline: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  --font-body:     var(--font-inter), Inter, system-ui, sans-serif;
-  --font-label:    var(--font-inter), Inter, system-ui, sans-serif;
+  /* ── Typografie — Jost (geometrický sans à la Futura) ───── */
+  --font-headline: var(--font-jost), "Futura", "Century Gothic", system-ui, sans-serif;
+  --font-body:     var(--font-jost), "Futura", system-ui, sans-serif;
+  --font-label:    var(--font-jost), "Futura", system-ui, sans-serif;
 
   /* ── Krémová paleta ───────────────────────────────────── */
   --color-primary:                   #2f2a22;
@@ -105,12 +105,11 @@ body {
 }
 
 /* ── Typography helpers ───────────────────────────────── */
-/* Editorial serif displej (Fraunces) s optickým laděním. */
+/* Geometrický sans displej (Jost / Futura). Vzdušný, moderní. */
 .serif-display {
   font-family: var(--font-headline);
-  letter-spacing: -0.015em;
-  line-height: 1.05;
-  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
 }
 
 .le-label {

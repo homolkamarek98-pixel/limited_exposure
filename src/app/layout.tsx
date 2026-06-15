@@ -1,23 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Jost } from "next/font/google";
 import Providers from "@/components/Providers";
 import "./globals.css";
 
-// Fraunces — editorial serif s optickým osovým laděním: velké displej nadpisy.
-// Galerijní, vysoký kontrast, charakter — opak generického cream-minimalu.
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+// Jost — geometrický sans inspirovaný Futurou (jako rezidencehury.cz).
+// Jediný typeface pro celý web: ultra moderní, architektonicky čistý.
+// Variabilní (100–900), latin-ext = plná česká diakritika.
+const jost = Jost({
+  variable: "--font-jost",
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  axes: ["opsz"],
-});
-
-// Inter — tělo, popisy, labely, UI, hodnoty. Čistý moderní sans, skvělá čitelnost.
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -42,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
+      className={`${jost.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#f7f3ec] text-[#2f2a22]">
         <Providers>{children}</Providers>

@@ -18,10 +18,10 @@ export default function Nav({ active }: { active?: "gallery" | "photographers" |
   return (
     <header className="bg-[#faf6ee]/85 backdrop-blur-xl border-b border-[#cfc3ab] shadow-[0_1px_0_rgba(255,255,255,0.5)_inset,0_10px_30px_-18px_rgba(47,42,34,0.35)] sticky top-0 z-50">
       <div className="flex justify-between items-center w-full px-6 md:px-12 py-5 md:py-7 max-w-screen-2xl mx-auto">
-        {/* Wordmark — Fraunces serif */}
+        {/* Wordmark — Jost geometrický sans, architektonický uppercase */}
         <Link
           href="/"
-          className="text-2xl md:text-3xl font-semibold font-headline text-[#2f2a22] tracking-tight"
+          className="text-xl md:text-2xl font-medium font-headline text-[#2f2a22] uppercase tracking-[0.25em]"
           onClick={() => setMenuOpen(false)}
         >
           Otisk
