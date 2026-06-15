@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { sendOrderConfirmation } from "@/lib/email";
+import { sendOrderConfirmation, sendPaymentConfirmed } from "@/lib/email";
 import type { CartItem } from "@/lib/cart";
 import { computeItemPrice, parseEditionId, shippingPrices, isCarrier, isFrame } from "@/lib/pricing";
 import { orderToken } from "@/lib/order-token";
@@ -118,7 +118,11 @@ export async function createOrder(
 
         // Přiřazení pořadového čísla — pod zámkem, validované proti obsazeným
         const takenRows = await tx.orderItem.findMany({
-          where: { editionId: rawEditionId },
+          where: {
+            editionId: rawEditionId,
+            // zrušené/refundované objednávky uvolní svá čísla zpět do oběhu
+            order: { status: { notIn: ["CANCELLED", "REFUNDED"] } },
+          },
           select: { certificateNumber: true },
         });
         const taken = new Set(takenRows.map((r) => r.certificateNumber));
@@ -217,15 +221,80 @@ export async function createOrder(
 
 // ── Admin: Order management ───────────────────────────────────
 
+const ORDER_STATUSES = ["PENDING_PAYMENT", "PAID", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"] as const;
+type OrderStatus = (typeof ORDER_STATUSES)[number];
+
+// Počítá se objednávka do prodaných kusů edice? (zrušená/refundovaná ne)
+function countsTowardSold(s: OrderStatus): boolean {
+  return s !== "CANCELLED" && s !== "REFUNDED";
+}
+
 export async function updateOrderStatus(id: string, formData: FormData) {
   await requireAdmin();
 
-  const status = String(formData.get("status") ?? "PENDING_PAYMENT");
+  const raw = String(formData.get("status") ?? "");
+  if (!(ORDER_STATUSES as readonly string[]).includes(raw)) {
+    redirect(`/admin/orders/${id}?error=invalid_status`);
+  }
+  const newStatus = raw as OrderStatus;
 
-  await prisma.order.update({
-    where: { id },
-    data: { status: status as "PENDING_PAYMENT" | "PAID" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED" | "REFUNDED" },
+  // Změna stavu + úprava soldCount v jedné transakci
+  const justPaid = await prisma.$transaction(async (tx) => {
+    const order = await tx.order.findUnique({
+      where: { id },
+      include: { items: { select: { editionId: true } } },
+    });
+    if (!order) return false;
+
+    const oldStatus = order.status as OrderStatus;
+    if (oldStatus === newStatus) return false;
+
+    await tx.order.update({ where: { id }, data: { status: newStatus } });
+
+    // Pokud objednávka nově (ne)počítá do prodaných, uprav soldCount edic
+    const was = countsTowardSold(oldStatus);
+    const now = countsTowardSold(newStatus);
+    if (was !== now) {
+      const perEdition = new Map<string, number>();
+      for (const it of order.items) {
+        perEdition.set(it.editionId, (perEdition.get(it.editionId) ?? 0) + 1);
+      }
+      for (const [editionId, qty] of perEdition) {
+        if (now) {
+          await tx.edition.update({ where: { id: editionId }, data: { soldCount: { increment: qty } } });
+        } else {
+          const ed = await tx.edition.findUnique({ where: { id: editionId }, select: { soldCount: true } });
+          const dec = Math.min(qty, ed?.soldCount ?? 0);
+          if (dec > 0) await tx.edition.update({ where: { id: editionId }, data: { soldCount: { decrement: dec } } });
+        }
+      }
+    }
+
+    return oldStatus !== "PAID" && newStatus === "PAID";
   });
+
+  // Potvrzení o platbě (neblokující) — odešle se až při přechodu na PAID
+  if (justPaid) {
+    try {
+      const order = await prisma.order.findUnique({
+        where: { id },
+        include: { items: { include: { edition: { include: { photo: { include: { photographer: { include: { user: true } } } } } } } } },
+      });
+      if (order) {
+        await sendPaymentConfirmed(order.email, {
+          orderNumber: order.id.slice(-8).toUpperCase(),
+          firstName: order.firstName,
+          items: order.items.map((i) => ({
+            photoTitle: i.edition.photo.title,
+            photographerName: i.edition.photo.photographer.user.name ?? "Fotograf",
+          })),
+          carrier: order.carrier,
+        });
+      }
+    } catch (e) {
+      console.error("payment confirmation email failed:", e);
+    }
+  }
 
   revalidatePath("/admin/orders");
   revalidatePath(`/admin/orders/${id}`);
